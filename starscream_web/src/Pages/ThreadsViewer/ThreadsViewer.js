@@ -13,6 +13,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 
+import useStyles from "./style";
+
 function ThreadListItem({thread, ...props}) {
     const primary = (
         <Typography>
@@ -42,6 +44,7 @@ function ThreadListItem({thread, ...props}) {
 
 
 export default function ThreadViewer() {
+    const classes = useStyles();
     const topArticles = [
         {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4},
         {title: 'Как добавлять текст к input?', answers: 2},
@@ -60,7 +63,7 @@ export default function ThreadViewer() {
 
     return (
         <Box>
-            <Grid container>
+            <Grid container className={classes.leftColumn}>
                 <Grid md={2}>
 
                 </Grid>
@@ -86,7 +89,7 @@ export default function ThreadViewer() {
                 </Grid>
             </Grid>
             <Grid container>
-                <Grid md={2}>
+                <Grid md={2}  className={classes.leftColumn}>
                     <Box p={1}>
                         <List>
                             <Divider/>
@@ -102,7 +105,7 @@ export default function ThreadViewer() {
                         </List>
                     </Box>
                 </Grid>
-                <Grid md={7}>
+                <Grid md={7}  className={classes.contentColumn}>
                     <Box p={1}>
                         <List>
                             <ListItem>
@@ -117,7 +120,7 @@ export default function ThreadViewer() {
                         </List>
                     </Box>
                 </Grid>
-                <Grid md={3}>
+                <Grid md={3} className={classes.rightColumn}>
                     <Box p={1}>
                         <List>
                             <ListItem>
