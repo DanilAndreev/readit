@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import {blueGrey, grey} from '@material-ui/core/colors';
+import {blueGrey, grey, green} from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
     overrides: {
@@ -20,6 +20,10 @@ const theme = createMuiTheme({
             dark: blueGrey[900],
             light: blueGrey[50],
         },
+        util: {
+            separator: 'rgba(0, 0, 0, 0.12)',
+        }
+
     },
 });
 
