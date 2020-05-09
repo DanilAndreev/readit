@@ -12,36 +12,40 @@ import Button from "@material-ui/core/Button";
 import MenuIcon from '@material-ui/icons/Menu';
 import useStyles from "./style";
 
-import DefaultTheme from './Themes/DefaultTheme'
+import { BaseTheme } from './Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
 
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 
 function App() {
     const classes = useStyles();
     return (
-        <div className="App">
-            <ThemeProvider theme={DefaultTheme}>
-                <AppBar position="static" className={classes.header}>
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            News
-                        </Typography>
-                        <Button color="inherit">Login</Button>
-                    </Toolbar>
-                </AppBar>
-                <Grid container>
-                    <Grid item xs={0} md={2}/>
-                    <Grid item xs={12} md={8} id={'page'}>
-                        <ThreadsViewer/>
+        <Router>
+            <div className="App">
+                <ThemeProvider theme={BaseTheme}>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <Typography variant="h6" className={classes.title}>
+                                Forum
+                            </Typography>
+                            <Button color="inherit">Login</Button>
+                        </Toolbar>
+                    </AppBar>
+                    <Grid container>
+                        <Grid item xs={0} md={2}/>
+                        <Grid item xs={12} md={8} id={'page'}>
+                            <Switch>
+                                <Route path={'/threads'}>
+                                    <ThreadsViewer/>
+                                </Route>
+                            </Switch>
+                        </Grid>
+                        <Grid item xs={0} md={2}/>
                     </Grid>
-                    <Grid item xs={0} md={2}/>
-                </Grid>
-            </ThemeProvider>
-        </div>
+                </ThemeProvider>
+            </div>
+        </Router>
     );
 }
 
