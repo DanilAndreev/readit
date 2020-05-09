@@ -7,6 +7,7 @@ import {Route, Switch} from "react-router-dom";
 //Pages
 import ThreadsViewer from "../ThreadsViewer";
 import ThreadDetails from "../ThreadDetails";
+import AuthDialog from "../Auth";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +23,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 //MUI icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -32,8 +35,40 @@ import ImageIcon from '@material-ui/icons/Image';
 import SearchIcon from '@material-ui/icons/Search';
 
 
+function ThreadsListItem({thread, ...props}) {
+    const classes = useStyles();
+
+    const primary = (
+        <Typography variant={'body2'}>
+            {thread.title}
+        </Typography>
+    );
+    const secondary = (
+        <>
+            {`${thread.answers} answers`}
+        </>
+    );
+
+    return (
+        <>
+            <ListItem button>
+                <ListItemAvatar>
+                    <Avatar>
+                        <ImageIcon/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={primary} secondary={secondary}/>
+            </ListItem>
+            <Divider/>
+        </>
+    );
+}
+
 export default function Layout() {
     const classes = useStyles();
+    const [authOpened, setAuthOpened] = React.useState(false);
+    const [authData, setAuthData] = React.useState({username: null, password: null});
+
     const topArticles = [
         {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4},
         {title: 'Как добавлять текст к input?', answers: 2},
@@ -42,43 +77,23 @@ export default function Layout() {
         {title: 'Что не так с кодом ютуба?', answers: 10}
     ];
 
-    function ThreadsListItem({thread, ...props}) {
-        const classes = useStyles();
-
-        const primary = (
-            <Typography variant={'body2'}>
-                {thread.title}
-            </Typography>
-        );
-        const secondary = (
-            <>
-                {`${thread.answers} answers`}
-            </>
-        );
-
-        return (
-            <>
-                <ListItem button>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <ImageIcon/>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={primary} secondary={secondary}/>
-                </ListItem>
-                <Divider/>
-            </>
-        );
+    function handleAuthClose() {
+        setAuthOpened(false);
+        setAuthData({username: null, password: null});
     }
 
     return (
         <>
+            <Dialog aria-labelledby="auth-dialog" open={authOpened} onClose={handleAuthClose}>
+                <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
+                <AuthDialog authData={authData} setAuthData={setAuthData} />
+            </Dialog>
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit" onClick={() => {setAuthOpened(true)}}>Login</Button>
                 </Toolbar>
             </AppBar>
             <Grid container>
