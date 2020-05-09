@@ -2,11 +2,12 @@ import React from 'react'
 import useStyles from "./style";
 import {BaseTheme, LightTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, useHistory} from "react-router-dom";
 
 //Pages
 import ThreadsViewer from "../ThreadsViewer";
 import ThreadDetails from "../ThreadDetails";
+import ThreadEditor from "../ThreadEditor";
 import AuthDialog from "../Auth";
 
 //MUI components
@@ -37,6 +38,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 function ThreadsListItem({thread, ...props}) {
     const classes = useStyles();
+    const history = useHistory();
 
     const primary = (
         <Typography variant={'body2'}>
@@ -49,9 +51,16 @@ function ThreadsListItem({thread, ...props}) {
         </>
     );
 
+    function changeRoute(route) {
+        history.push(route);
+    }
+
     return (
         <>
-            <ListItem button>
+            <ListItem
+                button
+                onClick={event => changeRoute('/thread/1')}
+            >
                 <ListItemAvatar>
                     <Avatar>
                         <ImageIcon/>
@@ -64,8 +73,26 @@ function ThreadsListItem({thread, ...props}) {
     );
 }
 
+function PagesSwitch() {
+    return (
+        <Switch>
+            <Route path={'/threads'}>
+                <ThreadsViewer/>
+            </Route>
+            <Route path={'/thread/:id'}>
+                <ThreadDetails/>
+            </Route>
+            <Route path={'/editthread/:id'}>
+                <ThreadEditor />
+            </Route>
+        </Switch>
+
+    );
+}
+
 export default function Layout() {
     const classes = useStyles();
+    const history = useHistory();
     const [authOpened, setAuthOpened] = React.useState(false);
     const [authData, setAuthData] = React.useState({username: null, password: null});
 
@@ -76,6 +103,10 @@ export default function Layout() {
         {title: 'Как устроена андроид разработка по аналогии с веб фронтенд разработкой?', answers: 4},
         {title: 'Что не так с кодом ютуба?', answers: 10}
     ];
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     function handleAuthClose() {
         setAuthOpened(false);
@@ -102,8 +133,8 @@ export default function Layout() {
                     <Box>
                         <ThemeProvider theme={LightTheme}>
                             <Grid container className={classes.topLine}>
-                                <Grid xs={12} md={2}/>
-                                <Grid xs={12} md={7}>
+                                <Grid item xs={12} md={2}/>
+                                <Grid item xs={12} md={7}>
                                     <Box p={1}>
                                         <div className={classes.searchLineBase}>
                                             <TextField
@@ -118,7 +149,7 @@ export default function Layout() {
                                         </div>
                                     </Box>
                                 </Grid>
-                                <Grid xs={12} md={3}>
+                                <Grid item xs={12} md={3}>
                                     <div className={classes.createThreadButtonContainer}>
                                         <Box p={1} className={classes.createThreadButtonBox}>
                                             <Button
@@ -126,6 +157,7 @@ export default function Layout() {
                                                 variant={'contained'}
                                                 color={'secondary'}
                                                 className={classes.createThreadButton}
+                                                onClick={event => changeRoute('/editthread/new')}
                                             >
                                                 Create thread
                                             </Button>
@@ -136,24 +168,36 @@ export default function Layout() {
                         </ThemeProvider>
                         <Grid container>
                             <ThemeProvider theme={LightTheme}>
-                                <Grid xs={12} md={2} className={classes.leftColumn}>
+                                <Grid item xs={12} md={2} className={classes.leftColumn}>
                                     <Box p={1}>
                                         <List>
-                                            <ListItem dense button>
+                                            <ListItem
+                                                dense
+                                                button
+                                                onClick={event => changeRoute('/threads')}
+                                            >
                                                 <FormatListBulletedIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"All threads"}
                                                     className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
-                                            <ListItem dense button>
+                                            <ListItem
+                                                dense
+                                                button
+                                                onClick={event => changeRoute('/threads/my')}
+                                            >
                                                 <RecordVoiceOverIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"My threads"}
                                                     className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
-                                            <ListItem dense button>
+                                            <ListItem
+                                                dense
+                                                button
+                                                onClick={event => changeRoute('/threads/reviewed')}
+                                            >
                                                 <RateReviewIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"Commented by me"}
@@ -161,7 +205,11 @@ export default function Layout() {
                                                 />
                                             </ListItem>
                                             <Divider />
-                                            <ListItem dense button>
+                                            <ListItem
+                                                dense
+                                                button
+                                                onClick={event => changeRoute('/account')}
+                                            >
                                                 <AccountCircleIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"My account"}
@@ -172,19 +220,12 @@ export default function Layout() {
                                     </Box>
                                 </Grid>
                             </ThemeProvider>
-                            <Grid xs={12} md={7} className={classes.contentColumn}>
+                            <Grid item xs={12} md={7} className={classes.contentColumn}>
                                 <Grid container>
-                                    <Switch>
-                                        <Route path={'/threads'}>
-                                            <ThreadsViewer/>
-                                        </Route>
-                                        <Route path={'/thread/:id'}>
-                                            <ThreadDetails/>
-                                        </Route>
-                                    </Switch>
+                                    <PagesSwitch />
                                 </Grid>
                             </Grid>
-                            <Grid xs={12} md={3} className={classes.rightColumn}>
+                            <Grid item xs={12} md={3} className={classes.rightColumn}>
                                 <Box p={1}>
                                     <List>
                                         <ListItem>
