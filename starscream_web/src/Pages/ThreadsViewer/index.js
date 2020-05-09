@@ -102,7 +102,9 @@ export default function ThreadsViewer() {
                         );
                     })}
                 </List>
-                <Pagination count={10}/>
+                <div className={classes.paginationContainer}>
+                    <Pagination count={10} className={classes.pagination}/>
+                </div>
             </Box>
         </Grid>
 
