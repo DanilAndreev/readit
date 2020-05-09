@@ -1,4 +1,8 @@
 import React from 'react'
+import useStyles from "./style";
+import {useHistory} from 'react-router-dom'
+
+//MUI components
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
@@ -6,31 +10,27 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import RateReviewIcon from '@material-ui/icons/RateReview';
-import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import useStyles from "./style";
 import Badge from "@material-ui/core/Badge";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Pagination from '@material-ui/lab/Pagination';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import {LightTheme} from './../../Themes/DefaultTheme'
-import {ThemeProvider} from '@material-ui/core/styles';
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from '@material-ui/icons/Delete';
+
+//MUI icons
+import ImageIcon from '@material-ui/icons/Image';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 
 export default function ThreadsViewer() {
     const classes = useStyles();
+    const history = useHistory();
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     function ThreadListItem({thread, ...props}) {
         const primary = (
@@ -53,7 +53,7 @@ export default function ThreadsViewer() {
 
         return (
             <>
-                <ListItem button>
+                <ListItem button onClick={event => changeRoute('/thread/1')}>
                     <ListItemAvatar>
                         <Avatar>
                             <ImageIcon/>
