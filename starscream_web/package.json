@@ -2,9 +2,26 @@
   "name": "starscream_web",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Andreev Danil",
+    "email": "danssg08@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Solomaha Alexandr",
+      "email": "cyanofresh@gmail.com",
+      "url": "https://solomaha.com/"
+    },
+    {
+      "name": "Nesterov Nikita",
+      "email": "goodplayer322@gmail.com"
+    }
+  ],
+  "homepage": "./",
   "dependencies": {
     "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.52",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -12,7 +29,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "superagent": "^5.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
