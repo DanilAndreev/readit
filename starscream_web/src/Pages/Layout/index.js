@@ -119,16 +119,18 @@ export default function Layout() {
                                     </Box>
                                 </Grid>
                                 <Grid xs={12} md={3}>
-                                    <Box p={1}>
-                                        <Button
-                                            fullWidth
-                                            variant={'contained'}
-                                            color={'secondary'}
-                                            className={classes.createThreadButton}
-                                        >
-                                            Create thread
-                                        </Button>
-                                    </Box>
+                                    <div className={classes.createThreadButtonContainer}>
+                                        <Box p={1} className={classes.createThreadButtonBox}>
+                                            <Button
+                                                fullWidth
+                                                variant={'contained'}
+                                                color={'secondary'}
+                                                className={classes.createThreadButton}
+                                            >
+                                                Create thread
+                                            </Button>
+                                        </Box>
+                                    </div>
                                 </Grid>
                             </Grid>
                         </ThemeProvider>
@@ -141,21 +143,21 @@ export default function Layout() {
                                                 <FormatListBulletedIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"All threads"}
-                                                    classname={classes.leftPanelButtonsText}
+                                                    className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
                                             <ListItem dense button>
                                                 <RecordVoiceOverIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"My threads"}
-                                                    classname={classes.leftPanelButtonsText}
+                                                    className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
                                             <ListItem dense button>
                                                 <RateReviewIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"Commented by me"}
-                                                    classname={classes.leftPanelButtonsText}
+                                                    className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
                                             <Divider />
@@ -163,7 +165,7 @@ export default function Layout() {
                                                 <AccountCircleIcon fontSize={'small'}/>
                                                 <ListItemText
                                                     primary={"My account"}
-                                                    classname={classes.leftPanelButtonsText}
+                                                    className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
                                         </List>

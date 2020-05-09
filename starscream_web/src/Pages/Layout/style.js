@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -36,10 +36,16 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         width: '100%',
     },
-    createThreadButton: {
+    createThreadButtonContainer: {
         display: 'flex',
-        alignSelf: 'stretch',
+        width: '100%',
+        height: '100%',
+        alignItems: 'stretch',
     },
+    createThreadButtonBox: {
+        display: 'flex',
+        width: '100%',
+    }
 }));
 
 export default useStyles;
