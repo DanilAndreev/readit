@@ -37,7 +37,6 @@ export default function ThreadEditor({...props}) {
     }
 
     function handleInput(event) {
-        console.log(event);
         setThread({...thread, [event.target.name]: event.target.value});
     }
 

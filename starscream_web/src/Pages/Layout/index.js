@@ -10,6 +10,7 @@ import ThreadsViewer from "../ThreadsViewer";
 import ThreadDetails from "../ThreadDetails";
 import ThreadEditor from "../ThreadEditor";
 import AuthDialog from "../Auth";
+import Account from "../Account";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -86,6 +87,9 @@ function PagesSwitch() {
             <Route path={'/editthread/:id'}>
                 <ThreadEditor />
             </Route>
+            <Route path={'/user/:id'}>
+                <Account />
+            </Route>
         </Switch>
 
     );
@@ -143,6 +147,7 @@ function Layout({width,...props}) {
                                                 variant="filled"
                                                 label={'Find question'}
                                                 size={'small'}
+                                                name={'search'}
                                             />
                                             <Button variant={'contained'} color={'primary'}>
                                                 <SearchIcon />
@@ -209,7 +214,7 @@ function Layout({width,...props}) {
                                             <ListItem
                                                 dense
                                                 button
-                                                onClick={event => changeRoute('/account')}
+                                                onClick={event => changeRoute('/user/1')}
                                             >
                                                 <AccountCircleIcon fontSize={'small'}/>
                                                 <ListItemText
