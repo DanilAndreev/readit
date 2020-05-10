@@ -12,9 +12,11 @@ export default function Auth({authData, setAuthData, ...props}) {
     const [showPassword, setShowPassword] = React.useState(false);
 
     function handleChangePassword(event) {
+        event.persist();
         setAuthData(last => ({...last, password: event.target.value || null}))
     }
     function handleChangeUsername(event) {
+        event.persist();
         setAuthData(last => ({...last, username: event.target.value || null}))
     }
 
