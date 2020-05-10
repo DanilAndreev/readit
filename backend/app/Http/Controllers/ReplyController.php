@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ViewQuestion;
 use App\Question;
 use App\Reply;
 use Illuminate\Http\Request;
@@ -53,6 +54,22 @@ class ReplyController extends Controller
         $reply->update($request->only(['text']));
 
         return new \App\Http\Resources\Reply($reply);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param Question $question
+     * @param \App\Reply $reply
+     */
+    public function markAsAnswer(Request $request, Question $question, Reply $reply)
+    {
+        $reply->update([
+            'is_answer' => true,
+        ]);
+
+        return new ViewQuestion($question);
     }
 
     /**

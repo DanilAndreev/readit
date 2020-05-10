@@ -23,3 +23,4 @@ Route::apiResource('users', 'UserController');
 Route::apiResource('categories', 'CategoryController')->only(['index', 'show']);
 Route::apiResource('questions', 'QuestionController');
 Route::apiResource('questions.replies', 'ReplyController')->shallow()->except(['show']);
+Route::post('questions/{question}/replies/{reply}/markAsAnswer', 'ReplyController@markAsAnswer');
