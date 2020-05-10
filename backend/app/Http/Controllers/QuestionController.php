@@ -2,67 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\QuestionsCollection;
+use App\Http\Resources\Question as QuestionResource;
+use App\Http\Resources\ViewQuestion;
 use App\Question;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+        $this->authorizeResource(Question::class, 'question');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return new QuestionsCollection(
-            Question::orderBy('created_at', 'desc')->get()
+        return QuestionResource::collection(
+            Question::orderBy('created_at', 'desc')->paginate()
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     public function store(Request $request)
     {
         $question = Question::create([
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'category_id' => $request->category_id,
             'title' => $request->title,
             'body' => $request->body,
         ]);
 
-        return new \App\Http\Resources\Question($question);
+        return new ViewQuestion($question);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Question  $question
+     * @param \App\Question $question
      */
     public function show(Question $question)
     {
         $question->views_count++;
         $question->save();
 
-        return new \App\Http\Resources\Question($question);
+        return new ViewQuestion($question);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Question  $question
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Question $question
      */
     public function update(Request $request, Question $question)
     {
-        if ($request->user()->id !== $request->user_id) {
-            return response()->json(['error' => 'You can only edit your own books.'], 403);
-        }
-
         $question->update($request->only(['title', 'body', 'category_id']));
 
-        return new \App\Http\Resources\Question($question);
+        return new ViewQuestion($question);
     }
 
     /**

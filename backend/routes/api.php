@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,17 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('auth/login', 'Auth\LoginController@login')->middleware('web');
+Route::post('auth/login', 'Auth\LoginController@login');
 Route::post('auth/register', 'Auth\RegisterController@register');
+Route::post('auth/logout', 'Auth\LoginController@logout');
 
-Route::apiResource('categories', 'CategoryController');
+Route::get('user', 'UserController@user');
+
+Route::apiResource('users', 'UserController');
+Route::apiResource('categories', 'CategoryController')->only(['index', 'show']);
 Route::apiResource('questions', 'QuestionController');
-Route::apiResource('questions.replies', 'ReplyController')->shallow();
-
-Route::middleware('auth')
-    ->middleware('web')
-    ->get('/user', function (Request $request) {
-        var_dump($request->user());
-    });
-
-Route::post('auth/logout', 'Auth\LoginController@logout')->middleware('web')->middleware('auth');
+Route::apiResource('questions.replies', 'ReplyController')->shallow()->except(['show']);
