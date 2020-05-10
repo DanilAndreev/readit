@@ -1,8 +1,9 @@
 import React from 'react'
 import useStyles from "./style";
-import {BaseTheme, LightTheme} from './../../Themes/DefaultTheme'
+import {LightTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
 import {Route, Switch, useHistory} from "react-router-dom";
+import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 
 //Pages
 import ThreadsViewer from "../ThreadsViewer";
@@ -90,7 +91,7 @@ function PagesSwitch() {
     );
 }
 
-export default function Layout() {
+function Layout({width,...props}) {
     const classes = useStyles();
     const history = useHistory();
     const [authOpened, setAuthOpened] = React.useState(false);
@@ -128,7 +129,7 @@ export default function Layout() {
                 </Toolbar>
             </AppBar>
             <Grid container>
-                <Grid item xs={0} md={1} lg={2} />
+                {isWidthUp('sm', width) && <Grid item md={1} lg={2} />}
                 <Grid item xs={12} md={10} lg={8} id={'page'}>
                     <Box>
                         <ThemeProvider theme={LightTheme}>
@@ -243,8 +244,10 @@ export default function Layout() {
                         </Grid>
                     </Box>
                 </Grid>
-                <Grid item xs={0} md={1} lg={2}/>
+                {isWidthUp('sm', width) && <Grid item md={1} lg={2}/>}
             </Grid>
         </>
     );
 }
+
+export default withWidth()(Layout);

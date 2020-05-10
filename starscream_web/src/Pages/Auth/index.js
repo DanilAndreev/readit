@@ -1,5 +1,4 @@
 import React from 'react';
-import TextField from "@material-ui/core/TextField";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -31,13 +30,14 @@ export default function Auth({authData, setAuthData, ...props}) {
                     fullWidth
                     required
                     onChange={handleChangeUsername}
+                    value={authData.username || ''}
                 />
             </ListItem>
             <ListItem>
                 <Input
                     id="standard-adornment-password"
                     type={showPassword ? 'text' : 'password'}
-                    value={authData.password}
+                    value={authData.password || ''}
                     placeholder={'Password'}
                     onChange={handleChangePassword}
                     required

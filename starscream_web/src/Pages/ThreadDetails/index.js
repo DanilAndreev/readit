@@ -10,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import {withWidth, isWidthUp} from "@material-ui/core";
 
 export function Question({author, thread, ...props}) {
     return (
@@ -27,18 +28,39 @@ export function Question({author, thread, ...props}) {
                 </Typography>
             </ListItem>
             <ListItem>
-                <Typography display={'block'}>
-                    <Typography variant={'body1'}>
-                        {thread.description}
-                    </Typography>
+                <Typography variant={'body1'}>
+                    {thread.description}
                 </Typography>
             </ListItem>
         </>
     );
 }
 
+function AnswerListItem({answer, ...props}) {
+    const primary = (
+        <React.Fragment>
+            <Typography variant={'h6'}>
+                {answer.user}
+            </Typography>
+            {answer.answer}
+        </React.Fragment>
+    );
 
-export default function ThreadDetails() {
+    return (
+        <>
+            <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                    <Avatar>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={primary} secondary={'posted 12.23.3212'}/>
+            </ListItem>
+            <Divider/>
+        </>
+    );
+}
+
+function ThreadDetails({width, ...props}) {
     const answers = [
         {
             answer: 'svg берите и это будет работать там где html5 не поддерживается',
@@ -64,29 +86,8 @@ export default function ThreadDetails() {
         description: 'Нужна поддержка ie11 Как сверстать такой блок? Фотка может быть абсолютно разного размера. Пробую border-radius: 50% и object-fit: cover Но проблема в том, что object-fit не работает в ie11.',
     };
 
-    function AnswerListItem({answer, ...props}) {
-        const primary = (
-            <>
-                <Typography variant={'h6'}>
-                    {answer.user}
-                </Typography>
-                {answer.answer}
-            </>
-        );
-
-        return (
-            <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                    <Avatar>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={primary} secondary={'posted 12.23.3212'}/>
-            </ListItem>
-        );
-    }
-
     return (
-        <Grid xs={12}>
+        <Grid item xs={12}>
             <Box p={1}>
                 <List>
                     <Question author={author} thread={thread}/>
@@ -95,10 +96,7 @@ export default function ThreadDetails() {
                         <List>
                             {answers.map((item, index) => {
                                 return (
-                                    <>
-                                        <AnswerListItem key={`answer_${index}`} answer={item}/>
-                                        <Divider/>
-                                    </>
+                                    <AnswerListItem key={`answer_${index}`} answer={item}/>
                                 );
                             })}
                         </List>
@@ -114,9 +112,9 @@ export default function ThreadDetails() {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={0} md={10}/>
+                            {isWidthUp('sm', width) && <Grid item md={10}/>}
                             <Grid item xs={12} md={2}>
-                                <Button variant={'default'} fullWidth>
+                                <Button fullWidth>
                                     Send
                                 </Button>
                             </Grid>
@@ -127,3 +125,5 @@ export default function ThreadDetails() {
         </Grid>
     );
 }
+
+export default withWidth()(ThreadDetails);

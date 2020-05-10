@@ -1,10 +1,8 @@
 import React from 'react'
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
@@ -64,7 +62,7 @@ export default function ThreadEditor({...props}) {
                     <ListItem>
                         <TextField
                             label={'Sumarry'}
-                            value={thread.summary}
+                            value={thread.summary || ''}
                             required
                             fullWidth
                             variant={'outlined'}
@@ -75,7 +73,7 @@ export default function ThreadEditor({...props}) {
                     <ListItem>
                         <TextField
                             label={'Description'}
-                            value={thread.description}
+                            value={thread.description || ''}
                             required
                             fullWidth
                             variant={'outlined'}
