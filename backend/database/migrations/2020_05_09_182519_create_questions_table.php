@@ -22,8 +22,8 @@ class CreateQuestionsTable extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->boolean('answered')->default(false);
-            $table->integer('reply_count')->unsigned();
-            $table->integer('views_count')->unsigned();
+            $table->integer('reply_count')->unsigned()->default(0);
+            $table->integer('views_count')->unsigned()->default(0);
             $table->timestamps();
         });
     }
