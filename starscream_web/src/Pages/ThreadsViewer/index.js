@@ -24,7 +24,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 
-export default function ThreadsViewer() {
+function ThreadListItem({thread, ...props}) {
     const classes = useStyles();
     const history = useHistory();
 
@@ -32,38 +32,45 @@ export default function ThreadsViewer() {
         history.push(route);
     }
 
-    function ThreadListItem({thread, ...props}) {
-        const primary = (
-            <Typography>
-                {thread.title}
-            </Typography>
-        );
-        const secondary = (
-            <ListItemText>
-                <ListItemSecondaryAction>
-                    <Badge badgeContent={thread.answers} color="primary">
-                        <QuestionAnswerIcon/>
-                    </Badge>
-                    <Badge badgeContent={thread.answers} color="primary">
-                        <VisibilityIcon/>
-                    </Badge>
-                </ListItemSecondaryAction>
-            </ListItemText>
-        );
+    const primary = (
+        <Typography>
+            {thread.title}
+        </Typography>
+    );
+    const secondary = (
+        <ListItemSecondaryAction>
+            <Badge badgeContent={thread.answers} color="primary">
+                <QuestionAnswerIcon className={classes.ratingBadge}/>
+            </Badge>
+            <Badge badgeContent={thread.answers} color="primary">
+                <VisibilityIcon className={classes.ratingBadge}/>
+            </Badge>
+        </ListItemSecondaryAction>
+    );
 
-        return (
-            <>
-                <ListItem button onClick={event => changeRoute('/thread/1')}>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <ImageIcon/>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={primary} secondary={secondary} className={classes.threadsList}/>
-                </ListItem>
-                <Divider/>
-            </>
-        );
+    return (
+        <>
+            <ListItem button onClick={event => changeRoute('/thread/1')}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <ImageIcon/>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={primary} className={classes.threadsList}/>
+                {secondary}
+            </ListItem>
+            <Divider/>
+        </>
+    );
+}
+
+export default function ThreadsViewer() {
+    const classes = useStyles();
+    const history = useHistory();
+    const [sortBy, setSortBy] = React.useState('newest');
+
+    function changeRoute(route) {
+        history.push(route);
     }
 
     const articles = [
@@ -78,19 +85,28 @@ export default function ThreadsViewer() {
         {title: 'Что не так с кодом ютуба?', answers: 10, views: 123}
     ];
 
+    function handleToggleSort(event, newValue) {
+        setSortBy(newValue);
+    }
+
     return (
-        <Grid xs={12}>
+        <Grid item xs={12}>
             <Box p={1}>
                 <List>
                     <ListItem>
                         <ListItemText primary={"All threads"}/>
                     </ListItem>
                     <ListItem>
-                        <ToggleButtonGroup size="small">
-                            <ToggleButton value="left">
+                        <ToggleButtonGroup
+                            value={sortBy}
+                            size="small"
+                            exclusive
+                            onChange={handleToggleSort}
+                        >
+                            <ToggleButton value="newest">
                                 Newest
                             </ToggleButton>
-                            <ToggleButton value="left">
+                            <ToggleButton value="popular">
                                 Most popular
                             </ToggleButton>
                         </ToggleButtonGroup>
