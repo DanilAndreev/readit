@@ -23,6 +23,17 @@ class QuestionPolicy
     }
 
     /**
+     * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        return true;
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param User $user
