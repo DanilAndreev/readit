@@ -15,7 +15,7 @@ class Reply extends JsonResource
     public function toArray($request)
     {
         return array_merge(parent::toArray($request), [
-            'user' => $this->user,
+            'user' => new User($this->user),
         ]);
     }
 }
