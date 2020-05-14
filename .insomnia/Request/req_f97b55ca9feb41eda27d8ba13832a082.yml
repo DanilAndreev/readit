@@ -1,0 +1,25 @@
+_id: req_f97b55ca9feb41eda27d8ba13832a082
+authentication: {}
+body: {}
+created: 1589118820453
+description: ""
+headers:
+  - description: ""
+    id: pair_0ba073ce5a454d8ebf71aaf85674007a
+    name: Accept
+    value: application/json
+isPrivate: false
+metaSortKey: -1589118726905
+method: POST
+modified: 1589118966561
+name: logout
+parameters: []
+parentId: fld_20ec2713e5d3441a8e3d74d36dabd03f
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/auth/logout

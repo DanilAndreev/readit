@@ -1,0 +1,34 @@
+_id: req_a3f372812df94bc280fafa366e0fd380
+authentication: {}
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "email": "alex@gma",
+      "password": "alexalex"
+    }
+created: 1589118057356
+description: ""
+headers:
+  - description: ""
+    id: pair_e97142fb804a4cce98cd72b2144c4158
+    name: Accept
+    value: application/json
+  - id: pair_fd7af4b70101449f92f68f513333ae68
+    name: Content-Type
+    value: application/json
+isPrivate: false
+metaSortKey: -1589118773704
+method: POST
+modified: 1589118964336
+name: login
+parameters: []
+parentId: fld_20ec2713e5d3441a8e3d74d36dabd03f
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/auth/login

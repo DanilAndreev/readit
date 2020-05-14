@@ -1,0 +1,35 @@
+_id: req_91917f837c4b48eba7716a2b5940ddc6
+authentication: {}
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "category_id": 2,
+      "title": "Hello darkness my",
+      "body": "34234234234234"
+    }
+created: 1589129727514
+description: ""
+headers:
+  - id: pair_10f4997cf87f4774881d04dce65e92ed
+    name: Content-Type
+    value: application/json
+  - description: ""
+    id: pair_07b5fdb7f20846d2b37908bcad9ea280
+    name: Accept
+    value: application/json
+isPrivate: false
+metaSortKey: -1589129727514
+method: POST
+modified: 1589413616352
+name: create
+parameters: []
+parentId: fld_595836faff214eb5848b890c4a8c8bef
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/questions

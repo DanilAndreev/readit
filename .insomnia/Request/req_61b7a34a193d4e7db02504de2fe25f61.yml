@@ -1,0 +1,26 @@
+_id: req_61b7a34a193d4e7db02504de2fe25f61
+authentication: {}
+body: {}
+created: 1589118726955
+description: ""
+headers:
+  - description: ""
+    disabled: false
+    id: pair_e69517797eea415ca79d3c3c971fac4e
+    name: Accept
+    value: application/json
+isPrivate: false
+metaSortKey: -1589118726955
+method: GET
+modified: 1589118769134
+name: user
+parameters: []
+parentId: fld_20ec2713e5d3441a8e3d74d36dabd03f
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/user
