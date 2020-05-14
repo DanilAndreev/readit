@@ -17,7 +17,7 @@ Route::post('auth/login', 'Auth\LoginController@login');
 Route::post('auth/register', 'Auth\RegisterController@register');
 Route::post('auth/logout', 'Auth\LoginController@logout');
 
-Route::get('user', 'UserController@user');
+Route::get('users/me', 'UserController@me');
 
 Route::apiResource('users', 'UserController');
 Route::apiResource('categories', 'CategoryController')->only(['index', 'show']);
