@@ -17,7 +17,18 @@ class QuestionPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
+    {
+        return true;
+    }
+
+    /**
+     * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return mixed
+     */
+    public function create(User $user)
     {
         return true;
     }
@@ -29,7 +40,7 @@ class QuestionPolicy
      * @param Question $question
      * @return mixed
      */
-    public function view(User $user, Question $question)
+    public function view(?User $user, Question $question)
     {
         return true;
     }

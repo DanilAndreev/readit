@@ -18,10 +18,16 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+
         return QuestionResource::collection(
-            Question::orderBy('created_at', 'desc')->paginate()
+            Question::orderBy('created_at', 'desc')
+                ->when($search, function ($query, $search) {
+                    return $query->where('title', 'like', '%' . $search . '%');
+                })
+                ->paginate()
         );
     }
 

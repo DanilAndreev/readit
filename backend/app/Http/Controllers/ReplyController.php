@@ -40,6 +40,9 @@ class ReplyController extends Controller
             'text' => $request->text,
         ]);
 
+        $question->reply_count++;
+        $question->save();
+
         return new \App\Http\Resources\Reply($reply);
     }
 
