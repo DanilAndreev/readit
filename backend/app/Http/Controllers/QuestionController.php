@@ -29,6 +29,7 @@ class QuestionController extends Controller
                 ->when($search, function ($query, $search) {
                     return $query->where('title', 'like', '%' . $search . '%');
                 })
+                ->with('user')
                 ->paginate()
         );
     }

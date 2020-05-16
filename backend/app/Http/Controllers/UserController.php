@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new \App\Http\Resources\User($user);
+        return new \App\Http\Resources\ViewUser($user);
     }
 
     /**
@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function me(Request $request)
     {
-        return new \App\Http\Resources\User($request->user());
+        return new \App\Http\Resources\ViewUser($request->user());
     }
 
     /**
@@ -55,7 +55,7 @@ class UserController extends Controller
             'password',
         ]));
 
-        return new \App\Http\Resources\User($user);
+        return new \App\Http\Resources\ViewUser($user);
     }
 
     /**

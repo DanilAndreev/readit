@@ -15,7 +15,10 @@ class ViewQuestion extends JsonResource
     public function toArray($request)
     {
         return array_merge(parent::toArray($request), [
-            'replies' => Reply::collection($this->replies)
+            'answered' => (boolean)$this->answered,
+            'replies' => Reply::collection($this->replies),
+            'user' => new User($this->user),
+            'category' => new Category($this->category),
         ]);
     }
 }
