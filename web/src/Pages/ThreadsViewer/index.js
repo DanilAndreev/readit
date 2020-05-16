@@ -58,7 +58,7 @@ function ThreadListItem({thread, ...props}) {
                         <ImageIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={primary} className={classes.threadsList}/>
+                <ListItemText primary={primary} secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`} className={classes.threadsList}/>
                 {secondary}
             </ListItem>
             <Divider/>
@@ -66,11 +66,10 @@ function ThreadListItem({thread, ...props}) {
     );
 }
 
-export default function ThreadsViewer() {
+export default function ThreadsViewer({articles, setArticles, ...props}) {
     const classes = useStyles();
     const history = useHistory();
     const [sortBy, setSortBy] = React.useState('newest');
-    const [articles, setArticles] = React.useState([]);
     const [pages, setPages] = React.useState(1);
     const [page, setPage] = React.useState(1);
 

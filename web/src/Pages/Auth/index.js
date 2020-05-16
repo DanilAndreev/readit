@@ -6,12 +6,45 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 import {coreRequest} from "../../Utilities/Rest";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox";
+import {useAuth} from "../../Utilities/Auth";
 
 
-export default function Auth({authData, setAuthData, ...props}) {
+export default function Auth({
+                                 authData,
+                                 setAuthData,
+                                 onComplete = () => {},
+                                 ...props
+                             }) {
     const [showPassword, setShowPassword] = React.useState(false);
+    const [error, setError] = React.useState(null);
+    const {setUser} = useAuth();
+
+    function handleLogin() {
+        coreRequest().post('auth/login')
+            .send(authData)
+            .then(response => {
+                console.log(response);
+                setUser(response.body.data);
+                onComplete(response.body.data);
+            })
+            .catch(error => {
+                const message = JSON.parse(error.message).message;
+                switch (error.status) {
+                    case 403:
+                        setError(message);
+                        break;
+                    default:
+                        setError('Unexpected error, see console for more information');
+                        console.error(error);
+                }
+            });
+    }
 
     function handleChangePassword(event) {
         event.persist();
@@ -27,16 +60,18 @@ export default function Auth({authData, setAuthData, ...props}) {
         setShowPassword(item => !item);
     }
 
-    function handleLogin() {
-        const host = `${process.env.REACT_APP_CORE_URL}/auth/login`;
-        coreRequest().post('auth/login')
-            .send(authData)
-            .then(console.log)
-            .catch(error => {});
+    function handleRememberMe(event) {
+        event.persist();
+        setAuthData(last => ({...last, remember_me: event.target.checked || false}));
     }
 
     return (
         <List>
+            {error && <ListItem>
+                <Typography color={'error'} variant={'body2'}>
+                    {error}
+                </Typography>
+            </ListItem>}
             <ListItem>
                 <Input
                     placeholder={'Email'}
@@ -65,6 +100,12 @@ export default function Auth({authData, setAuthData, ...props}) {
                         </InputAdornment>
                     }
                 />
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={'Remember me'}/>
+                <ListItemSecondaryAction>
+                    <Checkbox checked={authData.remember_me} onChange={handleRememberMe}/>
+                </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
                 <Button fullWidth onClick={handleLogin}>

@@ -1,66 +1,22 @@
 import React from 'react';
+import {withWidth, isWidthUp} from "@material-ui/core";
+import {coreRequest} from "../../Utilities/Rest";
+import {useParams} from "react-router-dom";
+import useStyles from "./style";
+
+//MUI components
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import {withWidth, isWidthUp} from "@material-ui/core";
-import {coreRequest} from "../../Utilities/Rest";
-import {useParams} from "react-router-dom";
 
-export function Question({author, thread, ...props}) {
-    return (
-        <>
-            <ListItem id={'author'}>
-                <ListItemAvatar>
-                    <Avatar>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={author.name} secondary={`posted ${new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
-            </ListItem>
-            <ListItem id={'question'}>
-                <Typography variant={'h5'}>
-                    {thread.title}
-                </Typography>
-            </ListItem>
-            <ListItem>
-                <Typography variant={'body1'}>
-                    {thread.body}
-                </Typography>
-            </ListItem>
-        </>
-    );
-}
+//Custom components
+import Question from './Components/Question'
+import AnswerListItem from "./Components/AnswerListItem";
 
-function AnswerListItem({answer, ...props}) {
-    const primary = (
-        <React.Fragment>
-            <Typography variant={'h6'}>
-                {answer.user.name}
-            </Typography>
-            {answer.text}
-        </React.Fragment>
-    );
-
-    return (
-        <>
-            <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                    <Avatar>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={primary} secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}/>
-            </ListItem>
-            <Divider/>
-        </>
-    );
-}
 
 function ThreadDetails({width, ...props}) {
     const [author, setAuthor] = React.useState({});
@@ -68,11 +24,11 @@ function ThreadDetails({width, ...props}) {
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
     const {id} = useParams();
+    const classes = useStyles();
 
     React.useEffect(() => {
         coreRequest().get(`questions/${id}`)
             .then(response => {
-                console.log(response);
                 setAuthor(response.body.data.user);
                 setThread({...response.body.data, replies: undefined, user: undefined, user_id: undefined});
                 setAnswers(response.body.data.replies);
@@ -92,6 +48,16 @@ function ThreadDetails({width, ...props}) {
             });
     }
 
+    function handleUpdateThread() {
+        coreRequest().get(`questions/${id}`)
+            .then(response => {
+                setThread({...response.body.data, replies: undefined, user: undefined, user_id: undefined});
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
     function handleInputAnswer(event) {
         setMyAnswer(event.target.value);
     }
@@ -101,6 +67,7 @@ function ThreadDetails({width, ...props}) {
             .send({text: myAnswer})
             .then(response => {
                 handleUpdateAnswers();
+                setMyAnswer('');
             })
             .catch(error => {
                 console.error(error);
@@ -111,13 +78,13 @@ function ThreadDetails({width, ...props}) {
         <Grid item xs={12}>
             <Box p={1}>
                 <List>
-                    <Question author={author} thread={thread}/>
+                    <Question author={author} thread={thread} onEdited={handleUpdateThread}/>
                     <Divider/>
                     <ListItem id={'answers'}>
-                        <List>
+                        <List className={classes.width100}>
                             {answers.map((item, index) => {
                                 return (
-                                    <AnswerListItem key={`answer_${index}`} answer={item}/>
+                                    <AnswerListItem key={`answer_${index}`} answer={item} onEdited={handleUpdateAnswers}/>
                                 );
                             })}
                         </List>

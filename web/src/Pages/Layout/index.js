@@ -4,6 +4,8 @@ import {LightTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
 import {Route, Switch, useHistory} from "react-router-dom";
 import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
+import {coreRequest} from "../../Utilities/Rest";
+import {useAuth} from "../../Utilities/Auth";
 
 //Pages
 import ThreadsViewer from "../ThreadsViewer";
@@ -76,32 +78,37 @@ function ThreadsListItem({thread, ...props}) {
     );
 }
 
-function PagesSwitch() {
+function PagesSwitch({articles, setArticles, ...props}) {
     return (
         <Switch>
             <Route path={'/threads'}>
-                <ThreadsViewer/>
+                <ThreadsViewer articles={articles} setArticles={setArticles}/>
             </Route>
             <Route path={'/thread/:id'}>
                 <ThreadDetails/>
             </Route>
             <Route path={'/editthread/:id'}>
-                <ThreadEditor />
+                <ThreadEditor/>
             </Route>
             <Route path={'/user/:id'}>
-                <Account />
+                <Account/>
             </Route>
         </Switch>
 
     );
 }
 
-function Layout({width,...props}) {
+function Layout({width, ...props}) {
     const classes = useStyles();
     const history = useHistory();
+    const [search, setSearch] = React.useState('');
+    const [articles, setArticles] = React.useState([]);
     const [authOpened, setAuthOpened] = React.useState(false);
     const [authData, setAuthData] = React.useState({email: null, password: null, remember_me: false});
     const [registrationOpened, setRegistrationOpened] = React.useState(false);
+    const {user, setUser, setToken} = useAuth();
+    const [gotUser, setGotUser] = React.useState(false);
+    let loading = false;
 
     const topArticles = [
         {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4},
@@ -110,6 +117,58 @@ function Layout({width,...props}) {
         {title: 'Как устроена андроид разработка по аналогии с веб фронтенд разработкой?', answers: 4},
         {title: 'Что не так с кодом ютуба?', answers: 10}
     ];
+
+    React.useEffect(() => {
+        loading = true;
+        coreRequest().get('users/me')
+            .then(response => {
+                setUser({...response.body.data, created_at: undefined, updated_at: undefined});
+                setGotUser(true);
+            })
+            .catch(error => {
+                setUser(null);
+                setGotUser(true);
+            });
+    }, []);
+
+    React.useEffect(() => {
+        loading = true;
+        coreRequest().get('')
+            .then(response => {
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    function handleLogout() {
+        coreRequest().post('auth/logout')
+            .send({})
+            .then(response => {
+                setToken(null);
+                setUser(null);
+            })
+            .catch(console.error);
+    }
+
+    function handleFindQuestion() {
+        let request = coreRequest().get('questions');
+        if (search && search !== '') {
+            request = request.query({search});
+        }
+        request.then(response => {
+            setArticles(response.body.data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
+    function handleAuthenticated(user) {
+        console.log('authenticated: ', user);
+        setAuthOpened(false);
+        setRegistrationOpened(false);
+    }
 
     function changeRoute(route) {
         history.push(route);
@@ -124,27 +183,46 @@ function Layout({width,...props}) {
         setRegistrationOpened(false);
     }
 
+    function handleSearchInput(event) {
+        setSearch(event.target.value);
+    }
+
+    if (loading || !gotUser) {
+        return null;
+    }
+
     return (
         <>
             <Dialog aria-labelledby="auth-dialog" open={authOpened} onClose={handleAuthClose}>
                 <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
-                <AuthDialog authData={authData} setAuthData={setAuthData} />
+                <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
             </Dialog>
             <Dialog aria-labelledby="auth-dialog" open={registrationOpened} onClose={handleRegistrationClose}>
                 <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
-                <RegistrationDialog />
+                <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
-                    <Button color="inherit" onClick={() => {setRegistrationOpened(true)}}>Sign up</Button>
-                    <Button color="inherit" onClick={() => {setAuthOpened(true)}}>Login</Button>
+                    {!user && <Button color="inherit" onClick={() => {
+                        setRegistrationOpened(true)
+                    }}>Sign up</Button>}
+                    {!user && <Button color="inherit" onClick={() => {
+                        setAuthOpened(true)
+                    }}>Login</Button>}
+                    {user && <Button color="inherit">
+                        {user.name}
+                        <Avatar className={classes.avatar}>
+                            <ImageIcon/>
+                        </Avatar>
+                    </Button>}
+                    {user && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
                 </Toolbar>
             </AppBar>
             <Grid container>
-                {isWidthUp('sm', width) && <Grid item md={1} lg={2} />}
+                {isWidthUp('sm', width) && <Grid item md={1} lg={2}/>}
                 <Grid item xs={12} md={10} lg={8} id={'page'}>
                     <Box>
                         <ThemeProvider theme={LightTheme}>
@@ -159,9 +237,14 @@ function Layout({width,...props}) {
                                                 label={'Find question'}
                                                 size={'small'}
                                                 name={'search'}
+                                                onChange={handleSearchInput}
                                             />
-                                            <Button variant={'contained'} color={'primary'}>
-                                                <SearchIcon />
+                                            <Button
+                                                variant={'contained'}
+                                                color={'primary'}
+                                                onClick={handleFindQuestion}
+                                            >
+                                                <SearchIcon/>
                                             </Button>
                                         </div>
                                     </Box>
@@ -221,7 +304,7 @@ function Layout({width,...props}) {
                                                     className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
-                                            <Divider />
+                                            <Divider/>
                                             <ListItem
                                                 dense
                                                 button
@@ -239,7 +322,10 @@ function Layout({width,...props}) {
                             </ThemeProvider>
                             <Grid item xs={12} md={7} className={classes.contentColumn}>
                                 <Grid container>
-                                    <PagesSwitch />
+                                    <PagesSwitch
+                                        articles={articles}
+                                        setArticles={setArticles}
+                                    />
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={3} className={classes.rightColumn}>

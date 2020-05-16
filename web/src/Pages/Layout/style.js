@@ -45,6 +45,9 @@ const useStyles = makeStyles(theme => ({
     createThreadButtonBox: {
         display: 'flex',
         width: '100%',
+    },
+    avatar: {
+        marginLeft: theme.spacing(2),
     }
 }));
 
