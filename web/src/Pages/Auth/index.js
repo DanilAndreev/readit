@@ -7,8 +7,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 
-const superagent = require('superagent');
-
+import {coreRequest} from "../../Utilities/Rest";
 
 
 export default function Auth({authData, setAuthData, ...props}) {
@@ -18,6 +17,7 @@ export default function Auth({authData, setAuthData, ...props}) {
         event.persist();
         setAuthData(last => ({...last, password: event.target.value || null}))
     }
+
     function handleChangeEmail(event) {
         event.persist();
         setAuthData(last => ({...last, email: event.target.value || null}))
@@ -29,17 +29,10 @@ export default function Auth({authData, setAuthData, ...props}) {
 
     function handleLogin() {
         const host = `${process.env.REACT_APP_CORE_URL}/auth/login`;
-        try {
-            superagent.post(host)
-                .send(authData)
-                .set('accept', 'application/json')
-                .end((err, res) => {
-                    console.log('err: ', err);
-                    console.log('res: ', res);
-                });
-        } catch (e) {
-            console.error(e);
-        }
+        coreRequest().post('auth/login')
+            .send(authData)
+            .then(console.log)
+            .catch(error => {});
     }
 
     return (

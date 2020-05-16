@@ -7,7 +7,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 
-const superagent = require('superagent');
+import {coreRequest} from "../../Utilities/Rest";
 
 
 export default function Registration({authData, setAuthData, ...props}) {
@@ -29,24 +29,12 @@ export default function Registration({authData, setAuthData, ...props}) {
     }
 
     function handleRegister() {
-        const host = `${process.env.REACT_APP_CORE_URL}/auth/register`;
+        coreRequest().post('auth/register')
+            .send({...data, password_confirmation: data.password, name: data.username, username: undefined})
+            .then(response => {
 
-        const host1 = `${process.env.REACT_APP_CORE_URL}/questions`;
-
-        try {
-            /*
-            const list = superagent.get(host1).end((err, res) => {
-                console.error('err: ', err);
-                console.log('res: ', res);
-            });*/
-
-            const auth = superagent.post(host)
-                .send({...data, password_confirmation: data.password, name: data.username, username: undefined})
-                .set('accept', 'application/json')
-                .end();
-        } catch (e) {
-            console.error(e);
-        }
+            })
+            .catch(console.error);
     }
 
     return (

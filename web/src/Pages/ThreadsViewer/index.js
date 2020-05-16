@@ -40,10 +40,10 @@ function ThreadListItem({thread, ...props}) {
     );
     const secondary = (
         <ListItemSecondaryAction>
-            <Badge badgeContent={thread.answers} color="primary">
+            <Badge badgeContent={thread.reply_count} showZero color="primary">
                 <QuestionAnswerIcon className={classes.ratingBadge}/>
             </Badge>
-            <Badge badgeContent={thread.answers} color="primary">
+            <Badge badgeContent={thread.views_count} showZero color="primary">
                 <VisibilityIcon className={classes.ratingBadge}/>
             </Badge>
         </ListItemSecondaryAction>
@@ -52,7 +52,7 @@ function ThreadListItem({thread, ...props}) {
 
     return (
         <>
-            <ListItem button onClick={event => changeRoute('/thread/1')}>
+            <ListItem button onClick={event => changeRoute(`/thread/${thread.id}`)}>
                 <ListItemAvatar>
                     <Avatar>
                         <ImageIcon/>
@@ -72,40 +72,35 @@ export default function ThreadsViewer() {
     const [sortBy, setSortBy] = React.useState('newest');
     const [articles, setArticles] = React.useState([]);
     const [pages, setPages] = React.useState(1);
+    const [page, setPage] = React.useState(1);
 
-    React.useEffect(() => {
+    function getArticles(page) {
         coreRequest().get('questions')
-            .query({page: 0})
+            .query({page: page})
             .then(response => {
-                console.log(response);
                 setArticles(response.body.data);
                 setPages(response.body.meta.last_page);
             })
             .catch(err => {
                 console.error(err);
             });
+    }
+
+    React.useEffect(() => {
+        getArticles(1);
     }, []);
 
     function changeRoute(route) {
         history.push(route);
     }
-/*
-    const articles = [
-        {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4, views: 100},
-        {title: 'Как добавлять текст к input?', answers: 2, views: 200},
-        {title: 'Какой монитор на IPS матрице выбрать?', answers: 8, views: 134},
-        {
-            title: 'Как устроена андроид разработка по аналогии с веб фронтенд разработкой? What is this',
-            answers: 4,
-            views: 2834
-        },
-        {title: 'Что не так с кодом ютуба?', answers: 10, views: 123}
-    ];
-
- */
 
     function handleToggleSort(event, newValue) {
         setSortBy(newValue);
+    }
+
+    function handleChangePage(event, page) {
+        setPage(page);
+        getArticles(page);
     }
 
     return (
@@ -138,7 +133,7 @@ export default function ThreadsViewer() {
                     })}
                 </List>
                 <div className={classes.paginationContainer}>
-                    <Pagination count={pages} className={classes.pagination}/>
+                    <Pagination count={pages} page={page} onChange={handleChangePage} className={classes.pagination}/>
                 </div>
             </Box>
         </Grid>

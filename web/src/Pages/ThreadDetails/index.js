@@ -11,6 +11,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {withWidth, isWidthUp} from "@material-ui/core";
+import {coreRequest} from "../../Utilities/Rest";
+import {useParams} from "react-router-dom";
 
 export function Question({author, thread, ...props}) {
     return (
@@ -20,16 +22,16 @@ export function Question({author, thread, ...props}) {
                     <Avatar>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={author.username} secondary={`posted ${thread.date || 'just now'}`}/>
+                <ListItemText primary={author.name} secondary={`posted ${new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
             </ListItem>
             <ListItem id={'question'}>
                 <Typography variant={'h5'}>
-                    {thread.summary}
+                    {thread.title}
                 </Typography>
             </ListItem>
             <ListItem>
                 <Typography variant={'body1'}>
-                    {thread.description}
+                    {thread.body}
                 </Typography>
             </ListItem>
         </>
@@ -40,9 +42,9 @@ function AnswerListItem({answer, ...props}) {
     const primary = (
         <React.Fragment>
             <Typography variant={'h6'}>
-                {answer.user}
+                {answer.user.name}
             </Typography>
-            {answer.answer}
+            {answer.text}
         </React.Fragment>
     );
 
@@ -53,7 +55,7 @@ function AnswerListItem({answer, ...props}) {
                     <Avatar>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={primary} secondary={'posted 12.23.3212'}/>
+                <ListItemText primary={primary} secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}/>
             </ListItem>
             <Divider/>
         </>
@@ -61,30 +63,49 @@ function AnswerListItem({answer, ...props}) {
 }
 
 function ThreadDetails({width, ...props}) {
-    const answers = [
-        {
-            answer: 'svg берите и это будет работать там где html5 не поддерживается',
-            date: '12.32.4323',
-            user: 'Максим Ленский'
-        },
-        {
-            answer: 'Попробовать накинуть background-size: cover; почему нет?',
-            date: '04.24.1212',
-            user: 'Andrew Kolomiets'
-        },
-        {
-            answer: 'Не понимаю о чём ты, но, если что можно так настраивать каждый угол: border-radius: 13em 0.5em/1em 0.5em; border-radius: 50px/25px 0 0 50px/25px;',
-            date: '04.24.1212',
-            user: 'Qeuvec'
-        },
-    ];
+    const [author, setAuthor] = React.useState({});
+    const [thread, setThread] = React.useState({});
+    const [answers, setAnswers] = React.useState([]);
+    const [myAnswer, setMyAnswer] = React.useState('');
+    const {id} = useParams();
 
-    const author = {username: 'Mikhail Kolesnikov'}
-    const thread = {
-        date: '12.23.1232',
-        summary: 'Как сделать фото с закруглёнными краями определённого размера (высота и ширина 50px), но чтобы картинка не растягивалась, если она не квадратная?',
-        description: 'Нужна поддержка ie11 Как сверстать такой блок? Фотка может быть абсолютно разного размера. Пробую border-radius: 50% и object-fit: cover Но проблема в том, что object-fit не работает в ie11.',
-    };
+    React.useEffect(() => {
+        coreRequest().get(`questions/${id}`)
+            .then(response => {
+                console.log(response);
+                setAuthor(response.body.data.user);
+                setThread({...response.body.data, replies: undefined, user: undefined, user_id: undefined});
+                setAnswers(response.body.data.replies);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    function handleUpdateAnswers() {
+        coreRequest().get(`questions/${id}/replies`)
+            .then(response => {
+                setAnswers(response.body.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function handleInputAnswer(event) {
+        setMyAnswer(event.target.value);
+    }
+
+    function handleAnswer() {
+        coreRequest().post(`questions/${id}/replies`)
+            .send({text: myAnswer})
+            .then(response => {
+                handleUpdateAnswers();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
 
     return (
         <Grid item xs={12}>
@@ -105,16 +126,18 @@ function ThreadDetails({width, ...props}) {
                         <Grid container>
                             <Grid item xs={12}>
                                 <TextField
+                                    value={myAnswer}
                                     multiline
                                     rows={8}
                                     variant={'outlined'}
                                     label={'Answer'}
                                     fullWidth
+                                    onChange={handleInputAnswer}
                                 />
                             </Grid>
                             {isWidthUp('sm', width) && <Grid item md={10}/>}
                             <Grid item xs={12} md={2}>
-                                <Button fullWidth>
+                                <Button fullWidth onClick={handleAnswer}>
                                     Send
                                 </Button>
                             </Grid>
