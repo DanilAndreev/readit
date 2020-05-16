@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('me');
+        $this->middleware('auth')->except('index', 'show');
         $this->authorizeResource(User::class, 'user');
     }
 
