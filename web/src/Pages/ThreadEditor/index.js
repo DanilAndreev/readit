@@ -1,4 +1,5 @@
 import React from 'react'
+import {coreRequest} from '../../Utilities/Rest'
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
@@ -7,11 +8,10 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import {Question} from './../ThreadDetails'
 
-import { Question } from './../ThreadDetails'
 
-
-function TabPanel({ children, value, index, ...other }) {
+function TabPanel({children, value, index, ...other}) {
     return (
         <div
             role="tabpanel"
@@ -29,8 +29,30 @@ function TabPanel({ children, value, index, ...other }) {
 
 export default function ThreadEditor({...props}) {
     const [tab, setTab] = React.useState(0);
+    const [thread, setThread] = React.useState({title: null, body: null, category_id: 1});
+    const [categories, setCategories] = React.useState([]);
 
-    const [thread, setThread] = React.useState({summary: null, description: null});
+    React.useEffect(() => {
+        coreRequest().get('categories')
+            .then(response => {
+                setCategories(response.body);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    function handleSubmit() {
+        console.log('data: ', thread);
+        coreRequest().post('questions')
+            .send(thread)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
 
     function handleChangeTab(event, newValue) {
         setTab(newValue);
@@ -48,8 +70,8 @@ export default function ThreadEditor({...props}) {
                 aria-label="simple tabs example"
                 variant={'fullWidth'}
             >
-                <Tab label="Edit" />
-                <Tab label="Preview" />
+                <Tab label="Edit"/>
+                <Tab label="Preview"/>
             </Tabs>
             <TabPanel value={tab} index={0}>
                 <List>
@@ -61,31 +83,32 @@ export default function ThreadEditor({...props}) {
                     <ListItem>
                         <TextField
                             label={'Sumarry'}
-                            value={thread.summary || ''}
+                            value={thread.title || ''}
                             required
                             fullWidth
                             variant={'outlined'}
-                            name={'summary'}
+                            name={'title'}
                             onChange={handleInput}
                         />
                     </ListItem>
                     <ListItem>
                         <TextField
-                            label={'Description'}
-                            value={thread.description || ''}
+                            label={'body'}
+                            value={thread.body || ''}
                             required
                             fullWidth
                             variant={'outlined'}
                             multiline
                             rows={10}
-                            name={'description'}
-                            onChange={event => handleInput(event, 'description')}
+                            name={'body'}
+                            onChange={event => handleInput(event, 'body')}
                         />
                     </ListItem>
                     <ListItem>
                         <Button
                             fullWidth
                             variant={'outlined'}
+                            onClick={handleSubmit}
                         >
                             Submit
                         </Button>
@@ -96,8 +119,8 @@ export default function ThreadEditor({...props}) {
                 <Question
                     author={{username: 'Andreev Danil'}}
                     thread={{
-                        summary: thread.summary || 'Fill the summary input line',
-                        description: thread.description || 'Fill the description input line',
+                        summary: thread.title || 'Fill the summary input line',
+                        description: thread.body || 'Fill the description input line',
                     }}
                 />
             </TabPanel>
