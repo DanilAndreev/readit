@@ -1,6 +1,7 @@
 import React from 'react'
 import useStyles from "./style";
 import {useHistory} from 'react-router-dom'
+import {coreRequest} from "../../Utilities/Rest";
 
 //MUI components
 import Box from "@material-ui/core/Box";
@@ -23,7 +24,6 @@ import ImageIcon from '@material-ui/icons/Image';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
-const superagent = require('superagent');
 
 function ThreadListItem({thread, ...props}) {
     const classes = useStyles();
@@ -70,11 +70,26 @@ export default function ThreadsViewer() {
     const classes = useStyles();
     const history = useHistory();
     const [sortBy, setSortBy] = React.useState('newest');
+    const [articles, setArticles] = React.useState([]);
+    const [pages, setPages] = React.useState(1);
+
+    React.useEffect(() => {
+        coreRequest().get('questions')
+            .query({page: 0})
+            .then(response => {
+                console.log(response);
+                setArticles(response.body.data);
+                setPages(response.body.meta.last_page);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
 
     function changeRoute(route) {
         history.push(route);
     }
-
+/*
     const articles = [
         {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4, views: 100},
         {title: 'Как добавлять текст к input?', answers: 2, views: 200},
@@ -86,6 +101,8 @@ export default function ThreadsViewer() {
         },
         {title: 'Что не так с кодом ютуба?', answers: 10, views: 123}
     ];
+
+ */
 
     function handleToggleSort(event, newValue) {
         setSortBy(newValue);
@@ -121,7 +138,7 @@ export default function ThreadsViewer() {
                     })}
                 </List>
                 <div className={classes.paginationContainer}>
-                    <Pagination count={10} className={classes.pagination}/>
+                    <Pagination count={pages} className={classes.pagination}/>
                 </div>
             </Box>
         </Grid>

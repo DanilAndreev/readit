@@ -10,6 +10,7 @@ import ThreadsViewer from "../ThreadsViewer";
 import ThreadDetails from "../ThreadDetails";
 import ThreadEditor from "../ThreadEditor";
 import AuthDialog from "../Auth";
+import RegistrationDialog from "../Registration";
 import Account from "../Account";
 
 //MUI components
@@ -99,7 +100,8 @@ function Layout({width,...props}) {
     const classes = useStyles();
     const history = useHistory();
     const [authOpened, setAuthOpened] = React.useState(false);
-    const [authData, setAuthData] = React.useState({username: null, password: null});
+    const [authData, setAuthData] = React.useState({email: null, password: null, remember_me: false});
+    const [registrationOpened, setRegistrationOpened] = React.useState(false);
 
     const topArticles = [
         {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4},
@@ -118,17 +120,26 @@ function Layout({width,...props}) {
         setAuthData({username: null, password: null});
     }
 
+    function handleRegistrationClose() {
+        setRegistrationOpened(false);
+    }
+
     return (
         <>
             <Dialog aria-labelledby="auth-dialog" open={authOpened} onClose={handleAuthClose}>
                 <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} />
             </Dialog>
+            <Dialog aria-labelledby="auth-dialog" open={registrationOpened} onClose={handleRegistrationClose}>
+                <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
+                <RegistrationDialog />
+            </Dialog>
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
+                    <Button color="inherit" onClick={() => {setRegistrationOpened(true)}}>Sign up</Button>
                     <Button color="inherit" onClick={() => {setAuthOpened(true)}}>Login</Button>
                 </Toolbar>
             </AppBar>

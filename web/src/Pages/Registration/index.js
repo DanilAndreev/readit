@@ -10,33 +10,40 @@ import Button from "@material-ui/core/Button";
 const superagent = require('superagent');
 
 
-
-export default function Auth({authData, setAuthData, ...props}) {
+export default function Registration({authData, setAuthData, ...props}) {
     const [showPassword, setShowPassword] = React.useState(false);
+    const [data, setData] = React.useState({username: null, password: null, email: null});
 
     function handleChangePassword(event) {
         event.persist();
-        setAuthData(last => ({...last, password: event.target.value || null}))
+        setData(last => ({...last, password: event.target.value || null}));
     }
-    function handleChangeEmail(event) {
+
+    function handleChangeData(event) {
         event.persist();
-        setAuthData(last => ({...last, email: event.target.value || null}))
+        setData(last => ({...last, [event.target.name]: event.target.value || null}))
     }
 
     function handleChangeShowPassword(event) {
         setShowPassword(item => !item);
     }
 
-    function handleLogin() {
-        const host = `${process.env.REACT_APP_CORE_URL}/auth/login`;
+    function handleRegister() {
+        const host = `${process.env.REACT_APP_CORE_URL}/auth/register`;
+
+        const host1 = `${process.env.REACT_APP_CORE_URL}/questions`;
+
         try {
-            superagent.post(host)
-                .send(authData)
+            /*
+            const list = superagent.get(host1).end((err, res) => {
+                console.error('err: ', err);
+                console.log('res: ', res);
+            });*/
+
+            const auth = superagent.post(host)
+                .send({...data, password_confirmation: data.password, name: data.username, username: undefined})
                 .set('accept', 'application/json')
-                .end((err, res) => {
-                    console.log('err: ', err);
-                    console.log('res: ', res);
-                });
+                .end();
         } catch (e) {
             console.error(e);
         }
@@ -46,18 +53,29 @@ export default function Auth({authData, setAuthData, ...props}) {
         <List>
             <ListItem>
                 <Input
+                    placeholder={'Username'}
+                    fullWidth
+                    required
+                    name={'username'}
+                    onChange={handleChangeData}
+                    value={data.username || ''}
+                />
+            </ListItem>
+            <ListItem>
+                <Input
                     placeholder={'Email'}
                     fullWidth
                     required
-                    onChange={handleChangeEmail}
-                    value={authData.email || ''}
+                    name={'email'}
+                    onChange={handleChangeData}
+                    value={data.email || ''}
                 />
             </ListItem>
             <ListItem>
                 <Input
                     id="standard-adornment-password"
                     type={showPassword ? 'text' : 'password'}
-                    value={authData.password || ''}
+                    value={data.password || ''}
                     placeholder={'Password'}
                     onChange={handleChangePassword}
                     required
@@ -74,8 +92,8 @@ export default function Auth({authData, setAuthData, ...props}) {
                 />
             </ListItem>
             <ListItem>
-                <Button fullWidth onClick={handleLogin}>
-                    Sign in
+                <Button fullWidth onClick={handleRegister}>
+                    Sign up
                 </Button>
             </ListItem>
         </List>
