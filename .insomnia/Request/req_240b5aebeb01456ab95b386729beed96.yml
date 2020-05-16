@@ -1,0 +1,25 @@
+_id: req_240b5aebeb01456ab95b386729beed96
+authentication: {}
+body: {}
+created: 1589134648217
+description: ""
+headers:
+  - description: ""
+    id: pair_fe301db37fb64742a5caf6d0adccf198
+    name: Accept
+    value: application/json
+isPrivate: false
+metaSortKey: -1589135237366
+method: GET
+modified: 1589413687016
+name: categories
+parameters: []
+parentId: fld_90abbea1332743dfa1fd19f2353ee030
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/categories

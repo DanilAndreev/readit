@@ -1,0 +1,34 @@
+_id: req_8fe47d7944de4a34ac2be2b582929469
+authentication: {}
+body: {}
+created: 1589129861995
+description: ""
+headers:
+  - description: ""
+    id: pair_92c1256d4ac74ce88d9536c51ae3c10d
+    name: Accept
+    value: application/json
+isPrivate: false
+metaSortKey: -1589129861995
+method: GET
+modified: 1589413666375
+name: all
+parameters:
+  - description: ""
+    disabled: true
+    id: pair_82713135753d482cbb85f5539db5c856
+    name: page
+    value: "2"
+  - description: ""
+    id: pair_5ef89bc98ee146c8b92d578f91203264
+    name: search
+    value: test
+parentId: fld_595836faff214eb5848b890c4a8c8bef
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/questions

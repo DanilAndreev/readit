@@ -9,41 +9,34 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('user');
+        $this->middleware('auth')->except('index', 'show');
+        $this->authorizeResource(User::class, 'user');
     }
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+        return \App\Http\Resources\User::collection(User::paginate());
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
         return new \App\Http\Resources\User($user);
     }
 
-    public function user(Request $request)
+    /**
+     * Show currently authenticated user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function me(Request $request)
     {
         return new \App\Http\Resources\User($request->user());
     }
@@ -53,21 +46,27 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->update($request->only([
+            'email',
+            'name',
+            'password',
+        ]));
+
+        return new \App\Http\Resources\User($user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 }

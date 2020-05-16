@@ -1,0 +1,25 @@
+_id: req_c75cee88ad0a44a998f1b8c5538b6b04
+authentication: {}
+body: {}
+created: 1589136609767
+description: ""
+headers:
+  - description: ""
+    id: pair_1faf1a23dbd546989a0701996a2ecdb5
+    name: Accept
+    value: application/json
+isPrivate: false
+metaSortKey: -1589136609767
+method: GET
+modified: 1589136622882
+name: all
+parameters: []
+parentId: fld_f910e8411e5d475195991b81232c046b
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/questions/2/replies

@@ -1,0 +1,33 @@
+_id: req_4f7a99bd0fc7402a9dc6481b1d2aa5ad
+authentication: {}
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"text": "oh my"
+    }
+created: 1589135787621
+description: ""
+headers:
+  - description: ""
+    id: pair_46f3c43694f94ea988ba4e6522f7658e
+    name: Accept
+    value: application/json
+  - id: pair_46f079d6a71143039b295a89790b17dd
+    name: Content-Type
+    value: application/json
+isPrivate: false
+metaSortKey: -1589135787621
+method: POST
+modified: 1589390903327
+name: add
+parameters: []
+parentId: fld_f910e8411e5d475195991b81232c046b
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: http://qna/api/questions/2/replies
