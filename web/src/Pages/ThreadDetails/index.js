@@ -4,6 +4,7 @@ import {coreRequest} from "../../Utilities/Rest";
 import {useParams} from "react-router-dom";
 import useStyles from "./style";
 import {useAuth} from "../../Utilities/Auth";
+import {useHistory} from 'react-router-dom';
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -13,6 +14,10 @@ import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+
 
 //Custom components
 import Question from './Components/Question'
@@ -28,6 +33,11 @@ function ThreadDetails({width, ...props}) {
     const {id} = useParams();
     const {user} = useAuth();
     const classes = useStyles();
+    const history = useHistory();
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     React.useEffect(() => {
         coreRequest().get(`questions/${id}`)
@@ -81,6 +91,14 @@ function ThreadDetails({width, ...props}) {
         <Grid item xs={12}>
             <Box p={1}>
                 <List>
+                    <ListItem>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link color="inherit" onClick={() => changeRoute('/threads')}>
+                                Threads
+                            </Link>
+                            <Typography color="textPrimary">{thread.title}</Typography>
+                        </Breadcrumbs>
+                    </ListItem>
                     <Question author={author} thread={thread} onEdited={handleUpdateThread}/>
                     <Divider/>
                     <ListItem id={'answers'}>

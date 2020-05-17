@@ -10,6 +10,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Question from './../ThreadDetails/Components/Question'
 import MenuItem from "@material-ui/core/MenuItem";
+import {useHistory} from 'react-router-dom';
 
 
 function TabPanel({children, value, index, ...other}) {
@@ -33,6 +34,11 @@ export default function ThreadEditor({...props}) {
     const [thread, setThread] = React.useState({title: null, body: null});
     const [categories, setCategories] = React.useState([]);
     const [category, setCategory] = React.useState(null);
+    const history = useHistory();
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     React.useEffect(() => {
         coreRequest().get('categories')
@@ -48,7 +54,7 @@ export default function ThreadEditor({...props}) {
         coreRequest().post('questions')
             .send({...thread, category_id: category})
             .then(response => {
-
+                changeRoute(`/thread/${response.body.data.id}`);
             })
             .catch(error => {
             });

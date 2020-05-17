@@ -80,6 +80,8 @@ function ThreadsListItem({thread, ...props}) {
 }
 
 function PagesSwitch({articles, setArticles, ...props}) {
+    const {user} = useAuth();
+
     return (
         <Switch>
             <Route path={'/threads'}>
@@ -88,9 +90,11 @@ function PagesSwitch({articles, setArticles, ...props}) {
             <Route path={'/thread/:id'}>
                 <ThreadDetails/>
             </Route>
-            <Route path={'/editthread/:id'}>
+            {user &&
+                <Route path={'/editthread/:id'}>
                 <ThreadEditor/>
             </Route>
+            }
             <Route path={'/user/:id'}>
                 <Account/>
             </Route>
@@ -118,6 +122,11 @@ function Layout({width, ...props}) {
         {title: 'Как устроена андроид разработка по аналогии с веб фронтенд разработкой?', answers: 4},
         {title: 'Что не так с кодом ютуба?', answers: 10}
     ];
+
+    React.useEffect(() => {
+        loading=true;
+        changeRoute('/threads');
+    }, []);
 
     React.useEffect(() => {
         loading = true;
@@ -163,6 +172,7 @@ function Layout({width, ...props}) {
         }
         request.then(response => {
             setArticles(response.body.data);
+            changeRoute('/threads');
         }).catch(error => {
             console.error(error);
         });
@@ -188,6 +198,11 @@ function Layout({width, ...props}) {
 
     function handleSearchInput(event) {
         setSearch(event.target.value);
+    }
+
+    function handleCreateThread(event) {
+        user && changeRoute('/editthread/new');
+        !user && setAuthOpened(true);
     }
 
     if (loading || !gotUser) {
@@ -257,7 +272,7 @@ function Layout({width, ...props}) {
                                                 variant={'contained'}
                                                 color={'secondary'}
                                                 className={classes.createThreadButton}
-                                                onClick={event => changeRoute('/editthread/new')}
+                                                onClick={handleCreateThread}
                                             >
                                                 Create thread
                                             </Button>
