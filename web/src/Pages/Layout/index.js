@@ -154,7 +154,7 @@ function Layout({width, ...props}) {
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
                     {user &&
-                    <Button color="inherit" onClick={event => changeRoute(`user/${user.id}`)}>
+                    <Button color="inherit" onClick={event => changeRoute(`/user/${user.id}`)}>
                         {user.name}
                         <Avatar className={classes.avatar}>
                             <ImageIcon/>

@@ -70,6 +70,8 @@ function ThreadDetails({width, ...props}) {
             });
     }
 
+    setTimeout(handleUpdateAnswers, 7000);
+
     function handleUpdateThread() {
         coreRequest().get(`questions/${id}`)
             .then(response => {
