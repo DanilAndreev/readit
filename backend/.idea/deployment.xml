@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="ftp.apeps.pp.ua">
+  <component name="PublishConfigData">
     <serverData>
-      <paths name="ftp.apeps.pp.ua">
+      <paths name="alex-server">
         <serverdata>
           <mappings>
-            <mapping deploy="/web" local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

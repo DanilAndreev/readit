@@ -23,13 +23,17 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $sort = $request->get('sort');
 
         return QuestionResource::collection(
-            Question::orderBy('created_at', 'desc')
-                ->when($search, function ($query, $search) {
-                    return $query->where('title', 'like', '%' . $search . '%');
+            Question::when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%');
+            })
+                ->when($sort, function ($query, $sort) {
+                    return $query->orderBy($sort, 'desc');
+                }, function ($query) {
+                    return $query->orderBy('created_at', 'desc');
                 })
-                ->with('user')
                 ->paginate()
         );
     }
