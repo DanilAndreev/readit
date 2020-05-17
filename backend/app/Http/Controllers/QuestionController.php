@@ -6,6 +6,7 @@ use App\Http\Resources\Question as QuestionResource;
 use App\Http\Resources\ViewQuestion;
 use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class QuestionController extends Controller
 {
@@ -35,6 +36,68 @@ class QuestionController extends Controller
                     return $query->orderBy('created_at', 'desc');
                 })
                 ->paginate()
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     */
+    public function my(Request $request)
+    {
+        $search = $request->get('search');
+        $sort = $request->get('sort');
+
+        return QuestionResource::collection(
+            Question::when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%');
+            })
+                ->when($sort, function ($query, $sort) {
+                    return $query->orderBy($sort, 'desc');
+                }, function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                })
+                ->where('user_id', $request->user()->id)
+                ->paginate()
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     */
+    public function commented(Request $request)
+    {
+        $search = $request->get('search');
+        $sort = $request->get('sort');
+
+        return QuestionResource::collection(
+            Question::when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%');
+            })
+                ->when($sort, function ($query, $sort) {
+                    return $query->orderBy($sort, 'desc');
+                }, function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                })
+                ->whereHas('replies', function (Builder $query) use ($request) {
+                    $query->where('user_id', $request->user()->id);
+                })
+                ->paginate()
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     */
+    public function top10(Request $request)
+    {
+        return QuestionResource::collection(
+            Question::orderBy('reply_count', 'desc')->limit(10)->get()
         );
     }
 
