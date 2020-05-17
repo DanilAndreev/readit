@@ -4,6 +4,7 @@ import {coreRequest} from "../../Utilities/Rest";
 import {useParams} from "react-router-dom";
 import useStyles from "./style";
 import {useAuth} from "../../Utilities/Auth";
+import {useHistory} from 'react-router-dom';
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -13,6 +14,10 @@ import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+
 
 //Custom components
 import Question from './Components/Question'
@@ -26,10 +31,15 @@ function ThreadDetails({width, ...props}) {
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
     const {id} = useParams();
-    const {user} = useAuth();
+    const {user, isAdmin} = useAuth();
     const classes = useStyles();
+    const history = useHistory();
 
-    React.useEffect(() => {
+    function changeRoute(route) {
+        history.push(route);
+    }
+
+    function getQuestions() {
         coreRequest().get(`questions/${id}`)
             .then(response => {
                 setAuthor(response.body.data.user);
@@ -39,7 +49,16 @@ function ThreadDetails({width, ...props}) {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+
+    React.useEffect(() => {
+        getQuestions();
     }, []);
+
+    React.useEffect(() => {
+        getQuestions();
+    }, [id]);
 
     function handleUpdateAnswers() {
         coreRequest().get(`questions/${id}/replies`)
@@ -81,6 +100,14 @@ function ThreadDetails({width, ...props}) {
         <Grid item xs={12}>
             <Box p={1}>
                 <List>
+                    <ListItem>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link color="inherit" onClick={() => changeRoute('/threads')}>
+                                Threads
+                            </Link>
+                            <Typography color="textPrimary">{thread.title}</Typography>
+                        </Breadcrumbs>
+                    </ListItem>
                     <Question author={author} thread={thread} onEdited={handleUpdateThread}/>
                     <Divider/>
                     <ListItem id={'answers'}>
@@ -118,7 +145,18 @@ function ThreadDetails({width, ...props}) {
                     {!user &&
                     <ListItem>
                         <ListItemText
-                            secondary={'Login or sign up to leave messages'}
+                            secondary={
+                                <React.Fragment>
+                                    <Link onClick={event => changeRoute('?login=true')}>
+                                        Login
+                                    </Link>
+                                    &nbsp;or&nbsp;
+                                    <Link onClick={event => changeRoute('?register=true')}>
+                                        sign up
+                                    </Link>
+                                    &nbsp;to leave answers
+                                </React.Fragment>
+                            }
                         />
                     </ListItem>
                     }

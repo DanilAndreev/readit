@@ -1,7 +1,8 @@
 import React from 'react'
 import useStyles from "./style";
-import {useHistory} from 'react-router-dom'
+import {useHistory, useLocation, useParams} from 'react-router-dom'
 import {coreRequest} from "../../Utilities/Rest";
+import qs from 'qs';
 
 //MUI components
 import Box from "@material-ui/core/Box";
@@ -18,11 +19,13 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Pagination from '@material-ui/lab/Pagination';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
 //MUI icons
 import ImageIcon from '@material-ui/icons/Image';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import {useAuth} from "../../Utilities/Auth";
 
 
 function ThreadListItem({thread, ...props}) {
@@ -58,7 +61,9 @@ function ThreadListItem({thread, ...props}) {
                         <ImageIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={primary} secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`} className={classes.threadsList}/>
+                <ListItemText primary={primary}
+                              secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`}
+                              className={classes.threadsList}/>
                 {secondary}
             </ListItem>
             <Divider/>
@@ -69,25 +74,43 @@ function ThreadListItem({thread, ...props}) {
 export default function ThreadsViewer({articles, setArticles, ...props}) {
     const classes = useStyles();
     const history = useHistory();
-    const [sortBy, setSortBy] = React.useState('newest');
+    const [sortBy, setSortBy] = React.useState('created_at');
     const [pages, setPages] = React.useState(1);
     const [page, setPage] = React.useState(1);
+    const location = useLocation();
+    const {mode} = useParams();
+    const {search} = qs.parse(location.search, {ignoreQueryPrefix: true});
+    const {user} = useAuth();
 
     function getArticles(page) {
-        coreRequest().get('questions')
-            .query({page: page})
-            .then(response => {
-                setArticles(response.body.data);
-                setPages(response.body.meta.last_page);
-            })
-            .catch(err => {
-                console.error(err);
+        if (!search) {
+            coreRequest().get(`questions${(mode && user) ? `/${mode}` : ''}`)
+                .query({page: page, sort: sortBy})
+                .then(response => {
+                    setArticles(response.body.data);
+                    setPages(response.body.meta.last_page);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        } else {
+            coreRequest().get('questions')
+                .query({search, page, sort: sortBy})
+                .then(response => {
+                    setArticles(response.body.data);
+                }).catch(error => {
+                console.error(error);
             });
+        }
     }
 
     React.useEffect(() => {
         getArticles(1);
     }, []);
+
+    React.useEffect(() => {
+        getArticles(1);
+    }, [search, mode, sortBy]);
 
     function changeRoute(route) {
         history.push(route);
@@ -107,7 +130,9 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
             <Box p={1}>
                 <List>
                     <ListItem>
-                        <ListItemText primary={"All threads"}/>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Typography color="textPrimary">Threads</Typography>
+                        </Breadcrumbs>
                     </ListItem>
                     <ListItem>
                         <ToggleButtonGroup
@@ -116,11 +141,14 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
                             exclusive
                             onChange={handleToggleSort}
                         >
-                            <ToggleButton value="newest">
+                            <ToggleButton value="created_at">
                                 Newest
                             </ToggleButton>
-                            <ToggleButton value="popular">
-                                Most popular
+                            <ToggleButton value="reply_count">
+                                Most commented
+                            </ToggleButton>
+                            <ToggleButton value="views_count">
+                                Most viewed
                             </ToggleButton>
                         </ToggleButtonGroup>
                     </ListItem>

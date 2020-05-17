@@ -18,6 +18,7 @@
     }
   ],
   "homepage": "./",
+  "proxy": "https://web.solomaha.com",
   "dependencies": {
     "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
@@ -27,6 +28,7 @@
     "@testing-library/user-event": "^7.2.1",
     "clsx": "^1.1.0",
     "lodash": "^4.17.15",
+    "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

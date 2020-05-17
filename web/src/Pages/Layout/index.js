@@ -1,11 +1,12 @@
 import React from 'react'
 import useStyles from "./style";
-import {LightTheme} from './../../Themes/DefaultTheme'
+import {LightTheme, BaseTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
-import {Route, Switch, useHistory} from "react-router-dom";
+import {Route, Switch, useHistory, useLocation} from "react-router-dom";
 import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
+import qs from 'qs'
 
 
 //Pages
@@ -40,84 +41,35 @@ import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ImageIcon from '@material-ui/icons/Image';
 import SearchIcon from '@material-ui/icons/Search';
+import PeopleIcon from '@material-ui/icons/People';
 
+//Custom components
+import ThreadsListItem from "./Components/ThreadsListItem";
+import PagesSwitch from "./Components/PagesSwitch";
 
-function ThreadsListItem({thread, ...props}) {
-    const classes = useStyles();
-    const history = useHistory();
-
-    const primary = (
-        <Typography variant={'body2'}>
-            {thread.title}
-        </Typography>
-    );
-    const secondary = (
-        <>
-            {`${thread.answers} answers`}
-        </>
-    );
-
-    function changeRoute(route) {
-        history.push(route);
-    }
-
-    return (
-        <>
-            <ListItem
-                button
-                onClick={event => changeRoute('/thread/1')}
-            >
-                <ListItemAvatar>
-                    <Avatar>
-                        <ImageIcon/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={primary} secondary={secondary}/>
-            </ListItem>
-            <Divider/>
-        </>
-    );
-}
-
-function PagesSwitch({articles, setArticles, ...props}) {
-    return (
-        <Switch>
-            <Route path={'/threads'}>
-                <ThreadsViewer articles={articles} setArticles={setArticles}/>
-            </Route>
-            <Route path={'/thread/:id'}>
-                <ThreadDetails/>
-            </Route>
-            <Route path={'/editthread/:id'}>
-                <ThreadEditor/>
-            </Route>
-            <Route path={'/user/:id'}>
-                <Account/>
-            </Route>
-        </Switch>
-
-    );
-}
 
 function Layout({width, ...props}) {
     const classes = useStyles();
     const history = useHistory();
     const [search, setSearch] = React.useState('');
     const [articles, setArticles] = React.useState([]);
-    const [authOpened, setAuthOpened] = React.useState(false);
-    const [authData, setAuthData] = React.useState({email: null, password: null, remember_me: false});
-    const [registrationOpened, setRegistrationOpened] = React.useState(false);
+    const [authData, setAuthData] = React.useState({email: null, password: null, remember: false});
     const {user, setUser, setToken} = useAuth();
     const [gotUser, setGotUser] = React.useState(false);
+    const location = useLocation();
+    const {register, login} = qs.parse(location.search, {ignoreQueryPrefix: true});
     let loading = false;
 
-    const topArticles = [
-        {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4},
-        {title: 'Как добавлять текст к input?', answers: 2},
-        {title: 'Какой монитор на IPS матрице выбрать?', answers: 8},
-        {title: 'Как устроена андроид разработка по аналогии с веб фронтенд разработкой?', answers: 4},
-        {title: 'Что не так с кодом ютуба?', answers: 10}
-    ];
+    const [topArticles, setTopArticles] = React.useState([]);
+
+    function changeRoute(route) {
+        history.push(route);
+    }
+
+    React.useEffect(() => {
+        loading = true;
+        //changeRoute('/threads');
+    }, []);
 
     React.useEffect(() => {
         loading = true;
@@ -134,16 +86,13 @@ function Layout({width, ...props}) {
 
     React.useEffect(() => {
         loading = true;
-        /*
-        coreRequest().get('')
+        coreRequest().get('questions/top10')
             .then(response => {
-
+                setTopArticles(response.body.data);
             })
             .catch(error => {
                 console.error(error);
             });
-
-         */
     }, []);
 
     function handleLogout() {
@@ -157,37 +106,30 @@ function Layout({width, ...props}) {
     }
 
     function handleFindQuestion() {
-        let request = coreRequest().get('questions');
-        if (search && search !== '') {
-            request = request.query({search});
-        }
-        request.then(response => {
-            setArticles(response.body.data);
-        }).catch(error => {
-            console.error(error);
-        });
+        search && changeRoute(`/threads?search=${search}`);
+        !search && changeRoute('/threads');
     }
 
     function handleAuthenticated(user) {
-        setAuthOpened(false);
-        setRegistrationOpened(false);
-    }
-
-    function changeRoute(route) {
-        history.push(route);
+        changeRoute(location.pathname);
     }
 
     function handleAuthClose() {
-        setAuthOpened(false);
+        changeRoute(location.pathname);
         setAuthData({username: null, password: null});
     }
 
     function handleRegistrationClose() {
-        setRegistrationOpened(false);
+        changeRoute(location.pathname);
     }
 
     function handleSearchInput(event) {
         setSearch(event.target.value);
+    }
+
+    function handleCreateThread(event) {
+        user && changeRoute('/editthread/new');
+        !user && changeRoute(`?login=true`);
     }
 
     if (loading || !gotUser) {
@@ -196,11 +138,11 @@ function Layout({width, ...props}) {
 
     return (
         <>
-            <Dialog aria-labelledby="auth-dialog" open={authOpened} onClose={handleAuthClose}>
+            <Dialog aria-labelledby="auth-dialog" open={!!login} onClose={handleAuthClose}>
                 <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
             </Dialog>
-            <Dialog aria-labelledby="auth-dialog" open={registrationOpened} onClose={handleRegistrationClose}>
+            <Dialog aria-labelledby="auth-dialog" open={!!register} onClose={handleRegistrationClose}>
                 <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
                 <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
@@ -209,14 +151,16 @@ function Layout({width, ...props}) {
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
-                    {!user && <Button color="inherit" onClick={() => setRegistrationOpened(true)}>Sign up</Button>}
-                    {!user && <Button color="inherit" onClick={() => setAuthOpened(true)}>Login</Button>}
-                    {user && <Button color="inherit">
+                    {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
+                    {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
+                    {user &&
+                    <Button color="inherit" onClick={event => changeRoute(`user/${user.id}`)}>
                         {user.name}
                         <Avatar className={classes.avatar}>
                             <ImageIcon/>
                         </Avatar>
-                    </Button>}
+                    </Button>
+                    }
                     {user && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
                 </Toolbar>
             </AppBar>
@@ -257,7 +201,7 @@ function Layout({width, ...props}) {
                                                 variant={'contained'}
                                                 color={'secondary'}
                                                 className={classes.createThreadButton}
-                                                onClick={event => changeRoute('/editthread/new')}
+                                                onClick={handleCreateThread}
                                             >
                                                 Create thread
                                             </Button>
@@ -282,28 +226,32 @@ function Layout({width, ...props}) {
                                                     className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute('/threads/my')}
-                                            >
-                                                <RecordVoiceOverIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"My threads"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute('/threads/reviewed')}
-                                            >
-                                                <RateReviewIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"Commented by me"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
+                                            {user &&
+                                            <React.Fragment>
+                                                <ListItem
+                                                    dense
+                                                    button
+                                                    onClick={event => changeRoute('/threads/my')}
+                                                >
+                                                    <RecordVoiceOverIcon fontSize={'small'}/>
+                                                    <ListItemText
+                                                        primary={"My threads"}
+                                                        className={classes.leftPanelButtonsText}
+                                                    />
+                                                </ListItem>
+                                                <ListItem
+                                                    dense
+                                                    button
+                                                    onClick={event => changeRoute('/threads/commented')}
+                                                >
+                                                    <RateReviewIcon fontSize={'small'}/>
+                                                    <ListItemText
+                                                        primary={"Commented by me"}
+                                                        className={classes.leftPanelButtonsText}
+                                                    />
+                                                </ListItem>
+                                            </React.Fragment>
+                                            }
                                             <Divider/>
                                             {user &&
                                             <ListItem
@@ -318,6 +266,17 @@ function Layout({width, ...props}) {
                                                 />
                                             </ListItem>
                                             }
+                                            <ListItem
+                                                dense
+                                                button
+                                                onClick={event => changeRoute('/users')}
+                                            >
+                                                <PeopleIcon fontSize={'small'}/>
+                                                <ListItemText
+                                                    primary={"Users"}
+                                                    className={classes.leftPanelButtonsText}
+                                                />
+                                            </ListItem>
                                         </List>
                                     </Box>
                                 </Grid>
