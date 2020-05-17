@@ -13,19 +13,28 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import {useAuth} from "../../Utilities/Auth";
+import useStyles from "./style";
+import Paper from "@material-ui/core/Paper";
 
 
 export default function Auth({
                                  authData,
                                  setAuthData,
-                                 onComplete = () => {},
+                                 onComplete = () => {
+                                 },
                                  ...props
                              }) {
     const [showPassword, setShowPassword] = React.useState(false);
     const [error, setError] = React.useState(null);
     const {setUser} = useAuth();
+    const classes = useStyles();
 
     function handleLogin() {
+        if (!authData.email || !authData.password) {
+            setError('Credential cannot be empty');
+            return;
+        }
+
         coreRequest().post('auth/login')
             .send(authData)
             .then(response => {
@@ -38,6 +47,9 @@ export default function Auth({
                 switch (error.status) {
                     case 403:
                         setError(message);
+                        break;
+                    case 422:
+                        setError('Incorrect email or password');
                         break;
                     default:
                         setError('Unexpected error, see console for more information');
@@ -66,52 +78,57 @@ export default function Auth({
     }
 
     return (
-        <List>
-            {error && <ListItem>
-                <Typography color={'error'} variant={'body2'}>
-                    {error}
-                </Typography>
-            </ListItem>}
-            <ListItem>
-                <Input
-                    placeholder={'Email'}
-                    fullWidth
-                    required
-                    onChange={handleChangeEmail}
-                    value={authData.email || ''}
-                />
-            </ListItem>
-            <ListItem>
-                <Input
-                    id="standard-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={authData.password || ''}
-                    placeholder={'Password'}
-                    onChange={handleChangePassword}
-                    required
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleChangeShowPassword}
-                            >
-                                {showPassword ? <Visibility/> : <VisibilityOff/>}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemText primary={'Remember me'}/>
-                <ListItemSecondaryAction>
-                    <Checkbox checked={authData.remember_me} onChange={handleRememberMe}/>
-                </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-                <Button fullWidth onClick={handleLogin}>
-                    Sign in
-                </Button>
-            </ListItem>
-        </List>
+        <Paper className={classes.paper}>
+            <List>
+                {error && <ListItem>
+                    <Typography color={'error'} variant={'body2'}>
+                        {error}
+                    </Typography>
+                </ListItem>}
+                <ListItem>
+                    <Input
+                        placeholder={'Email'}
+                        fullWidth
+                        required
+                        autoComplete={'email'}
+                        onChange={handleChangeEmail}
+                        value={authData.email || ''}
+                    />
+                </ListItem>
+                <ListItem>
+                    <Input
+                        id="standard-adornment-password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={authData.password || ''}
+                        placeholder={'Password'}
+                        onChange={handleChangePassword}
+                        autoComplete={'password'}
+                        fullWidth
+                        required
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleChangeShowPassword}
+                                >
+                                    {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText primary={'Remember me'}/>
+                    <ListItemSecondaryAction>
+                        <Checkbox checked={authData.remember_me} onChange={handleRememberMe}/>
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <Button fullWidth onClick={handleLogin}>
+                        Sign in
+                    </Button>
+                </ListItem>
+            </List>
+        </Paper>
     );
 }

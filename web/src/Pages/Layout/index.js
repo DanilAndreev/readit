@@ -238,6 +238,7 @@ function Layout({width, ...props}) {
                                                 size={'small'}
                                                 name={'search'}
                                                 onChange={handleSearchInput}
+                                                autoComplete={'search'}
                                             />
                                             <Button
                                                 variant={'contained'}

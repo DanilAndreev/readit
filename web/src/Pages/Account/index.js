@@ -164,6 +164,7 @@ export default function Account() {
                                         type={showPassword.oldpassword ? 'text' : 'password'}
                                         fullWidth
                                         placeholder={'Old password'}
+                                        autoComplete={'password'}
                                         endAdornment={
                                             <ShowPasswordAdornment
                                                 handleClick={handleShowPassword}
@@ -181,6 +182,7 @@ export default function Account() {
                                         type={showPassword.newpassword ? 'text' : 'password'}
                                         fullWidth
                                         placeholder={'New password'}
+                                        autoComplete={'new-password'}
                                         endAdornment={
                                             <ShowPasswordAdornment
                                                 handleClick={handleShowPassword}
@@ -194,6 +196,7 @@ export default function Account() {
                                         type={showPassword.confirmnewpassword ? 'text' : 'password'}
                                         fullWidth
                                         placeholder={'Confirm new password'}
+                                        autoComplete={'confirm-new-password'}
                                         endAdornment={
                                             <ShowPasswordAdornment
                                                 handleClick={handleShowPassword}

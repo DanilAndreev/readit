@@ -1,5 +1,5 @@
 import React from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 
@@ -25,6 +25,9 @@ import ConfirmDialog from "../../../Utilities/Components/ConfirmDialog";
 
 export default function Question({author, thread, onEdited = () => {}, ...props}) {
     const history = useHistory();
+    const location = useLocation();
+    console.log(location);
+    console.log(history);
     const {user} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState({title: thread.title, body: thread.body});

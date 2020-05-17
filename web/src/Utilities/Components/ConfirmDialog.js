@@ -8,13 +8,13 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles(theme => ({
     paper_small: {
-        maxWidth: '200px',
-    },
-    paper_middle: {
         maxWidth: '300px',
     },
-    paper_large: {
+    paper_middle: {
         maxWidth: '400px',
+    },
+    paper_large: {
+        maxWidth: '500px',
     },
 }));
 
@@ -35,7 +35,7 @@ export default function ConfirmDialog({
 
     return (
         <Dialog onClose={onCancel} aria-labelledby="confirm-dialog-title" open={open}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper_middle}>
                 <DialogTitle id="confirm-dialog-title">{children}</DialogTitle>
                 <Grid container>
                     <Grid item xs={6}>
