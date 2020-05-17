@@ -39,7 +39,7 @@ function ThreadDetails({width, ...props}) {
         history.push(route);
     }
 
-    React.useEffect(() => {
+    function getQuestions() {
         coreRequest().get(`questions/${id}`)
             .then(response => {
                 setAuthor(response.body.data.user);
@@ -49,7 +49,16 @@ function ThreadDetails({width, ...props}) {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+
+    React.useEffect(() => {
+        getQuestions();
     }, []);
+
+    React.useEffect(() => {
+        getQuestions();
+    }, [id]);
 
     function handleUpdateAnswers() {
         coreRequest().get(`questions/${id}/replies`)

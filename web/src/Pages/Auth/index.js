@@ -49,11 +49,11 @@ export default function Auth({
                 onComplete(response.body.data);
             })
             .catch(error => {
+                console.error(error);
                 try {
-                    const message = JSON.parse(error.message).message;
                     switch (error.status) {
                         case 403:
-                            setError(message);
+                            setError('aAlready authenticated');
                             break;
                         case 422:
                             setError('Incorrect email or password');

@@ -1,6 +1,6 @@
 import React from 'react'
 import useStyles from "./style";
-import {LightTheme} from './../../Themes/DefaultTheme'
+import {LightTheme, BaseTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
 import {Route, Switch, useHistory, useLocation} from "react-router-dom";
 import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
@@ -42,67 +42,10 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ImageIcon from '@material-ui/icons/Image';
 import SearchIcon from '@material-ui/icons/Search';
 
+//Custom components
+import ThreadsListItem from "./Components/ThreadsListItem";
+import PagesSwitch from "./Components/PagesSwitch";
 
-function ThreadsListItem({thread, ...props}) {
-    const classes = useStyles();
-    const history = useHistory();
-
-    const primary = (
-        <Typography variant={'body2'}>
-            {thread.title}
-        </Typography>
-    );
-    const secondary = (
-        <>
-            {`${thread.answers} answers`}
-        </>
-    );
-
-    function changeRoute(route) {
-        history.push(route);
-    }
-
-    return (
-        <>
-            <ListItem
-                button
-                onClick={event => changeRoute('/thread/1')}
-            >
-                <ListItemAvatar>
-                    <Avatar>
-                        <ImageIcon/>
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={primary} secondary={secondary}/>
-            </ListItem>
-            <Divider/>
-        </>
-    );
-}
-
-function PagesSwitch({articles, setArticles, ...props}) {
-    const {user} = useAuth();
-
-    return (
-        <Switch>
-            <Route path={'/threads'}>
-                <ThreadsViewer articles={articles} setArticles={setArticles}/>
-            </Route>
-            <Route path={'/thread/:id'}>
-                <ThreadDetails/>
-            </Route>
-            {user &&
-            <Route path={'/editthread/:id'}>
-                <ThreadEditor/>
-            </Route>
-            }
-            <Route path={'/user/:id'}>
-                <Account/>
-            </Route>
-        </Switch>
-
-    );
-}
 
 function Layout({width, ...props}) {
     const classes = useStyles();
@@ -116,13 +59,11 @@ function Layout({width, ...props}) {
     const {register, login} = qs.parse(location.search, {ignoreQueryPrefix: true});
     let loading = false;
 
-    const topArticles = [
-        {title: 'Какие книги читать по python для продолжение изучения?\n', answers: 4},
-        {title: 'Как добавлять текст к input?', answers: 2},
-        {title: 'Какой монитор на IPS матрице выбрать?', answers: 8},
-        {title: 'Как устроена андроид разработка по аналогии с веб фронтенд разработкой?', answers: 4},
-        {title: 'Что не так с кодом ютуба?', answers: 10}
-    ];
+    const [topArticles, setTopArticles] = React.useState([]);
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     React.useEffect(() => {
         loading = true;
@@ -144,21 +85,14 @@ function Layout({width, ...props}) {
 
     React.useEffect(() => {
         loading = true;
-        /*
-        coreRequest().get('')
+        coreRequest().get('questions/top10')
             .then(response => {
-
+                setTopArticles(response.body.data);
             })
             .catch(error => {
                 console.error(error);
             });
-
-         */
     }, []);
-
-    function changeRoute(route) {
-        history.push(route);
-    }
 
     function handleLogout() {
         coreRequest().post('auth/logout')
@@ -171,19 +105,6 @@ function Layout({width, ...props}) {
     }
 
     function handleFindQuestion() {
-        /*
-        let request = coreRequest().get('questions');
-        if (search && search !== '') {
-            request = request.query({search});
-        }
-        request.then(response => {
-            setArticles(response.body.data);
-            changeRoute('/threads');
-        }).catch(error => {
-            console.error(error);
-        });
-
-         */
         search && changeRoute(`/threads?search=${search}`);
         !search && changeRoute('/threads');
     }
