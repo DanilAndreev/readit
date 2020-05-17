@@ -44,7 +44,6 @@ export default function Auth({
         coreRequest().post('auth/login')
             .send(authData)
             .then(response => {
-                console.log(response);
                 setUser(response.body.data);
                 onComplete(response.body.data);
             })

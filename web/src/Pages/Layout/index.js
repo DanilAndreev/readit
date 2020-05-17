@@ -41,6 +41,7 @@ import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ImageIcon from '@material-ui/icons/Image';
 import SearchIcon from '@material-ui/icons/Search';
+import PeopleIcon from '@material-ui/icons/People';
 
 //Custom components
 import ThreadsListItem from "./Components/ThreadsListItem";
@@ -223,28 +224,32 @@ function Layout({width, ...props}) {
                                                     className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute('/threads/my')}
-                                            >
-                                                <RecordVoiceOverIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"My threads"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute('/threads/commented')}
-                                            >
-                                                <RateReviewIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"Commented by me"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
+                                            {user &&
+                                            <React.Fragment>
+                                                <ListItem
+                                                    dense
+                                                    button
+                                                    onClick={event => changeRoute('/threads/my')}
+                                                >
+                                                    <RecordVoiceOverIcon fontSize={'small'}/>
+                                                    <ListItemText
+                                                        primary={"My threads"}
+                                                        className={classes.leftPanelButtonsText}
+                                                    />
+                                                </ListItem>
+                                                <ListItem
+                                                    dense
+                                                    button
+                                                    onClick={event => changeRoute('/threads/commented')}
+                                                >
+                                                    <RateReviewIcon fontSize={'small'}/>
+                                                    <ListItemText
+                                                        primary={"Commented by me"}
+                                                        className={classes.leftPanelButtonsText}
+                                                    />
+                                                </ListItem>
+                                            </React.Fragment>
+                                            }
                                             <Divider/>
                                             {user &&
                                             <ListItem
@@ -259,6 +264,17 @@ function Layout({width, ...props}) {
                                                 />
                                             </ListItem>
                                             }
+                                            <ListItem
+                                                dense
+                                                button
+                                                onClick={event => changeRoute('/users')}
+                                            >
+                                                <PeopleIcon fontSize={'small'}/>
+                                                <ListItemText
+                                                    primary={"Users"}
+                                                    className={classes.leftPanelButtonsText}
+                                                />
+                                            </ListItem>
                                         </List>
                                     </Box>
                                 </Grid>

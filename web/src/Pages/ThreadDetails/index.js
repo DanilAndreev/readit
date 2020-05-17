@@ -31,7 +31,7 @@ function ThreadDetails({width, ...props}) {
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
     const {id} = useParams();
-    const {user} = useAuth();
+    const {user, isAdmin} = useAuth();
     const classes = useStyles();
     const history = useHistory();
 

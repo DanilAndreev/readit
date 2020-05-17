@@ -21,7 +21,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 
 export default function AnswerListItem({answer, onEdited = () => {}, ...props}) {
-    const {user} = useAuth();
+    const {user, isAdmin} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState(answer.text);
 
@@ -92,7 +92,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={primary} secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}/>
-                {user && user.id === answer.user.id &&
+                {(user && user.id === answer.user.id || isAdmin()) &&
                 <ListItemSecondaryAction>
                     {!edit &&
                     <React.Fragment>

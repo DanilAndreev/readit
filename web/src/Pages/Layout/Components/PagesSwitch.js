@@ -1,10 +1,14 @@
+import React from "react";
 import {useAuth} from "../../../Utilities/Auth";
 import {Route, Switch} from "react-router-dom";
-import ThreadsViewer from "../../ThreadsViewer";
-import ThreadDetails from "../../ThreadDetails";
+
+//Pages
 import ThreadEditor from "../../ThreadEditor";
 import Account from "../../Account";
-import React from "react";
+import Users from "../../Users";
+import ThreadsViewer from "../../ThreadsViewer";
+import ThreadDetails from "../../ThreadDetails";
+
 
 export default function PagesSwitch({articles, setArticles, ...props}) {
     const {user} = useAuth();
@@ -24,6 +28,9 @@ export default function PagesSwitch({articles, setArticles, ...props}) {
             }
             <Route path={'/user/:id'}>
                 <Account/>
+            </Route>
+            <Route path={'/users'}>
+                <Users/>
             </Route>
 
         </Switch>

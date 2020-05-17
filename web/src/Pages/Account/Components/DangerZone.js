@@ -8,12 +8,13 @@ import useStyles from "./style";
 import ConfirmDialog from "../../../Utilities/Components/ConfirmDialog";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 
-export default function DangerZone() {
+export default function DangerZone({viewed_user, ...props}) {
     const classes = useStyles();
     const [confirmDeleteAccountOpened, setConfirmDeleteAccountOpened] = React.useState(false);
     const {user, setUser, setToken} = useAuth();
+    const {id} = useParams();
     const history = useHistory();
 
     function changeRoute(route) {
@@ -23,11 +24,15 @@ export default function DangerZone() {
     function handleDeleteAccount() {
         setConfirmDeleteAccountOpened(false);
         if (user) {
-            coreRequest().delete(`users/${user.id}`)
+            coreRequest().delete(`users/${id}`)
                 .then(response => {
-                    setUser(null);
-                    setToken(null);
-                    changeRoute('/threads');
+                    if (user.id == id) {
+                        setUser(null);
+                        setToken(null);
+                        changeRoute('/threads');
+                    }else{
+                        changeRoute('/users');
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -46,7 +51,7 @@ export default function DangerZone() {
                 onCancel={handleCancelDeleteAccount}
                 onAccept={handleDeleteAccount}
             >
-                Are you sure you want delete account: {user.name}
+                Are you sure you want delete account: {viewed_user.name}
             </ConfirmDialog>
             <FormControl fullWidth>
                 <FormHelperText className={classes.dangerZone}>
