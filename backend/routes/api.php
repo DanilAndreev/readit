@@ -18,6 +18,7 @@ Route::post('auth/register', 'Auth\RegisterController@register');
 Route::post('auth/logout', 'Auth\LoginController@logout');
 
 Route::get('users/me', 'UserController@me');
+Route::post('users/{user}/avatar', 'UserController@avatar');
 
 Route::apiResource('users', 'UserController');
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAvatar;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -24,7 +26,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
      */
     public function show(User $user)
     {
@@ -34,7 +36,7 @@ class UserController extends Controller
     /**
      * Show currently authenticated user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     public function me(Request $request)
     {
@@ -44,8 +46,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\User $user
      */
     public function update(Request $request, User $user)
     {
@@ -59,9 +61,24 @@ class UserController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param StoreAvatar $request
+     * @param \App\User $user
+     */
+    public function avatar(StoreAvatar $request, User $user)
+    {
+        $request
+            ->file('avatar')
+            ->storeAs('avatars', $request->user()->id . '.jpg');
+
+        return response()->json(null, 201);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
      */
     public function destroy(User $user)
     {
