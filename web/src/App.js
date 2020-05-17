@@ -3,17 +3,20 @@ import {BrowserRouter as Router} from "react-router-dom";
 import Layout from "./Pages/Layout";
 import {ThemeProvider} from "@material-ui/core/styles";
 import {BaseTheme} from "./Themes/DefaultTheme";
+import {AuthProvider} from "./Utilities/Auth";
 
 
 function App() {
     return (
-        <Router>
-            <div className="App">
+        <div className="App">
+            <AuthProvider>
                 <ThemeProvider theme={BaseTheme}>
-                    <Layout/>
+                    <Router>
+                        <Layout/>
+                    </Router>
                 </ThemeProvider>
-            </div>
-        </Router>
+            </AuthProvider>
+        </div>
     );
 }
 
