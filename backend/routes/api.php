@@ -17,10 +17,11 @@ Route::post('auth/login', 'Auth\LoginController@login');
 Route::post('auth/register', 'Auth\RegisterController@register');
 Route::post('auth/logout', 'Auth\LoginController@logout');
 
+Route::get('users/me', 'UserController@me');
+
 Route::apiResource('users', 'UserController');
 
 Route::apiResource('categories', 'CategoryController')->only(['index', 'show']);
-Route::get('users/me', 'UserController@me');
 
 Route::get('questions/my', 'QuestionController@my');
 Route::get('questions/commented', 'QuestionController@commented');

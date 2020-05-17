@@ -3,13 +3,19 @@
 namespace App\Policies;
 
 use App\Question;
-use App\Reply;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class QuestionPolicy
 {
     use HandlesAuthorization;
+
+    public function before($user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
 
     /**
      * Determine whether the user can view any models.
