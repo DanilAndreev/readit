@@ -136,7 +136,18 @@ function ThreadDetails({width, ...props}) {
                     {!user &&
                     <ListItem>
                         <ListItemText
-                            secondary={'Login or sign up to leave messages'}
+                            secondary={
+                                <React.Fragment>
+                                    <Link onClick={event => changeRoute('?login=true')}>
+                                        Login
+                                    </Link>
+                                    &nbsp;or&nbsp;
+                                    <Link onClick={event => changeRoute('?register=true')}>
+                                        sign up
+                                    </Link>
+                                    &nbsp;to leave answers
+                                </React.Fragment>
+                            }
                         />
                     </ListItem>
                     }

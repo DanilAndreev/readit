@@ -2,10 +2,11 @@ import React from 'react'
 import useStyles from "./style";
 import {LightTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
-import {Route, Switch, useHistory} from "react-router-dom";
+import {Route, Switch, useHistory, useLocation} from "react-router-dom";
 import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
+import qs from 'qs'
 
 
 //Pages
@@ -91,7 +92,7 @@ function PagesSwitch({articles, setArticles, ...props}) {
                 <ThreadDetails/>
             </Route>
             {user &&
-                <Route path={'/editthread/:id'}>
+            <Route path={'/editthread/:id'}>
                 <ThreadEditor/>
             </Route>
             }
@@ -108,11 +109,11 @@ function Layout({width, ...props}) {
     const history = useHistory();
     const [search, setSearch] = React.useState('');
     const [articles, setArticles] = React.useState([]);
-    const [authOpened, setAuthOpened] = React.useState(false);
-    const [authData, setAuthData] = React.useState({email: null, password: null, remember_me: false});
-    const [registrationOpened, setRegistrationOpened] = React.useState(false);
+    const [authData, setAuthData] = React.useState({email: null, password: null, remember: false});
     const {user, setUser, setToken} = useAuth();
     const [gotUser, setGotUser] = React.useState(false);
+    const location = useLocation();
+    const {register, login} = qs.parse(location.search, {ignoreQueryPrefix: true});
     let loading = false;
 
     const topArticles = [
@@ -124,8 +125,8 @@ function Layout({width, ...props}) {
     ];
 
     React.useEffect(() => {
-        loading=true;
-        changeRoute('/threads');
+        loading = true;
+        //changeRoute('/threads');
     }, []);
 
     React.useEffect(() => {
@@ -155,6 +156,10 @@ function Layout({width, ...props}) {
          */
     }, []);
 
+    function changeRoute(route) {
+        history.push(route);
+    }
+
     function handleLogout() {
         coreRequest().post('auth/logout')
             .send({})
@@ -166,6 +171,7 @@ function Layout({width, ...props}) {
     }
 
     function handleFindQuestion() {
+        /*
         let request = coreRequest().get('questions');
         if (search && search !== '') {
             request = request.query({search});
@@ -176,24 +182,23 @@ function Layout({width, ...props}) {
         }).catch(error => {
             console.error(error);
         });
+
+         */
+        search && changeRoute(`/threads?search=${search}`);
+        !search && changeRoute('/threads');
     }
 
     function handleAuthenticated(user) {
-        setAuthOpened(false);
-        setRegistrationOpened(false);
-    }
-
-    function changeRoute(route) {
-        history.push(route);
+        changeRoute(location.pathname);
     }
 
     function handleAuthClose() {
-        setAuthOpened(false);
+        changeRoute(location.pathname);
         setAuthData({username: null, password: null});
     }
 
     function handleRegistrationClose() {
-        setRegistrationOpened(false);
+        changeRoute(location.pathname);
     }
 
     function handleSearchInput(event) {
@@ -202,7 +207,7 @@ function Layout({width, ...props}) {
 
     function handleCreateThread(event) {
         user && changeRoute('/editthread/new');
-        !user && setAuthOpened(true);
+        !user && changeRoute(location.pathname);
     }
 
     if (loading || !gotUser) {
@@ -211,11 +216,11 @@ function Layout({width, ...props}) {
 
     return (
         <>
-            <Dialog aria-labelledby="auth-dialog" open={authOpened} onClose={handleAuthClose}>
+            <Dialog aria-labelledby="auth-dialog" open={login} onClose={handleAuthClose}>
                 <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
             </Dialog>
-            <Dialog aria-labelledby="auth-dialog" open={registrationOpened} onClose={handleRegistrationClose}>
+            <Dialog aria-labelledby="auth-dialog" open={register} onClose={handleRegistrationClose}>
                 <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
                 <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
@@ -224,8 +229,8 @@ function Layout({width, ...props}) {
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
-                    {!user && <Button color="inherit" onClick={() => setRegistrationOpened(true)}>Sign up</Button>}
-                    {!user && <Button color="inherit" onClick={() => setAuthOpened(true)}>Login</Button>}
+                    {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
+                    {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
                     {user && <Button color="inherit">
                         {user.name}
                         <Avatar className={classes.avatar}>

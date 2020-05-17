@@ -26,7 +26,7 @@ export default function Auth({
                              }) {
     const [showPassword, setShowPassword] = React.useState(false);
     const [error, setError] = React.useState(null);
-    const [data, setData] = React.useState({email: null, password: null, remember_me: false});
+    const [data, setData] = React.useState({email: null, password: null, remember: false});
     const {setUser} = useAuth();
     const classes = useStyles();
 
@@ -49,17 +49,21 @@ export default function Auth({
                 onComplete(response.body.data);
             })
             .catch(error => {
-                const message = JSON.parse(error.message).message;
-                switch (error.status) {
-                    case 403:
-                        setError(message);
-                        break;
-                    case 422:
-                        setError('Incorrect email or password');
-                        break;
-                    default:
-                        setError('Unexpected error, see console for more information');
-                        console.error(error);
+                try {
+                    const message = JSON.parse(error.message).message;
+                    switch (error.status) {
+                        case 403:
+                            setError(message);
+                            break;
+                        case 422:
+                            setError('Incorrect email or password');
+                            break;
+                        default:
+                            setError('Unexpected error, see console for more information');
+                            console.error(error);
+                    }
+                } catch (err) {
+                    console.error(err);
                 }
             });
     }
@@ -80,7 +84,7 @@ export default function Auth({
 
     function handleRememberMe(event) {
         event.persist();
-        setAuthData(last => ({...last, remember_me: event.target.checked || false}));
+        setAuthData(last => ({...last, remember: event.target.checked || false}));
     }
 
     return (
@@ -126,7 +130,7 @@ export default function Auth({
                 <ListItem>
                     <ListItemText primary={'Remember me'}/>
                     <ListItemSecondaryAction>
-                        <Checkbox checked={authData.remember_me} onChange={handleRememberMe}/>
+                        <Checkbox checked={authData.remember} onChange={handleRememberMe}/>
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>

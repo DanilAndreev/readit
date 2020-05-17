@@ -9,8 +9,8 @@ import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Question from './../ThreadDetails/Components/Question'
-import MenuItem from "@material-ui/core/MenuItem";
 import {useHistory} from 'react-router-dom';
+import MenuItem from "@material-ui/core/MenuItem";
 
 
 function TabPanel({children, value, index, ...other}) {
