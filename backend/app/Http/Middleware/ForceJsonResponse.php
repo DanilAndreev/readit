@@ -18,7 +18,9 @@ class ForceJsonResponse
     {
         $request->headers->set('Accept', 'application/json');
 
+        $origin = 'http://'.$request->server('Host');
+
         return $next($request)
-            ->header('Access-Control-Allow-Origin', $request->server('HTTP_ORIGIN'));
+            ->header('Access-Control-Allow-Origin', $origin);
     }
 }
