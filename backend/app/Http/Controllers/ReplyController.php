@@ -82,6 +82,10 @@ class ReplyController extends Controller
      */
     public function destroy(Reply $reply)
     {
+        $question = $reply->question;
+        $question->reply_count--;
+        $question->save();
+
         $reply->delete();
 
         return response()->json(null, 204);
