@@ -26,8 +26,14 @@ export default function Auth({
                              }) {
     const [showPassword, setShowPassword] = React.useState(false);
     const [error, setError] = React.useState(null);
+    const [data, setData] = React.useState({email: null, password: null, remember_me: false});
     const {setUser} = useAuth();
     const classes = useStyles();
+
+    if (!authData) {
+        authData = data;
+        setAuthData = setData;
+    }
 
     function handleLogin() {
         if (!authData.email || !authData.password) {

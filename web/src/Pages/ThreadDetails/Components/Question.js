@@ -25,9 +25,6 @@ import ConfirmDialog from "../../../Utilities/Components/ConfirmDialog";
 
 export default function Question({author, thread, onEdited = () => {}, ...props}) {
     const history = useHistory();
-    const location = useLocation();
-    console.log(location);
-    console.log(history);
     const {user} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState({title: thread.title, body: thread.body});
@@ -63,7 +60,7 @@ export default function Question({author, thread, onEdited = () => {}, ...props}
         setDeleteDialogOpened(false);
         coreRequest().delete(`questions/${thread.id}`)
             .then(response => {
-                /*TODO: redirect to threads*/
+                changeRoute('/threads');
             })
             .catch(error => {
                 console.error(error);
@@ -95,7 +92,7 @@ export default function Question({author, thread, onEdited = () => {}, ...props}
                 </ListItemAvatar>
                 <ListItemText primary={author.name}
                               secondary={`posted ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
-                {user.id === author.id &&
+                {user && user.id === author.id &&
                 <ListItemSecondaryAction>
                     {!edit &&
                     <React.Fragment>

@@ -7,6 +7,7 @@ import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 
+
 //Pages
 import ThreadsViewer from "../ThreadsViewer";
 import ThreadDetails from "../ThreadDetails";
@@ -133,6 +134,7 @@ function Layout({width, ...props}) {
 
     React.useEffect(() => {
         loading = true;
+        /*
         coreRequest().get('')
             .then(response => {
 
@@ -140,6 +142,8 @@ function Layout({width, ...props}) {
             .catch(error => {
                 console.error(error);
             });
+
+         */
     }, []);
 
     function handleLogout() {
@@ -165,7 +169,6 @@ function Layout({width, ...props}) {
     }
 
     function handleAuthenticated(user) {
-        console.log('authenticated: ', user);
         setAuthOpened(false);
         setRegistrationOpened(false);
     }
@@ -206,12 +209,8 @@ function Layout({width, ...props}) {
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
-                    {!user && <Button color="inherit" onClick={() => {
-                        setRegistrationOpened(true)
-                    }}>Sign up</Button>}
-                    {!user && <Button color="inherit" onClick={() => {
-                        setAuthOpened(true)
-                    }}>Login</Button>}
+                    {!user && <Button color="inherit" onClick={() => setRegistrationOpened(true)}>Sign up</Button>}
+                    {!user && <Button color="inherit" onClick={() => setAuthOpened(true)}>Login</Button>}
                     {user && <Button color="inherit">
                         {user.name}
                         <Avatar className={classes.avatar}>
@@ -306,10 +305,11 @@ function Layout({width, ...props}) {
                                                 />
                                             </ListItem>
                                             <Divider/>
+                                            {user &&
                                             <ListItem
                                                 dense
                                                 button
-                                                onClick={event => changeRoute('/user/1')}
+                                                onClick={event => changeRoute(`/user/${user.id}`)}
                                             >
                                                 <AccountCircleIcon fontSize={'small'}/>
                                                 <ListItemText
@@ -317,6 +317,7 @@ function Layout({width, ...props}) {
                                                     className={classes.leftPanelButtonsText}
                                                 />
                                             </ListItem>
+                                            }
                                         </List>
                                     </Box>
                                 </Grid>

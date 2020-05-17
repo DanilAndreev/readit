@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
     paper_small: {
@@ -31,11 +32,24 @@ export default function ConfirmDialog({
                                           ...props
                                       }) {
     const classes = useStyles();
-    /*TODO: add sizes*/
+
+    let class_paper = classes.paper_middle;
+    switch (size){
+        case 'small':
+            class_paper = classes.paper_small;
+            break;
+        case 'large':
+            class_paper = classes.paper_large;
+            break;
+        case 'middle':
+            break;
+        default:
+            console.error(`Unresolved size props, expected ("small","middle","large"), got ${size}`);
+    }
 
     return (
         <Dialog onClose={onCancel} aria-labelledby="confirm-dialog-title" open={open}>
-            <Paper className={classes.paper_middle}>
+            <Paper className={class_paper}>
                 <DialogTitle id="confirm-dialog-title">{children}</DialogTitle>
                 <Grid container>
                     <Grid item xs={6}>

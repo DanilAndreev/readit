@@ -3,6 +3,7 @@ import {withWidth, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useParams} from "react-router-dom";
 import useStyles from "./style";
+import {useAuth} from "../../Utilities/Auth";
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -16,6 +17,7 @@ import Button from "@material-ui/core/Button";
 //Custom components
 import Question from './Components/Question'
 import AnswerListItem from "./Components/AnswerListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 
 function ThreadDetails({width, ...props}) {
@@ -24,6 +26,7 @@ function ThreadDetails({width, ...props}) {
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
     const {id} = useParams();
+    const {user} = useAuth();
     const classes = useStyles();
 
     React.useEffect(() => {
@@ -89,6 +92,7 @@ function ThreadDetails({width, ...props}) {
                             })}
                         </List>
                     </ListItem>
+                    {user &&
                     <ListItem id={'compose'}>
                         <Grid container>
                             <Grid item xs={12}>
@@ -110,6 +114,14 @@ function ThreadDetails({width, ...props}) {
                             </Grid>
                         </Grid>
                     </ListItem>
+                    }
+                    {!user &&
+                    <ListItem>
+                        <ListItemText
+                            secondary={'Login or sign up to leave messages'}
+                        />
+                    </ListItem>
+                    }
                 </List>
             </Box>
         </Grid>

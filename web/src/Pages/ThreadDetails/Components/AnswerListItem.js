@@ -92,7 +92,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={primary} secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}/>
-                {user.id === answer.user.id &&
+                {user && user.id === answer.user.id &&
                 <ListItemSecondaryAction>
                     {!edit &&
                     <React.Fragment>
