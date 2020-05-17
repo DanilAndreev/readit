@@ -8,7 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import {Question} from './../ThreadDetails'
+import Question from './../ThreadDetails/Components/Question'
+import MenuItem from "@material-ui/core/MenuItem";
 
 
 function TabPanel({children, value, index, ...other}) {
@@ -29,13 +30,14 @@ function TabPanel({children, value, index, ...other}) {
 
 export default function ThreadEditor({...props}) {
     const [tab, setTab] = React.useState(0);
-    const [thread, setThread] = React.useState({title: null, body: null, category_id: 1});
+    const [thread, setThread] = React.useState({title: null, body: null});
     const [categories, setCategories] = React.useState([]);
+    const [category, setCategory] = React.useState(null);
 
     React.useEffect(() => {
         coreRequest().get('categories')
             .then(response => {
-                setCategories(response.body);
+                setCategories(response.body.data);
             })
             .catch(error => {
                 console.error(error);
@@ -43,14 +45,12 @@ export default function ThreadEditor({...props}) {
     }, []);
 
     function handleSubmit() {
-        console.log('data: ', thread);
         coreRequest().post('questions')
-            .send(thread)
+            .send({...thread, category_id: category})
             .then(response => {
-                console.log(response);
+
             })
             .catch(error => {
-                console.error(error);
             });
     }
 
@@ -60,6 +60,10 @@ export default function ThreadEditor({...props}) {
 
     function handleInput(event) {
         setThread({...thread, [event.target.name]: event.target.value});
+    }
+
+    function handleCategorySelect(event) {
+        setCategory(event.target.value);
     }
 
     return (
@@ -93,7 +97,7 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
-                            label={'body'}
+                            label={'Description'}
                             value={thread.body || ''}
                             required
                             fullWidth
@@ -103,6 +107,23 @@ export default function ThreadEditor({...props}) {
                             name={'body'}
                             onChange={event => handleInput(event, 'body')}
                         />
+                    </ListItem>
+                    <ListItem>
+                        <TextField
+                            select
+                            name={'category_id'}
+                            label={'Category'}
+                            value={category || ''}
+                            onChange={handleCategorySelect}
+                            fullWidth
+                            variant={'outlined'}
+                        >
+                            {categories.map(option => (
+                                <MenuItem key={option.id} value={option.id}>
+                                    {option.name}
+                                </MenuItem>
+                            ))}
+                        </TextField>
                     </ListItem>
                     <ListItem>
                         <Button
@@ -119,8 +140,8 @@ export default function ThreadEditor({...props}) {
                 <Question
                     author={{username: 'Andreev Danil'}}
                     thread={{
-                        summary: thread.title || 'Fill the summary input line',
-                        description: thread.body || 'Fill the description input line',
+                        title: thread.title || 'Fill the summary input line',
+                        body: thread.body || 'Fill the description input line',
                     }}
                 />
             </TabPanel>
