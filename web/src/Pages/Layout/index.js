@@ -128,7 +128,7 @@ function Layout({width, ...props}) {
 
     function handleCreateThread(event) {
         user && changeRoute('/editthread/new');
-        !user && changeRoute(location.pathname);
+        !user && changeRoute(`?login=true`);
     }
 
     if (loading || !gotUser) {
@@ -137,11 +137,11 @@ function Layout({width, ...props}) {
 
     return (
         <>
-            <Dialog aria-labelledby="auth-dialog" open={login} onClose={handleAuthClose}>
+            <Dialog aria-labelledby="auth-dialog" open={!!login} onClose={handleAuthClose}>
                 <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
             </Dialog>
-            <Dialog aria-labelledby="auth-dialog" open={register} onClose={handleRegistrationClose}>
+            <Dialog aria-labelledby="auth-dialog" open={!!register} onClose={handleRegistrationClose}>
                 <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
                 <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
@@ -237,7 +237,7 @@ function Layout({width, ...props}) {
                                             <ListItem
                                                 dense
                                                 button
-                                                onClick={event => changeRoute('/threads/reviewed')}
+                                                onClick={event => changeRoute('/threads/commented')}
                                             >
                                                 <RateReviewIcon fontSize={'small'}/>
                                                 <ListItemText

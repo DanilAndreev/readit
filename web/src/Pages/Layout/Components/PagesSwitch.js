@@ -11,7 +11,7 @@ export default function PagesSwitch({articles, setArticles, ...props}) {
 
     return (
         <Switch>
-            <Route path={'/threads'}>
+            <Route path={'/threads/:mode?'}>
                 <ThreadsViewer articles={articles} setArticles={setArticles}/>
             </Route>
             <Route path={'/thread/:id'}>
@@ -25,6 +25,7 @@ export default function PagesSwitch({articles, setArticles, ...props}) {
             <Route path={'/user/:id'}>
                 <Account/>
             </Route>
+
         </Switch>
 
     );
