@@ -92,8 +92,7 @@ function Layout({width, ...props}) {
             });
     }, []);
 
-    React.useEffect(() => {
-        loading = true;
+    function handleLoadTop10Threads() {
         coreRequest().get('questions/top10')
             .then(response => {
                 setTopArticles(response.body.data);
@@ -101,6 +100,19 @@ function Layout({width, ...props}) {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    React.useEffect(() => {
+        loading = true;
+        handleLoadTop10Threads();
+        const updater = setInterval(() => {
+            handleLoadTop10Threads();
+            console.log(`Sync [top10threads]: synchronizing (${new Date().toLocaleString()})`);
+        }, 30000);
+
+        return () => {
+            clearInterval(updater);
+        }
     }, []);
 
     function handleLogout() {
