@@ -42,7 +42,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'is_admin',
     ];
 
     /**
@@ -51,7 +54,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -64,7 +68,8 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
     ];
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->is_admin;
     }
 }

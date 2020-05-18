@@ -51,11 +51,18 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->only([
+        $fields = $request->only([
             'email',
             'name',
             'password',
-        ]));
+            'is_admin',
+        ]);
+
+        if (isset($fields['is_admin']) && !$request->user()->isAdmin()) {
+            unset($fields['is_admin']);
+        }
+
+        $user->update($fields);
 
         return new \App\Http\Resources\ViewUser($user);
     }
