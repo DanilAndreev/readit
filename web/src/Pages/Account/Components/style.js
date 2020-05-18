@@ -10,6 +10,10 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.common.white,
         borderColor: theme.palette.common.white,
     },
+    noPaddingSides: {
+        paddingLeft: theme.spacing(0),
+        paddingRight: theme.spacing(0),
+    }
 }));
 
 export default useStyles;

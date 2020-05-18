@@ -104,7 +104,7 @@ export default function Info({origUserdata, init, ...props}) {
                     <List>
                         <ListItem>
                             <ListItemText
-                                primary={'User info'}
+                                primary={`${origUserdata.is_admin ? 'Admin |' : ''} User info`}
                                 secondary={`Last updated ${new Date(userdata.updated_at).toLocaleString() || 'recently'}`}
                                 className={clsx(editMode && classes.listItemTextFix)}
                             />
