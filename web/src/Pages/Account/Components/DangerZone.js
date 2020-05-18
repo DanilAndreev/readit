@@ -2,27 +2,25 @@ import ListItem from "@material-ui/core/ListItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
 import React from "react";
 import useStyles from "./style";
-import ConfirmDialog from "../../../Utilities/Components/ConfirmDialog";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
+import {useConfirmDialog} from "../../../Utilities/ConfirmDialog";
 
 export default function DangerZone({viewed_user, ...props}) {
     const classes = useStyles();
-    const [confirmDeleteAccountOpened, setConfirmDeleteAccountOpened] = React.useState(false);
     const {user, setUser, setToken} = useAuth();
     const {id} = useParams();
     const history = useHistory();
+    const confirm = useConfirmDialog();
 
     function changeRoute(route) {
         history.push(route);
     }
 
     function handleDeleteAccount() {
-        setConfirmDeleteAccountOpened(false);
         if (user) {
             coreRequest().delete(`users/${id}`)
                 .then(response => {
@@ -35,24 +33,27 @@ export default function DangerZone({viewed_user, ...props}) {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    switch (error.status) {
+                        case 401:
+                            changeRoute('?login=true');
+                            break;
+                        default:
+                            console.error(error);
+                    }
                 });
         }
     }
 
-    function handleCancelDeleteAccount() {
-        setConfirmDeleteAccountOpened(false);
+
+    function handleTryToDeleteAccount() {
+        confirm(handleDeleteAccount, {
+            title: ` Are you sure you want delete account: ${viewed_user.name}`,
+            text: `This operation cannot be undone`,
+        })
     }
 
     return (
         <ListItem className={classes.dangerZone}>
-            <ConfirmDialog
-                open={confirmDeleteAccountOpened}
-                onCancel={handleCancelDeleteAccount}
-                onAccept={handleDeleteAccount}
-            >
-                Are you sure you want delete account: {viewed_user.name}
-            </ConfirmDialog>
             <FormControl fullWidth>
                 <FormHelperText className={classes.dangerZone}>
                     Danger zone
@@ -61,7 +62,7 @@ export default function DangerZone({viewed_user, ...props}) {
                     fullWidth
                     variant={'outlined'}
                     className={classes.dangerZone}
-                    onClick={event => setConfirmDeleteAccountOpened(true)}
+                    onClick={handleTryToDeleteAccount}
                 >
                     Delete account
                 </Button>

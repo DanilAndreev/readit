@@ -4,6 +4,7 @@ import Layout from "./Pages/Layout";
 import {ThemeProvider} from "@material-ui/core/styles";
 import {BaseTheme} from "./Themes/DefaultTheme";
 import {AuthProvider} from "./Utilities/Auth";
+import {ConfirmDialogProvider} from "./Utilities/ConfirmDialog";
 
 
 function App() {
@@ -11,9 +12,11 @@ function App() {
         <div className="App">
             <AuthProvider>
                 <ThemeProvider theme={BaseTheme}>
-                    <Router>
-                        <Layout/>
-                    </Router>
+                    <ConfirmDialogProvider>
+                        <Router>
+                            <Layout/>
+                        </Router>
+                    </ConfirmDialogProvider>
                 </ThemeProvider>
             </AuthProvider>
         </div>

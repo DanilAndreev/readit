@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import useStyles from "./style";
 import {useAuth} from "../../Utilities/Auth";
 import {useHistory} from 'react-router-dom';
+import * as _ from 'lodash'
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -31,7 +32,7 @@ function ThreadDetails({width, ...props}) {
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
     const {id} = useParams();
-    const {user, isAdmin} = useAuth();
+    const {user} = useAuth();
     const classes = useStyles();
     const history = useHistory();
 
@@ -54,6 +55,14 @@ function ThreadDetails({width, ...props}) {
 
     React.useEffect(() => {
         getQuestions();
+        const updater = setInterval(() => {
+            console.log(`Sync [thread]: synchronizing (${new Date().toLocaleString()})`);
+            getQuestions();
+        }, 30000);
+
+        return () => {
+            clearInterval(updater);
+        }
     }, []);
 
     React.useEffect(() => {
@@ -69,8 +78,6 @@ function ThreadDetails({width, ...props}) {
                 console.error(error);
             });
     }
-
-    setTimeout(handleUpdateAnswers, 7000);
 
     function handleUpdateThread() {
         coreRequest().get(`questions/${id}`)
@@ -94,7 +101,13 @@ function ThreadDetails({width, ...props}) {
                 setMyAnswer('');
             })
             .catch(error => {
-                console.error(error);
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
             });
     }
 

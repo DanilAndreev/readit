@@ -106,6 +106,18 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
 
     React.useEffect(() => {
         getArticles(1);
+        const updater = setInterval(() => {
+            if (!search) {
+                console.log(`Sync [threads]: synchronizing (${new Date().toLocaleString()})`)
+                getArticles();
+            } else {
+                console.log(`Sync [threads]: skipping synchronization (${new Date().toLocaleString()})`)
+            }
+        }, 30000);
+
+        return () => {
+            clearInterval(updater);
+        }
     }, []);
 
     React.useEffect(() => {

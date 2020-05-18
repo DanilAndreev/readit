@@ -77,10 +77,18 @@ function Layout({width, ...props}) {
             .then(response => {
                 setUser({...response.body.data, created_at: undefined, updated_at: undefined});
                 setGotUser(true);
+                console.log(`Automatically authorized as ${response.body.data.name}`);
             })
             .catch(error => {
-                setUser(null);
-                setGotUser(true);
+                switch (error.status) {
+                    case 401:
+                        setUser(null);
+                        setGotUser(true);
+                        console.log(`Automatically authorized as guest`);
+                        break;
+                    default:
+                        console.error('Failed to auto-authorize, error:', error);
+                }
             });
     }, []);
 
@@ -102,7 +110,15 @@ function Layout({width, ...props}) {
                 setToken(null);
                 setUser(null);
             })
-            .catch(console.error);
+            .catch(error => {
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
+            });
     }
 
     function handleFindQuestion() {
