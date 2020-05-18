@@ -77,15 +77,22 @@ function Layout({width, ...props}) {
             .then(response => {
                 setUser({...response.body.data, created_at: undefined, updated_at: undefined});
                 setGotUser(true);
+                console.log(`Automatically authorized as ${response.body.data.name}`);
             })
             .catch(error => {
-                setUser(null);
-                setGotUser(true);
+                switch (error.status) {
+                    case 401:
+                        setUser(null);
+                        setGotUser(true);
+                        console.log(`Automatically authorized as guest`);
+                        break;
+                    default:
+                        console.error('Failed to auto-authorize, error:', error);
+                }
             });
     }, []);
 
-    React.useEffect(() => {
-        loading = true;
+    function handleLoadTop10Threads() {
         coreRequest().get('questions/top10')
             .then(response => {
                 setTopArticles(response.body.data);
@@ -93,6 +100,19 @@ function Layout({width, ...props}) {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    React.useEffect(() => {
+        loading = true;
+        handleLoadTop10Threads();
+        const updater = setInterval(() => {
+            handleLoadTop10Threads();
+            console.log(`Sync [top10threads]: synchronizing (${new Date().toLocaleString()})`);
+        }, 30000);
+
+        return () => {
+            clearInterval(updater);
+        }
     }, []);
 
     function handleLogout() {
@@ -102,7 +122,15 @@ function Layout({width, ...props}) {
                 setToken(null);
                 setUser(null);
             })
-            .catch(console.error);
+            .catch(error => {
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
+            });
     }
 
     function handleFindQuestion() {
@@ -154,7 +182,7 @@ function Layout({width, ...props}) {
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
                     {user &&
-                    <Button color="inherit" onClick={event => changeRoute(`user/${user.id}`)}>
+                    <Button color="inherit" onClick={event => changeRoute(`/user/${user.id}`)}>
                         {user.name}
                         <Avatar className={classes.avatar}>
                             <ImageIcon/>

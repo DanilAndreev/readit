@@ -1,6 +1,9 @@
 import React from "react";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
+import {useHistory} from 'react-router-dom';
+import useStyles from "./style";
+import {useConfirmDialog} from "../../../Utilities/ConfirmDialog";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -19,15 +22,25 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 
+//Custom components
+import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
+
 
 export default function AnswerListItem({answer, onEdited = () => {}, ...props}) {
     const {user, isAdmin} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState(answer.text);
+    const history = useHistory();
+    const classes = useStyles();
+    const confirm = useConfirmDialog();
 
     React.useEffect(() => {
         setNewData(answer.text);
     }, [answer]);
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     function handleDataInput(event) {
         setNewData(event.target.value);
@@ -38,12 +51,17 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
         coreRequest().put(`replies/${answer.id}`)
             .send({text: newData})
             .then(response => {
-                console.log(response);
                 setEdit(false);
                 onEdited(newData);
             })
             .catch(error => {
-                console.error(error);
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
             });
     }
 
@@ -53,7 +71,13 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                 onEdited();
             })
             .catch(error => {
-                console.error(error);
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
             });
     }
 
@@ -67,7 +91,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             <Typography variant={'h6'}>
                 {answer.user.name}
             </Typography>
-            {!edit && answer.text}
+            {!edit && answer.text && <ParsedMessage message={answer.text} style={{whiteSpace: 'pre-wrap'}}/>}
             {edit &&
             <TextField
                 fullWidth
@@ -91,7 +115,11 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                     <Avatar>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={primary} secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}/>
+                <ListItemText
+                    primary={primary}
+                    secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}
+                    className={classes.listItemTextFix}
+                />
                 {(user && user.id === answer.user.id || isAdmin()) &&
                 <ListItemSecondaryAction>
                     {!edit &&

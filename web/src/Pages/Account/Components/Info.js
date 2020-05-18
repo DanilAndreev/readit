@@ -1,5 +1,5 @@
 import React from "react";
-import {useParams} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 import {coreRequest} from "../../../Utilities/Rest";
 import {useAuth} from "../../../Utilities/Auth";
 import useStyles from "./style";
@@ -39,11 +39,16 @@ export default function Info({origUserdata, init, ...props}) {
     const [userdata, setUserdata] = React.useState({...origUserdata, id: undefined});
     const {user, setUser, isAdmin} = useAuth();
     const classes = useStyles();
+    const history = useHistory();
     let loading = false;
 
     React.useEffect(() => {
         setUserdata({...origUserdata, id: undefined});
     }, [origUserdata]);
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     function handleEditSubmit() {
         coreRequest().put(`users/${id}`)
@@ -56,7 +61,13 @@ export default function Info({origUserdata, init, ...props}) {
                 init();
             })
             .catch(error => {
-                console.error(error);
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
             });
     }
 
@@ -93,7 +104,7 @@ export default function Info({origUserdata, init, ...props}) {
                     <List>
                         <ListItem>
                             <ListItemText
-                                primary={'User info'}
+                                primary={`${origUserdata.is_admin ? 'Admin |' : ''} User info`}
                                 secondary={`Last updated ${new Date(userdata.updated_at).toLocaleString() || 'recently'}`}
                                 className={clsx(editMode && classes.listItemTextFix)}
                             />

@@ -51,13 +51,22 @@ export default function ThreadEditor({...props}) {
     }, []);
 
     function handleSubmit() {
-        coreRequest().post('questions')
-            .send({...thread, category_id: category})
-            .then(response => {
-                changeRoute(`/thread/${response.body.data.id}`);
-            })
-            .catch(error => {
-            });
+        try {
+            coreRequest().post('questions')
+                .send({...thread, category_id: category, body: thread.body.replace(/(\n\n\n)+/g, '\n'), title: thread.title.replace(/\n/g, '')})
+                .then(response => {
+                    changeRoute(`/thread/${response.body.data.id}`);
+                })
+                .catch(error => {
+                    switch (error.status) {
+                        case 401:
+                            changeRoute('?login=true');
+                            break;
+                    }
+                });
+        } catch(error) {
+            console.error(error);
+        }
     }
 
     function handleChangeTab(event, newValue) {
