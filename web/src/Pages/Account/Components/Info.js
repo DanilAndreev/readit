@@ -32,54 +32,26 @@ function useClientRect() {
     return [rect, ref];
 }
 
-export default function Info() {
+export default function Info({origUserdata, init, ...props}) {
     const [rect, ref] = useClientRect();
     const [editMode, setEditMode] = React.useState(false);
     const {id} = useParams();
-    const [origUserdata, setOrigUserdata] = React.useState({
-        name: '',
-        email: '',
-        interests: ''
-    });
-    const [userdata, setUserdata] = React.useState({
-        name: '',
-        email: '',
-        interests: ''
-    });
-    const [connecting, setConnecting] = React.useState(true);
-    const {user, setUser} = useAuth();
+    const [userdata, setUserdata] = React.useState({...origUserdata, id: undefined});
+    const {user, setUser, isAdmin} = useAuth();
     const classes = useStyles();
     let loading = false;
 
-    function init(pause = false) {
-        pause && setConnecting(true);
-        coreRequest().get(`users/${id}`)
-            .then(response => {
-                const data = {...response.body.data, id: undefined, interests: 'lol'};
-                setOrigUserdata(data);
-                setUserdata(data);
-                pause && setConnecting(false);
-            })
-            .catch(error => {
-                console.error(error);
-                pause && setConnecting(false);
-            });
-    }
-
     React.useEffect(() => {
-        loading = true;
-        init(true);
-    }, []);
-
-    React.useEffect(() => {
-        init(true);
-    }, [id, user]);
+        setUserdata({...origUserdata, id: undefined});
+    }, [origUserdata]);
 
     function handleEditSubmit() {
         coreRequest().put(`users/${id}`)
             .send(userdata)
             .then(response => {
-                setUser(response.body.data);
+                if(user.id === +id){
+                    setUser(response.body.data);
+                }
                 setEditMode(false);
                 init();
             })
@@ -101,7 +73,7 @@ export default function Info() {
         setUserdata({...userdata, [event.target.name]: event.target.value});
     }
 
-   if (loading || connecting) {
+   if (loading) {
        return null;
    }
 
@@ -125,7 +97,7 @@ export default function Info() {
                                 secondary={`Last updated ${new Date(userdata.updated_at).toLocaleString() || 'recently'}`}
                                 className={clsx(editMode && classes.listItemTextFix)}
                             />
-                            {user && user.id === +id &&
+                            {(user && user.id === +id || isAdmin()) &&
                             <ListItemSecondaryAction>
                                 {!editMode &&
                                 <IconButton onClick={handleEdit}>

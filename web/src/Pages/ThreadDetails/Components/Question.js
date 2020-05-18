@@ -25,7 +25,7 @@ import ConfirmDialog from "../../../Utilities/Components/ConfirmDialog";
 
 export default function Question({author, thread, onEdited = () => {}, ...props}) {
     const history = useHistory();
-    const {user} = useAuth();
+    const {user, isAdmin} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState({title: thread.title, body: thread.body});
     const [deleteDialogOpened, setDeleteDialogOpened] = React.useState(false);
@@ -92,7 +92,7 @@ export default function Question({author, thread, onEdited = () => {}, ...props}
                 </ListItemAvatar>
                 <ListItemText primary={author.name}
                               secondary={`posted ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
-                {user && user.id === author.id &&
+                {(user && user.id === author.id || isAdmin()) &&
                 <ListItemSecondaryAction>
                     {!edit &&
                     <React.Fragment>

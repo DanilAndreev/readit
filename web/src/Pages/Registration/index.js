@@ -41,11 +41,9 @@ export default function Registration({authData, setAuthData, onComplete, ...prop
 
     function handleRegisterError(error) {
         setErrors({username: null, email: null, password: null, repeatpassword: null});
-
         switch (error.status) {
             case 422:
-                setErrors(last => ({...last, password: 'Password is too short'}));
-                const errors = JSON.parse(error.message).errors;
+                const errors = error.response.body.errors;
                 for (const key in errors) {
                     let message = 'Unresolved error';
                     const error = errors[key][0];

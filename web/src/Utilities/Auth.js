@@ -8,7 +8,7 @@ function AuthProvider(props) {
     const [token, setToken] = React.useState(null);
 
     const isAdmin = () => {
-        return !!user.is_admin;
+        return user && !!user.is_admin;
     };
 
     return (
