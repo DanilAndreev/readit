@@ -4,6 +4,8 @@ import {coreRequest} from "../../../Utilities/Rest";
 import {useAuth} from "../../../Utilities/Auth";
 import useStyles from "./style";
 import clsx from "clsx";
+import ImagePicker from './ImagePicker'
+import imageResize from 'resize-image'
 
 //MUI components
 import ListItem from "@material-ui/core/ListItem";
@@ -20,6 +22,9 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
+import ButtonBase from "@material-ui/core/ButtonBase";
+import InputBase from "@material-ui/core/InputBase";
+import getAvatar from "../../../Utilities/getAvatar";
 
 
 function useClientRect() {
@@ -40,11 +45,20 @@ export default function Info({origUserdata, init, ...props}) {
     const {user, setUser, isAdmin} = useAuth();
     const classes = useStyles();
     const history = useHistory();
+    const [avatar, setAvatar] = React.useState({image: null, date: new Date().toString()});
     let loading = false;
 
     React.useEffect(() => {
         setUserdata({...origUserdata, id: undefined});
     }, [origUserdata]);
+
+    React.useEffect(() => {
+        handleGetAvatar();
+    }, []);
+
+    React.useEffect(() => {
+        handleGetAvatar();
+    }, [id]);
 
     function changeRoute(route) {
         history.push(route);
@@ -54,7 +68,7 @@ export default function Info({origUserdata, init, ...props}) {
         coreRequest().put(`users/${id}`)
             .send(userdata)
             .then(response => {
-                if(user.id === +id){
+                if (user.id === +id) {
                     setUser(response.body.data);
                 }
                 setEditMode(false);
@@ -84,9 +98,24 @@ export default function Info({origUserdata, init, ...props}) {
         setUserdata({...userdata, [event.target.name]: event.target.value});
     }
 
-   if (loading) {
-       return null;
-   }
+    if (loading) {
+        return null;
+    }
+
+    function handleGetAvatar() {
+        getAvatar(origUserdata.id).then(response => {
+            response && setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${origUserdata.id}.jpg`, date: new Date().toString()});
+        });
+    }
+
+    function handleChangeAvatar(picture) {
+        coreRequest().post(`users/${origUserdata.id}/avatar`)
+            .attach('avatar', picture[0])
+            .then(response => {
+                handleGetAvatar();
+            })
+            .catch(console.error);
+    }
 
     return (
         <ListItem>
@@ -97,6 +126,13 @@ export default function Info({origUserdata, init, ...props}) {
                             ref={ref}
                             style={{width: '100%', height: rect && rect.width}}
                         >
+                            <ImagePicker
+                                onChange={handleChangeAvatar}
+                                src={avatar.image}
+                                date={avatar.date}
+                            >
+                                Upload avatar
+                            </ImagePicker>
                         </Avatar>
                     </Box>
                 </Grid>
