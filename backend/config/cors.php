@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://95.164.10.203:3000/'],
+    'allowed_origins' => [env('CORS_ORIGIN', '*')],
 
     'allowed_origins_patterns' => [],
 
