@@ -20,7 +20,8 @@ export default function Account() {
     const [origUserdata, setOrigUserdata] = React.useState({
         name: '',
         email: '',
-        interests: ''
+        interests: '',
+        about_me: '',
     });
     const [connecting, setConnecting] = React.useState(true);
     let loading = false;

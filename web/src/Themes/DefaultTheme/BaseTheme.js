@@ -28,8 +28,12 @@ const theme = createMuiTheme({
         },
         util: {
             separator: 'rgba(0, 0, 0, 0.12)',
+        },
+        footer: {
+            light:  blueGrey[800],
+            main: blueGrey[900],
+            dark: grey[900],
         }
-
     },
 });
 
