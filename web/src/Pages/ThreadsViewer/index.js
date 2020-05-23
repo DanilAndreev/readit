@@ -61,12 +61,13 @@ function ThreadListItem({thread, ...props}) {
                     <Avatar
                         src={`${process.env.REACT_APP_CORE_AVATARS}/${thread.user.id}.jpg`}
                     >
-                        <ImageIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={primary}
-                              secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`}
-                              className={classes.threadsList}/>
+                <ListItemText
+                    primary={primary}
+                    secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`}
+                    className={classes.threadsList}
+                />
                 {secondary}
             </ListItem>
             <Divider/>
