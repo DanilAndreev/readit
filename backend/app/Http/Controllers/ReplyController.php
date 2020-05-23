@@ -72,6 +72,10 @@ class ReplyController extends Controller
             'is_answer' => true,
         ]);
 
+        $question->update([
+            'answered'=>true,
+        ]);
+
         return new ViewQuestion($question);
     }
 
