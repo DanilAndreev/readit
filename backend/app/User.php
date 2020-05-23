@@ -15,6 +15,8 @@ use Illuminate\Notifications\Notifiable;
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
+ * @property boolean $is_admin
+ * @property boolean $is_deleted
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -47,6 +49,7 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'about_me',
+        'is_deleted',
     ];
 
     /**

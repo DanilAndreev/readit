@@ -18,9 +18,9 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade');
             $table->boolean('answered')->default(false);
             $table->integer('reply_count')->unsigned()->default(0);
             $table->integer('views_count')->unsigned()->default(0);

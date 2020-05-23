@@ -45,12 +45,18 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $user
      * @return mixed
+     * @throws \Illuminate\Validation\ValidationException
      */
     protected function authenticated(Request $request, $user)
     {
+        if ($user->is_deleted) {
+            $this->logout($request);
+            return $this->sendFailedLoginResponse($request);
+        }
+
         return new User($user);
     }
 }
