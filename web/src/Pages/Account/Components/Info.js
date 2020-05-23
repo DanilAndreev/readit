@@ -211,6 +211,19 @@ export default function Info({origUserdata, init, ...props}) {
                         </ListItem>
                     </List>
                 </Grid>
+                <Grid xs={12}>
+                    <TextField
+                        variant={'outlined'}
+                        multiline
+                        rows={editMode ? 10 : 5}
+                        label={'About me'}
+                        fullWidth
+                        name={'about_me'}
+                        onChange={handleDataInput}
+                        value={userdata.about_me}
+                        disabled={!editMode}
+                    />
+                </Grid>
             </Grid>
         </ListItem>
     );

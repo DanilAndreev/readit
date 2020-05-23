@@ -10,12 +10,8 @@ import qs from 'qs'
 
 
 //Pages
-import ThreadsViewer from "../ThreadsViewer";
-import ThreadDetails from "../ThreadDetails";
-import ThreadEditor from "../ThreadEditor";
 import AuthDialog from "../Auth";
 import RegistrationDialog from "../Registration";
-import Account from "../Account";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -27,7 +23,6 @@ import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -35,18 +30,13 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 //MUI icons
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import RateReviewIcon from '@material-ui/icons/RateReview';
-import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import ImageIcon from '@material-ui/icons/Image';
 import SearchIcon from '@material-ui/icons/Search';
-import PeopleIcon from '@material-ui/icons/People';
 
 //Custom components
 import ThreadsListItem from "./Components/ThreadsListItem";
 import PagesSwitch from "./Components/PagesSwitch";
 import Footer from "./Components/Footer";
+import DesktopLeftButtons from "./Components/DesktopLeftButtons";
 
 
 function Layout({width, ...props}) {
@@ -243,74 +233,7 @@ function Layout({width, ...props}) {
                         </ThemeProvider>
                         <Grid container>
                             <ThemeProvider theme={LightTheme}>
-                                <Grid item xs={12} md={2} className={classes.leftColumn}>
-                                    <Box p={1}>
-                                        <List>
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute('/threads')}
-                                            >
-                                                <FormatListBulletedIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"All threads"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
-                                            {user &&
-                                            <React.Fragment>
-                                                <ListItem
-                                                    dense
-                                                    button
-                                                    onClick={event => changeRoute('/threads/my')}
-                                                >
-                                                    <RecordVoiceOverIcon fontSize={'small'}/>
-                                                    <ListItemText
-                                                        primary={"My threads"}
-                                                        className={classes.leftPanelButtonsText}
-                                                    />
-                                                </ListItem>
-                                                <ListItem
-                                                    dense
-                                                    button
-                                                    onClick={event => changeRoute('/threads/commented')}
-                                                >
-                                                    <RateReviewIcon fontSize={'small'}/>
-                                                    <ListItemText
-                                                        primary={"Commented by me"}
-                                                        className={classes.leftPanelButtonsText}
-                                                    />
-                                                </ListItem>
-                                            </React.Fragment>
-                                            }
-                                            <Divider/>
-                                            {user &&
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute(`/user/${user.id}`)}
-                                            >
-                                                <AccountCircleIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"My account"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
-                                            }
-                                            <ListItem
-                                                dense
-                                                button
-                                                onClick={event => changeRoute('/users')}
-                                            >
-                                                <PeopleIcon fontSize={'small'}/>
-                                                <ListItemText
-                                                    primary={"Users"}
-                                                    className={classes.leftPanelButtonsText}
-                                                />
-                                            </ListItem>
-                                        </List>
-                                    </Box>
-                                </Grid>
+                                <DesktopLeftButtons />
                             </ThemeProvider>
                             <Grid item xs={12} md={7} className={classes.contentColumn}>
                                 <Grid container>
