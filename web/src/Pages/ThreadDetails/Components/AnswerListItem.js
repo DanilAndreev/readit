@@ -1,7 +1,7 @@
 import React from "react";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import useStyles from "./style";
 import {useConfirmDialog} from "../../../Utilities/ConfirmDialog";
 
@@ -24,6 +24,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 //Custom components
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
+import getAvatar from "../../../Utilities/getAvatar";
 
 
 export default function AnswerListItem({answer, onEdited = () => {}, ...props}) {
@@ -33,6 +34,13 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
     const history = useHistory();
     const classes = useStyles();
     const confirm = useConfirmDialog();
+    const {id} = useParams();
+    const mounted = React.useRef();
+
+    React.useEffect(() => {
+        mounted.current = true;
+        return () => mounted.current = false;
+    }, []);
 
     React.useEffect(() => {
         setNewData(answer.text);
@@ -47,7 +55,6 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
     }
 
     function handleEditSubmit() {
-        console.log(newData);
         coreRequest().put(`replies/${answer.id}`)
             .send({text: newData})
             .then(response => {
@@ -112,7 +119,9 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
         <>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar>
+                    <Avatar
+                        src={`${process.env.REACT_APP_CORE_AVATARS}/${answer.user.id}.jpg`}
+                    >
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText

@@ -26,6 +26,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import {useAuth} from "../../Utilities/Auth";
+import getAvatar from "../../Utilities/getAvatar";
 
 
 function ThreadListItem({thread, ...props}) {
@@ -57,7 +58,9 @@ function ThreadListItem({thread, ...props}) {
         <>
             <ListItem button onClick={event => changeRoute(`/thread/${thread.id}`)}>
                 <ListItemAvatar>
-                    <Avatar>
+                    <Avatar
+                        src={`${process.env.REACT_APP_CORE_AVATARS}/${thread.user.id}.jpg`}
+                    >
                         <ImageIcon/>
                     </Avatar>
                 </ListItemAvatar>

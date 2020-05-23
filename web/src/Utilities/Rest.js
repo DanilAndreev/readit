@@ -34,6 +34,6 @@ export const request = (endPoint) => {
     }
 };
 
-export const coreRequest = () => {
-    return request(process.env.REACT_APP_CORE_URL);
+export const coreRequest = (path = null) => {
+    return request(path || process.env.REACT_APP_CORE_URL);
 };

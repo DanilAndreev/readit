@@ -14,6 +14,7 @@ import {useHistory} from 'react-router-dom';
 
 function UserCard({user, ...props}) {
     const history = useHistory();
+    const [imageLoaded, setImageLoaded] = React.useState(true);
 
     function changeRoute(route) {
         history.push(route);
@@ -27,10 +28,11 @@ function UserCard({user, ...props}) {
                     <CardActionArea onClick={event => changeRoute(`/user/${user.id}`)}>
                         <CardMedia
                             component="img"
+                            image={`${process.env.REACT_APP_CORE_AVATARS}/${user.id}.jpg`}
                             alt={`Avatar of user ${user.name}`}
                             height="140"
-                            image="/static/images/cards/contemplative-reptile.jpg"
                             title={user.name}
+                            onError={event => event.target.src = 'https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_grey_512dp.png'}
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">

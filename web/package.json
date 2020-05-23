@@ -31,8 +31,10 @@
     "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-images-upload": "^1.2.8",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "resize-image": "^0.1.0",
     "superagent": "^5.2.2"
   },
   "scripts": {
