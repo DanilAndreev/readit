@@ -29,17 +29,17 @@ export default function Footer() {
                                     Розробники
                                 </ListItem>
                                 <ListItem>
-                                    <Link href={''} onClick={event => changeRoute(`/user/13`)}>
+                                    <Link href={'#'} onClick={event => changeRoute(`/user/13`)}>
                                         Андрєєв Данило
                                     </Link>
                                 </ListItem>
                                 <ListItem>
-                                    <Link href={''} onClick={event => changeRoute(`/user/19`)}>
+                                    <Link href={'#'} onClick={event => changeRoute(`/user/19`)}>
                                         Соломаха Олександр
                                     </Link>
                                 </ListItem>
                                 <ListItem>
-                                    <Link href={''} onClick={event => changeRoute(`/user/25`)}>
+                                    <Link href={'#'} onClick={event => changeRoute(`/user/25`)}>
                                         Нєстєров Микита
                                     </Link>
                                 </ListItem>
@@ -51,17 +51,17 @@ export default function Footer() {
                                     Розділи
                                 </ListItem>
                                 <ListItem>
-                                    <Link href={''} onClick={event => changeRoute(`/threads`)}>
+                                    <Link href={'#'} onClick={event => changeRoute(`/threads`)}>
                                         Питання
                                     </Link>
                                 </ListItem>
                                 <ListItem>
-                                    <Link href={''} onClick={event => changeRoute(`/users`)}>
+                                    <Link href={'#'} onClick={event => changeRoute(`/users`)}>
                                         Користувачі
                                     </Link>
                                 </ListItem>
                                 <ListItem>
-                                    <Link href={''} onClick={event => changeRoute(`/editthread/new`)}>
+                                    <Link href={'#'} onClick={event => changeRoute(`/editthread/new`)}>
                                         Створити питання
                                     </Link>
                                 </ListItem>
