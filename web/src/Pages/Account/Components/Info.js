@@ -120,7 +120,15 @@ export default function Info({origUserdata, init, ...props}) {
             .then(response => {
                 handleGetAvatar();
             })
-            .catch(console.error);
+            .catch(error => {
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    default:
+                        console.error(error);
+                }
+            });
     }
 
     return (

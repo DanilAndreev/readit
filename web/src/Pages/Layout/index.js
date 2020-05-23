@@ -46,6 +46,7 @@ import PeopleIcon from '@material-ui/icons/People';
 //Custom components
 import ThreadsListItem from "./Components/ThreadsListItem";
 import PagesSwitch from "./Components/PagesSwitch";
+import Footer from "./Components/Footer";
 
 
 function Layout({width, ...props}) {
@@ -338,6 +339,7 @@ function Layout({width, ...props}) {
                     </Box>
                 </Grid>
                 {isWidthUp('sm', width) && <Grid item md={1} lg={2}/>}
+                <Footer/>
             </Grid>
         </>
     );
