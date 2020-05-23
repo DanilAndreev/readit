@@ -44,6 +44,7 @@ import MenuButtons from "./Components/MenuButtons";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import clsx from "clsx";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 
 function Layout({width, ...props}) {
@@ -181,6 +182,7 @@ function Layout({width, ...props}) {
                 classes={{paperAnchorLeft: classes.menuDrawer}}
             >
                 <List>
+                    {user &&
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar
@@ -193,11 +195,24 @@ function Layout({width, ...props}) {
                             secondary={user && user.email}
                         />
                         <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="delete">
+                            <IconButton edge="end" aria-label="logout" onClick={handleLogout}>
                                 <ExitToAppIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
+                    }
+                    {!user &&
+                    <ListItem>
+                        <ButtonGroup fullWidth>
+                            <Button onClick={event => changeRoute('?register=true')}>
+                                Register
+                            </Button>
+                            <Button onClick={event => changeRoute('?login=true')}>
+                                Login
+                            </Button>
+                        </ButtonGroup>
+                    </ListItem>
+                    }
                 </List>
                 <MenuButtons/>
                 <List>
