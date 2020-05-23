@@ -32,18 +32,6 @@ import getAvatar from "../../Utilities/getAvatar";
 function ThreadListItem({thread, ...props}) {
     const classes = useStyles();
     const history = useHistory();
-    const [authorAvatar, setAuthorAvatar] = React.useState({image: null, date: new Date()});
-
-    React.useEffect(() => {
-        handleGetAvatar();
-    }, []);
-
-    function handleGetAvatar() {
-        getAvatar(thread.user.id).then(response => {
-            response && setAuthorAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${thread.user.id}.jpg`, date: new Date().toString()});
-        });
-    }
-
 
     function changeRoute(route) {
         history.push(route);
@@ -71,7 +59,7 @@ function ThreadListItem({thread, ...props}) {
             <ListItem button onClick={event => changeRoute(`/thread/${thread.id}`)}>
                 <ListItemAvatar>
                     <Avatar
-                        src={authorAvatar.image}
+                        src={`${process.env.REACT_APP_CORE_AVATARS}/${thread.user.id}.jpg`}
                     >
                         <ImageIcon/>
                     </Avatar>

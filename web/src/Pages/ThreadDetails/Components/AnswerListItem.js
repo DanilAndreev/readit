@@ -34,7 +34,6 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
     const history = useHistory();
     const classes = useStyles();
     const confirm = useConfirmDialog();
-    const [authorAvatar, setAuthorAvatar] = React.useState({image: null, date: new Date()});
     const {id} = useParams();
     const mounted = React.useRef();
 
@@ -44,19 +43,8 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
     }, []);
 
     React.useEffect(() => {
-        handleGetAvatar();
-    }, [answer.user.id]);
-
-    React.useEffect(() => {
         setNewData(answer.text);
     }, [answer]);
-
-    function handleGetAvatar() {
-        getAvatar(answer.user.id).then(response => {
-            const imageUrl = `${process.env.REACT_APP_CORE_AVATARS}/${answer.user.id}.jpg`;
-            response && mounted.current && setAuthorAvatar({image: imageUrl, date: new Date().toString()});
-        });
-    }
 
     function changeRoute(route) {
         history.push(route);
@@ -105,12 +93,10 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
         setNewData(answer.text);
     }
 
-    console.log('answer: ', answer, ' avatar: ', authorAvatar);
-
     const primary = (
         <React.Fragment>
             <Typography variant={'h6'}>
-                {answer.user.name} | {answer.user.id} | {authorAvatar.image}
+                {answer.user.name}
             </Typography>
             {!edit && answer.text && <ParsedMessage message={answer.text} style={{whiteSpace: 'pre-wrap'}}/>}
             {edit &&
@@ -134,7 +120,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                     <Avatar
-                        src={authorAvatar.image}
+                        src={`${process.env.REACT_APP_CORE_AVATARS}/${answer.user.id}.jpg`}
                     >
                     </Avatar>
                 </ListItemAvatar>

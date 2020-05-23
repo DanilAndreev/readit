@@ -8,6 +8,8 @@ import withWidth, {isWidthUp} from "@material-ui/core/withWidth";
 function ImagePicker({
                          onChange = () => {
                          },
+                         onError = () => {
+                         },
                          src,
                          width,
                          date,
@@ -21,7 +23,12 @@ function ImagePicker({
     return (
         <>
             <div className={classes.root}>
-                <img src={src} className={clsx(classes.img, !src && classes.displayNone)} alt={date}/>
+                <img
+                    src={src}
+                    className={clsx(classes.img, !src && classes.displayNone)}
+                    alt={date}
+                    onError={onError}
+                />
                 <ImageIcon className={clsx(classes.imgIcon, src && classes.displayNone)}/>
                 <input
                     type={'file'}

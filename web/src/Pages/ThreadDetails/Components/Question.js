@@ -103,7 +103,9 @@ export default function Question({
         <>
             <ListItem id={'author'}>
                 <ListItemAvatar>
-                    <Avatar>
+                    <Avatar
+                        src={`${process.env.REACT_APP_CORE_AVATARS}/${author.id}.jpg`}
+                    >
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={author.name}

@@ -103,9 +103,15 @@ export default function Info({origUserdata, init, ...props}) {
     }
 
     function handleGetAvatar() {
+        setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${origUserdata.id}.jpg`, date: new Date().toString()});
+
+
+        /*
         getAvatar(origUserdata.id).then(response => {
             response && setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${origUserdata.id}.jpg`, date: new Date().toString()});
         });
+
+         */
     }
 
     function handleChangeAvatar(picture) {
@@ -128,6 +134,7 @@ export default function Info({origUserdata, init, ...props}) {
                         >
                             <ImagePicker
                                 onChange={handleChangeAvatar}
+                                onError={event => setAvatar({image: null, date: new Date().toString()})}
                                 src={avatar.image}
                                 date={avatar.date}
                             >
