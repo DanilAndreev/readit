@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAvatar;
+use App\Http\Resources\ViewUser;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -26,28 +26,28 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\User $user
+     * @param User $user
      */
     public function show(User $user)
     {
-        return new \App\Http\Resources\ViewUser($user);
+        return new ViewUser($user);
     }
 
     /**
      * Show currently authenticated user.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      */
     public function me(Request $request)
     {
-        return new \App\Http\Resources\ViewUser($request->user());
+        return new ViewUser($request->user());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\User $user
+     * @param Request $request
+     * @param User $user
      */
     public function update(Request $request, User $user)
     {
@@ -55,6 +55,7 @@ class UserController extends Controller
             'email',
             'name',
             'password',
+            'about_me',
             'is_admin',
         ]);
 
@@ -64,14 +65,14 @@ class UserController extends Controller
 
         $user->update($fields);
 
-        return new \App\Http\Resources\ViewUser($user);
+        return new ViewUser($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param StoreAvatar $request
-     * @param \App\User $user
+     * @param User $user
      */
     public function avatar(StoreAvatar $request, User $user)
     {
@@ -85,7 +86,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\User $user
+     * @param User $user
      */
     public function destroy(User $user)
     {
