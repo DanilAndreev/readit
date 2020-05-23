@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         $request
             ->file('avatar')
-            ->storeAs('avatars', $request->user()->id . '.jpg');
+            ->storeAs('avatars', $user->id . '.jpg');
 
         return response()->json(null, 201);
     }
