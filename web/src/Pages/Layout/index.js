@@ -184,8 +184,10 @@ function Layout({width, ...props}) {
                     {user &&
                     <Button color="inherit" onClick={event => changeRoute(`/user/${user.id}`)}>
                         {user.name}
-                        <Avatar className={classes.avatar}>
-                            <ImageIcon/>
+                        <Avatar
+                            className={classes.avatar}
+                            src={`${process.env.REACT_APP_CORE_AVATARS}/${user.id}.jpg`}
+                        >
                         </Avatar>
                     </Button>
                     }

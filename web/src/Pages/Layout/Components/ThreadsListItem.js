@@ -39,8 +39,9 @@ export default function ThreadsListItem({thread, ...props}) {
                 onClick={event => changeRoute(`/thread/${thread.id}`)}
             >
                 <ListItemAvatar>
-                    <Avatar>
-                        <ImageIcon/>
+                    <Avatar
+                        src={`${process.env.REACT_APP_CORE_AVATARS}/${thread.user.id}.jpg`}
+                    >
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={primary} secondary={secondary}/>

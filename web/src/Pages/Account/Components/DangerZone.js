@@ -118,33 +118,33 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
                             Delete account
                         </Button>
                     </ListItem>
-                    {viewed_user.id !== user.id && isAdmin() &&
-                        <React.Fragment>
-                            {!viewed_user.is_admin &&
-                            <ListItem className={classes.noPaddingSides}>
-                                <Button
-                                    fullWidth
-                                    variant={'outlined'}
-                                    className={classes.dangerZone}
-                                    onClick={handleTryMakeAdmin}
-                                >
-                                    Make admin
-                                </Button>
-                            </ListItem>
-                            }
-                            {viewed_user.is_admin &&
-                            <ListItem className={classes.noPaddingSides}>
-                                <Button
-                                    fullWidth
-                                    variant={'outlined'}
-                                    className={classes.dangerZone}
-                                    onClick={handleTryMakeNotAdmin}
-                                >
-                                    Remove admin
-                                </Button>
-                            </ListItem>
-                            }
-                        </React.Fragment>
+                    {isAdmin() && viewed_user.id !== user.id &&
+                    <React.Fragment>
+                        {!viewed_user.is_admin &&
+                        <ListItem className={classes.noPaddingSides}>
+                            <Button
+                                fullWidth
+                                variant={'outlined'}
+                                className={classes.dangerZone}
+                                onClick={handleTryMakeAdmin}
+                            >
+                                Make admin
+                            </Button>
+                        </ListItem>
+                        }
+                        {viewed_user.is_admin &&
+                        <ListItem className={classes.noPaddingSides}>
+                            <Button
+                                fullWidth
+                                variant={'outlined'}
+                                className={classes.dangerZone}
+                                onClick={handleTryMakeNotAdmin}
+                            >
+                                Remove admin
+                            </Button>
+                        </ListItem>
+                        }
+                    </React.Fragment>
                     }
                 </List>
             </FormControl>

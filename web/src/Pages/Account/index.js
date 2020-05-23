@@ -1,6 +1,7 @@
 import React from 'react'
 import {useAuth} from "../../Utilities/Auth";
 import {useParams} from 'react-router-dom';
+import {coreRequest} from "../../Utilities/Rest";
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -11,7 +12,6 @@ import Divider from "@material-ui/core/Divider";
 import Info from './Components/Info'
 import Password from "./Components/Password";
 import DangerZone from "./Components/DangerZone";
-import {coreRequest} from "../../Utilities/Rest";
 
 
 export default function Account() {
@@ -62,7 +62,7 @@ export default function Account() {
                     <Password />
                 </React.Fragment>
                 }
-                {(user && user.id === +id || isAdmin) &&
+                {(user && user.id === +id || isAdmin()) &&
                 <React.Fragment>
                     <Divider/>
                     <DangerZone viewed_user={origUserdata} updateInfo={init}/>

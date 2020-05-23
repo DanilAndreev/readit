@@ -36,6 +36,8 @@ function ThreadDetails({width, ...props}) {
     const classes = useStyles();
     const history = useHistory();
 
+    const updater = React.useRef();
+
     function changeRoute(route) {
         history.push(route);
     }
@@ -43,9 +45,9 @@ function ThreadDetails({width, ...props}) {
     function getQuestions() {
         coreRequest().get(`questions/${id}`)
             .then(response => {
-                setAuthor(response.body.data.user);
+                setAuthor({...response.body.data.user});
                 setThread({...response.body.data, replies: undefined, user: undefined, user_id: undefined});
-                setAnswers(response.body.data.replies);
+                setAnswers([...response.body.data.replies]);
             })
             .catch(error => {
                 console.error(error);
@@ -54,19 +56,16 @@ function ThreadDetails({width, ...props}) {
 
 
     React.useEffect(() => {
+        clearInterval(updater.current);
         getQuestions();
-        const updater = setInterval(() => {
+        updater.current = setInterval(() => {
             console.log(`Sync [thread]: synchronizing (${new Date().toLocaleString()})`);
             getQuestions();
         }, 30000);
 
         return () => {
-            clearInterval(updater);
+            clearInterval(updater.current);
         }
-    }, []);
-
-    React.useEffect(() => {
-        getQuestions();
     }, [id]);
 
     function handleUpdateAnswers() {
@@ -129,7 +128,7 @@ function ThreadDetails({width, ...props}) {
                         <List className={classes.width100}>
                             {answers.map((item, index) => {
                                 return (
-                                    <AnswerListItem key={`answer_${index}`} answer={item} onEdited={handleUpdateAnswers}/>
+                                    <AnswerListItem key={`answer_${index}_${thread.id}_${author.id}`} answer={item} onEdited={handleUpdateAnswers}/>
                                 );
                             })}
                         </List>
