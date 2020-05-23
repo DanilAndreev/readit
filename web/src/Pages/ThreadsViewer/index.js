@@ -61,12 +61,13 @@ function ThreadListItem({thread, ...props}) {
                     <Avatar
                         src={`${process.env.REACT_APP_CORE_AVATARS}/${thread.user.id}.jpg`}
                     >
-                        <ImageIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={primary}
-                              secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`}
-                              className={classes.threadsList}/>
+                <ListItemText
+                    primary={primary}
+                    secondary={`${thread.user.name} | ${new Date(thread.created_at).toLocaleString()}`}
+                    className={classes.threadsList}
+                />
                 {secondary}
             </ListItem>
             <Divider/>
@@ -84,6 +85,7 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
     const {mode} = useParams();
     const {search} = qs.parse(location.search, {ignoreQueryPrefix: true});
     const {user} = useAuth();
+    const updater = React.useRef();
 
     function getArticles(page) {
         if (!search) {
@@ -109,23 +111,24 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
 
     React.useEffect(() => {
         getArticles(1);
-        const updater = setInterval(() => {
+        clearInterval(updater.current);
+        updater.current = setInterval(() => {
             if (!search) {
-                console.log(`Sync [threads]: synchronizing (${new Date().toLocaleString()})`)
+                console.log(`Sync [threads]: synchronizing (${new Date().toLocaleString()})`);
                 getArticles();
             } else {
-                console.log(`Sync [threads]: skipping synchronization (${new Date().toLocaleString()})`)
+                console.log(`Sync [threads]: skipping synchronization (${new Date().toLocaleString()})`);
             }
         }, 30000);
 
         return () => {
-            clearInterval(updater);
+            clearInterval(updater.current);
         }
-    }, []);
+    }, [mode]);
 
     React.useEffect(() => {
         getArticles(1);
-    }, [search, mode, sortBy]);
+    }, [search, sortBy]);
 
     function changeRoute(route) {
         history.push(route);
