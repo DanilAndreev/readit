@@ -178,7 +178,8 @@ function Layout({width, ...props}) {
                 anchor={'left'}
                 open={!!menu}
                 onClose={event => changeRoute(location.pathname)}
-                swipeAreaWidth={100}
+                onOpen={event => changeRoute(`?menu=true`)}
+                swipeAreaWidth={40}
                 classes={{paperAnchorLeft: classes.menuDrawer}}
             >
                 <List>
@@ -250,7 +251,7 @@ function Layout({width, ...props}) {
                         </Avatar>
                     </Button>
                     }
-                    {user && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
+                    {user && isWidthUp('sm', width) && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
                 </Toolbar>
             </AppBar>
             <Grid container className={clsx(
