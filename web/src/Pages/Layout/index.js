@@ -266,12 +266,19 @@ function Layout({width, ...props}) {
                                     <Box p={1}>
                                         <div className={classes.searchLineBase}>
                                             <TextField
+                                                value={search}
                                                 fullWidth
                                                 variant="filled"
                                                 label={'Find question'}
                                                 size={'small'}
                                                 name={'search'}
                                                 onChange={handleSearchInput}
+                                                onKeyPress={event => {
+                                                    if(event.key === 'Enter'){
+                                                        handleFindQuestion();
+                                                        setSearch('');
+                                                    }
+                                                }}
                                                 autoComplete={'search'}
                                             />
                                             <Button
