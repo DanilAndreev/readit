@@ -25,40 +25,21 @@ import EditIcon from '@material-ui/icons/Edit';
 import ButtonBase from "@material-ui/core/ButtonBase";
 import InputBase from "@material-ui/core/InputBase";
 import getAvatar from "../../../Utilities/getAvatar";
+import UserAvatar from "./UserAvatar";
 
-
-function useClientRect() {
-    const [rect, setRect] = React.useState(null);
-    const ref = React.useCallback(node => {
-        if (node !== null) {
-            setRect(node.getBoundingClientRect());
-        }
-    }, []);
-    return [rect, ref];
-}
 
 export default function Info({origUserdata, init, ...props}) {
-    const [rect, ref] = useClientRect();
     const [editMode, setEditMode] = React.useState(false);
     const {id} = useParams();
     const [userdata, setUserdata] = React.useState({...origUserdata, id: undefined});
     const {user, setUser, isAdmin} = useAuth();
     const classes = useStyles();
     const history = useHistory();
-    const [avatar, setAvatar] = React.useState({image: null, date: new Date().toString()});
     let loading = false;
 
     React.useEffect(() => {
         setUserdata({...origUserdata, id: undefined});
     }, [origUserdata]);
-
-    React.useEffect(() => {
-        handleGetAvatar();
-    }, []);
-
-    React.useEffect(() => {
-        handleGetAvatar();
-    }, [id]);
 
     function changeRoute(route) {
         history.push(route);
@@ -102,53 +83,12 @@ export default function Info({origUserdata, init, ...props}) {
         return null;
     }
 
-    function handleGetAvatar() {
-        setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${origUserdata.id}.jpg`, date: new Date().toString()});
-
-
-        /*
-        getAvatar(origUserdata.id).then(response => {
-            response && setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${origUserdata.id}.jpg`, date: new Date().toString()});
-        });
-
-         */
-    }
-
-    function handleChangeAvatar(picture) {
-        coreRequest().post(`users/${origUserdata.id}/avatar`)
-            .attach('avatar', picture[0])
-            .then(response => {
-                handleGetAvatar();
-            })
-            .catch(error => {
-                switch (error.status) {
-                    case 401:
-                        changeRoute('?login=true');
-                        break;
-                    default:
-                        console.error(error);
-                }
-            });
-    }
-
     return (
         <ListItem>
             <Grid container>
                 <Grid item xs={12} md={6}>
                     <Box p={1}>
-                        <Avatar
-                            ref={ref}
-                            style={{width: '100%', height: rect && rect.width}}
-                        >
-                            <ImagePicker
-                                onChange={handleChangeAvatar}
-                                onError={event => setAvatar({image: null, date: new Date().toString()})}
-                                src={avatar.image}
-                                date={avatar.date}
-                            >
-                                Upload avatar
-                            </ImagePicker>
-                        </Avatar>
+                        <UserAvatar user={origUserdata}/>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>

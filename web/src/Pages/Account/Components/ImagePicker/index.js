@@ -19,7 +19,6 @@ function ImagePicker({
     const classes = useStyles();
 
 
-    console.log(date);
     return (
         <>
             <div className={classes.root}>
@@ -34,7 +33,7 @@ function ImagePicker({
                     type={'file'}
                     className={clsx(classes.input)}
                     onChange={event => onChange(event.target.files)}
-                    accept={'.png'}
+                    accept={'.png,.jpg,.jpeg'}
                     multiple={false}
                 />
                 {children &&
