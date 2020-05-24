@@ -48,7 +48,19 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
         marginLeft: theme.spacing(2),
-    }
+    },
+    menuIcon: {
+        color: theme.palette.common.white,
+    },
+    menuDrawer: {
+        maxWidth: '80vw',
+    },
+    appBarMobileMargin: {
+        marginTop: '56px',
+    },
+    appBarDesktopMargin: {
+        marginTop: '64px',
+    },
 }));
 
 export default useStyles;

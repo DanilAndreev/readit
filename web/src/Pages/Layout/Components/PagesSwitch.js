@@ -18,6 +18,9 @@ export default function PagesSwitch({articles, setArticles, ...props}) {
             <Route path={'/threads/:mode?'}>
                 <ThreadsViewer articles={articles} setArticles={setArticles}/>
             </Route>
+            <Route path={'/'} exact>
+                <ThreadsViewer articles={articles} setArticles={setArticles}/>
+            </Route>
             <Route path={'/thread/:id'}>
                 <ThreadDetails/>
             </Route>

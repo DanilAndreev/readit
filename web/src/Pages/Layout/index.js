@@ -28,15 +28,23 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import IconButton from "@material-ui/core/IconButton";
 
 //MUI icons
 import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@material-ui/icons/Menu';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 //Custom components
 import ThreadsListItem from "./Components/ThreadsListItem";
 import PagesSwitch from "./Components/PagesSwitch";
 import Footer from "./Components/Footer";
-import DesktopLeftButtons from "./Components/DesktopLeftButtons";
+import MenuButtons from "./Components/MenuButtons";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import clsx from "clsx";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 
 function Layout({width, ...props}) {
@@ -48,7 +56,7 @@ function Layout({width, ...props}) {
     const {user, setUser, setToken} = useAuth();
     const [gotUser, setGotUser] = React.useState(false);
     const location = useLocation();
-    const {register, login} = qs.parse(location.search, {ignoreQueryPrefix: true});
+    const {register, login, menu} = qs.parse(location.search, {ignoreQueryPrefix: true});
     let loading = false;
 
     const [topArticles, setTopArticles] = React.useState([]);
@@ -165,8 +173,69 @@ function Layout({width, ...props}) {
                 <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
                 <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
-            <AppBar position="static">
+            {isWidthDown('md', width) &&
+            <SwipeableDrawer
+                anchor={'left'}
+                open={!!menu}
+                onClose={event => changeRoute(location.pathname)}
+                onOpen={event => changeRoute(`?menu=true`)}
+                swipeAreaWidth={40}
+                classes={{paperAnchorLeft: classes.menuDrawer}}
+            >
+                <List>
+                    {user &&
+                    <ListItem>
+                        <ListItemAvatar>
+                            <Avatar
+                                src={`${process.env.REACT_APP_CORE_AVATARS}/${user.id}.jpg`}
+                            >
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={user && user.name}
+                            secondary={user && user.email}
+                        />
+                        <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="logout" onClick={handleLogout}>
+                                <ExitToAppIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                    }
+                    {!user &&
+                    <ListItem>
+                        <ButtonGroup fullWidth>
+                            <Button onClick={event => changeRoute('?register=true')}>
+                                Register
+                            </Button>
+                            <Button onClick={event => changeRoute('?login=true')}>
+                                Login
+                            </Button>
+                        </ButtonGroup>
+                    </ListItem>
+                    }
+                </List>
+                <MenuButtons/>
+                <List>
+                    <ListItem>
+                        <ListItemText primary={"Top 10 threads"}/>
+                    </ListItem>
+                    <Divider/>
+                    {topArticles.map((item, index) => {
+                        return (
+                            <ThreadsListItem key={`top_artciles_${index}`} thread={item}/>
+                        );
+                    })}
+                </List>
+            </SwipeableDrawer>
+            }
+            <AppBar position={isWidthUp('md', width) ? "static" : 'fixed'}>
                 <Toolbar>
+                    {isWidthDown('sm', width) &&
+                    <IconButton onClick={event => isWidthDown('md', width) && changeRoute(`?menu=true`)}>
+                        <MenuIcon color={'inherit'} className={classes.menuIcon}/>
+                    </IconButton>
+                    }
                     <Typography variant="h6" className={classes.title}>
                         Forum
                     </Typography>
@@ -174,7 +243,7 @@ function Layout({width, ...props}) {
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
                     {user &&
                     <Button color="inherit" onClick={event => changeRoute(`/user/${user.id}`)}>
-                        {user.name}
+                        {isWidthUp('md', width) && user.name}
                         <Avatar
                             className={classes.avatar}
                             src={`${process.env.REACT_APP_CORE_AVATARS}/${user.id}.jpg`}
@@ -182,10 +251,12 @@ function Layout({width, ...props}) {
                         </Avatar>
                     </Button>
                     }
-                    {user && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
+                    {user && isWidthUp('sm', width) && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
                 </Toolbar>
             </AppBar>
-            <Grid container>
+            <Grid container className={clsx(
+                isWidthDown('sm', width) && classes.appBarMobileMargin,
+            )}>
                 {isWidthUp('sm', width) && <Grid item md={1} lg={2}/>}
                 <Grid item xs={12} md={10} lg={8} id={'page'}>
                     <Box>
@@ -196,12 +267,19 @@ function Layout({width, ...props}) {
                                     <Box p={1}>
                                         <div className={classes.searchLineBase}>
                                             <TextField
+                                                value={search}
                                                 fullWidth
                                                 variant="filled"
                                                 label={'Find question'}
                                                 size={'small'}
                                                 name={'search'}
                                                 onChange={handleSearchInput}
+                                                onKeyPress={event => {
+                                                    if(event.key === 'Enter'){
+                                                        handleFindQuestion();
+                                                        setSearch('');
+                                                    }
+                                                }}
                                                 autoComplete={'search'}
                                             />
                                             <Button
@@ -233,7 +311,13 @@ function Layout({width, ...props}) {
                         </ThemeProvider>
                         <Grid container>
                             <ThemeProvider theme={LightTheme}>
-                                <DesktopLeftButtons />
+                                {isWidthUp('md', width) &&
+                                <Grid item xs={12} md={2} className={classes.leftColumn}>
+                                    <Box p={1}>
+                                        <MenuButtons/>
+                                    </Box>
+                                </Grid>
+                                }
                             </ThemeProvider>
                             <Grid item xs={12} md={7} className={classes.contentColumn}>
                                 <Grid container>
@@ -243,6 +327,7 @@ function Layout({width, ...props}) {
                                     />
                                 </Grid>
                             </Grid>
+                            {isWidthUp('md', width) &&
                             <Grid item xs={12} md={3} className={classes.rightColumn}>
                                 <Box p={1}>
                                     <List>
@@ -258,6 +343,7 @@ function Layout({width, ...props}) {
                                     </List>
                                 </Box>
                             </Grid>
+                            }
                         </Grid>
                     </Box>
                 </Grid>
