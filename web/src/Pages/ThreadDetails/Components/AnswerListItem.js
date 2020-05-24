@@ -24,7 +24,6 @@ import CloseIcon from "@material-ui/icons/Close";
 
 //Custom components
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
-import getAvatar from "../../../Utilities/getAvatar";
 
 
 export default function AnswerListItem({answer, onEdited = () => {}, ...props}) {
@@ -33,7 +32,6 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
     const [newData, setNewData] = React.useState(answer.text);
     const history = useHistory();
     const classes = useStyles();
-    const confirm = useConfirmDialog();
     const {id} = useParams();
     const mounted = React.useRef();
 

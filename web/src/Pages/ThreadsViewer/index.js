@@ -3,6 +3,7 @@ import useStyles from "./style";
 import {useHistory, useLocation, useParams} from 'react-router-dom'
 import {coreRequest} from "../../Utilities/Rest";
 import qs from 'qs';
+import {useAuth} from "../../Utilities/Auth";
 
 //MUI components
 import Box from "@material-ui/core/Box";
@@ -20,13 +21,11 @@ import Pagination from '@material-ui/lab/Pagination';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
 
 //MUI icons
-import ImageIcon from '@material-ui/icons/Image';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import {useAuth} from "../../Utilities/Auth";
-import getAvatar from "../../Utilities/getAvatar";
 
 
 function ThreadListItem({thread, ...props}) {
@@ -149,7 +148,9 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
                 <List>
                     <ListItem>
                         <Breadcrumbs aria-label="breadcrumb">
-                            <Typography color="textPrimary">Threads</Typography>
+                            {!search && <Typography color="textPrimary">Threads</Typography>}
+                            {search && <Link onClick={event => changeRoute('/threads')} color="textPrimary">Threads</Link>}
+                            {search && <Typography color="textPrimary">Results for: {search}</Typography>}
                         </Breadcrumbs>
                     </ListItem>
                     <ListItem>

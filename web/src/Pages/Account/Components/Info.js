@@ -4,14 +4,11 @@ import {coreRequest} from "../../../Utilities/Rest";
 import {useAuth} from "../../../Utilities/Auth";
 import useStyles from "./style";
 import clsx from "clsx";
-import ImagePicker from './ImagePicker'
-import imageResize from 'resize-image'
 
 //MUI components
 import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -22,9 +19,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
-import ButtonBase from "@material-ui/core/ButtonBase";
-import InputBase from "@material-ui/core/InputBase";
-import getAvatar from "../../../Utilities/getAvatar";
+
+//Custom components
 import UserAvatar from "./UserAvatar";
 
 
