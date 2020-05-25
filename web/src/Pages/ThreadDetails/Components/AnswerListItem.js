@@ -38,6 +38,7 @@ export default function AnswerListItem({
     const classes = useStyles();
     const {id} = useParams();
     const mounted = React.useRef();
+    const [errors, setErrors] = React.useState(null);
 
     React.useEffect(() => {
         mounted.current = true;
@@ -56,12 +57,25 @@ export default function AnswerListItem({
         setNewData(event.target.value);
     }
 
+    function checkFields() {
+        if (newData === '') {
+            setErrors('Заповніть обов\'язкове поле');
+            return false;
+        }
+        return true;
+    }
+
     function handleEditSubmit() {
+        if (!checkFields()) {
+            return null;
+        }
+
         coreRequest().put(`replies/${answer.id}`)
             .send({text: newData})
             .then(response => {
                 setEdit(false);
                 onEdited(newData);
+                setErrors(null);
             })
             .catch(error => {
                 switch (error.status) {
@@ -69,6 +83,7 @@ export default function AnswerListItem({
                         changeRoute('?login=true');
                         break;
                     default:
+                        setErrors('Error');
                         console.error(error);
                 }
             });
@@ -107,6 +122,8 @@ export default function AnswerListItem({
             }
             {edit &&
             <TextField
+                helperText={errors}
+                error={!!errors}
                 fullWidth
                 label={'Відповідь'}
                 variant={'outlined'}

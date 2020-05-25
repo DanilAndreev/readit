@@ -42,6 +42,7 @@ export default function Question({
     const loading = false;
     const confirm = useConfirmDialog();
     const classes = useStyles();
+    const [errors, setErrors] = React.useState({title: null, body: null});
 
     React.useEffect(() => {
         setNewData({title: thread.title, body: thread.body});
@@ -55,13 +56,31 @@ export default function Question({
         setNewData({...newData, [event.target.name]: event.target.value});
     }
 
+    function checkFields() {
+        let isError = false;
+        if ( newData.body === '') {
+            setErrors(last => ({...last, body: 'Заповніть обов\'язкове поле'}));
+            isError = true;
+        }
+        if(newData.title === ''){
+            setErrors(last => ({...last, title: 'Заповніть обов\'язкове поле'}));
+            isError = true;
+        }
+        return !isError;
+    }
+
     function handleEditSubmit() {
+        if (!checkFields()) {
+            return null;
+        }
+
         coreRequest().put(`questions/${thread.id}`)
             .send({...newData, body: newData.body.replace(/(\n\n\n)+/g, '\n'), title: newData.title.replace(/\n/g, '')})
             .then(response => {
                 console.log(response);
                 setEdit(false);
                 onEdited(newData);
+                setErrors({title: null, body: null});
             })
             .catch(error => {
                 switch (error.status) {
@@ -69,7 +88,7 @@ export default function Question({
                         changeRoute('?login=true');
                         break;
                     default:
-                        console.error(error);
+                        setErrors({title: 'Error', body: 'Error'});
                 }
             });
     }
@@ -153,6 +172,7 @@ export default function Question({
                 }
                 {edit &&
                 <TextField
+                    helperText={errors.title}
                     fullWidth
                     label={'Питання'}
                     required
@@ -160,6 +180,7 @@ export default function Question({
                     name={'title'}
                     variant={'outlined'}
                     onChange={handleDataInput}
+                    error={errors.title}
                 />
                 }
             </ListItem>
@@ -177,6 +198,7 @@ export default function Question({
                 <TextField
                     fullWidth
                     label={'Детально'}
+                    helperText={errors.body}
                     required
                     value={newData.body}
                     name={'body'}
@@ -185,6 +207,7 @@ export default function Question({
                     onChange={handleDataInput}
                     multiline
                     rows={6}
+                    error={errors.body}
                 />
                 }
             </ListItem>

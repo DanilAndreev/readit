@@ -31,6 +31,7 @@ function ThreadDetails({width, ...props}) {
     const [thread, setThread] = React.useState({});
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
+    const [errors, setErrors] = React.useState(null);
     const {id} = useParams();
     const {user} = useAuth();
     const classes = useStyles();
@@ -92,12 +93,25 @@ function ThreadDetails({width, ...props}) {
         setMyAnswer(event.target.value);
     }
 
+    function checkFilds() {
+        if (myAnswer === '') {
+            setErrors('Заповніть обов\'язкове поле');
+            return false;
+        }
+        return true;
+    }
+
     function handleAnswer() {
+        if (!checkFilds()) {
+            return null;
+        }
+
         coreRequest().post(`questions/${id}/replies`)
             .send({text: myAnswer})
             .then(response => {
                 handleUpdateAnswers();
                 setMyAnswer('');
+                setErrors(null);
             })
             .catch(error => {
                 switch (error.status) {
@@ -105,6 +119,7 @@ function ThreadDetails({width, ...props}) {
                         changeRoute('?login=true');
                         break;
                     default:
+                        setErrors('Error');
                         console.error(error);
                 }
             });
@@ -128,7 +143,8 @@ function ThreadDetails({width, ...props}) {
                         <List className={classes.width100}>
                             {answers.map((item, index) => {
                                 return (
-                                    <AnswerListItem key={`answer_${index}_${thread.id}_${author.id}`} answer={item} onEdited={handleUpdateAnswers}/>
+                                    <AnswerListItem key={`answer_${index}_${thread.id}_${author.id}`} answer={item}
+                                                    onEdited={handleUpdateAnswers}/>
                                 );
                             })}
                         </List>
@@ -138,6 +154,8 @@ function ThreadDetails({width, ...props}) {
                         <Grid container>
                             <Grid item xs={12}>
                                 <TextField
+                                    error={!!errors}
+                                    helperText={errors}
                                     value={myAnswer}
                                     multiline
                                     rows={8}
