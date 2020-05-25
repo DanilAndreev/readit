@@ -9,7 +9,6 @@ import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 import qs from 'qs'
-import logo from './images/readit_logo_light.png';
 import clsx from "clsx";
 
 //Pages
@@ -46,6 +45,9 @@ import Footer from "./Components/Footer";
 import MenuButtons from "./Components/MenuButtons";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+
+//Images
+import logo from './images/readit_logo_light.png';
 
 
 function Layout({width, ...props}) {
