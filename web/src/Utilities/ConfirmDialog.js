@@ -1,10 +1,15 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react'
+
+//MUI components
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+
 
 const ConfirmDialogContext = React.createContext({user: null, token: null});
 

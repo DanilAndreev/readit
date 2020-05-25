@@ -1,8 +1,12 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from "react";
 import useStyles from "./style";
 import clsx from "clsx";
-import ImageIcon from '@material-ui/icons/Image';
 import withWidth, {isWidthUp} from "@material-ui/core/withWidth";
+
+//MUI icons
+import ImageIcon from '@material-ui/icons/Image';
 
 
 function ImagePicker({
@@ -14,6 +18,7 @@ function ImagePicker({
                          width,
                          date,
                          children,
+                         disabled = false,
                          ...props
                      }) {
     const classes = useStyles();
@@ -29,19 +34,23 @@ function ImagePicker({
                     onError={onError}
                 />
                 <ImageIcon className={clsx(classes.imgIcon, src && classes.displayNone)}/>
-                <input
-                    type={'file'}
-                    className={clsx(classes.input)}
-                    onChange={event => onChange(event.target.files)}
-                    accept={'.png,.jpg,.jpeg'}
-                    multiple={false}
-                />
-                {children &&
-                <div
-                    className={clsx(classes.message, isWidthUp('md', width) && classes.displayNone, !src && classes.messageUnloaded)}
-                >
-                    {children}
-                </div>
+                {!disabled &&
+                <React.Fragment>
+                    <input
+                        type={'file'}
+                        className={clsx(classes.input)}
+                        onChange={event => onChange(event.target.files)}
+                        accept={'.png,.jpg,.jpeg'}
+                        multiple={false}
+                    />
+                    {children &&
+                    <div
+                        className={clsx(classes.message, isWidthUp('md', width) && classes.displayNone, !src && classes.messageUnloaded)}
+                    >
+                        {children}
+                    </div>
+                    }
+                </React.Fragment>
                 }
             </div>
         </>

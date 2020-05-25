@@ -1,15 +1,16 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react'
 import useStyles from "./style";
 import {LightTheme, BaseTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
-import {Route, Switch, useHistory, useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 import qs from 'qs'
 import logo from './images/readit_logo_light.png';
 import clsx from "clsx";
-
 
 //Pages
 import AuthDialog from "../Auth";
@@ -166,11 +167,11 @@ function Layout({width, ...props}) {
     return (
         <>
             <Dialog aria-labelledby="auth-dialog" open={!!login} onClose={handleAuthClose}>
-                <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
+                <DialogTitle id="auth-dialog-title">Аутентифікація</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
             </Dialog>
             <Dialog aria-labelledby="auth-dialog" open={!!register} onClose={handleRegistrationClose}>
-                <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
+                <DialogTitle id="auth-dialog-title">Реєстрація</DialogTitle>
                 <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
             {isWidthDown('md', width) &&
@@ -218,7 +219,7 @@ function Layout({width, ...props}) {
                 <MenuButtons/>
                 <List>
                     <ListItem>
-                        <ListItemText primary={"Top 10 threads"}/>
+                        <ListItemText primary={"Топ 10 питань"}/>
                     </ListItem>
                     <Divider/>
                     {topArticles.map((item, index) => {
@@ -237,10 +238,12 @@ function Layout({width, ...props}) {
                     </IconButton>
                     }
                     <div className={classes.title}>
-                        <img
-                            src={logo}
-                            className={clsx(classes.logo)}
-                        />
+                        <Button onClick={event => changeRoute('/about')}>
+                            <img
+                                src={logo}
+                                className={clsx(classes.logo)}
+                            />
+                        </Button>
                     </div>
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
@@ -273,7 +276,7 @@ function Layout({width, ...props}) {
                                                 value={search}
                                                 fullWidth
                                                 variant="filled"
-                                                label={'Find question'}
+                                                label={'Знайти питання'}
                                                 size={'small'}
                                                 name={'search'}
                                                 onChange={handleSearchInput}
@@ -305,7 +308,7 @@ function Layout({width, ...props}) {
                                                 className={classes.createThreadButton}
                                                 onClick={handleCreateThread}
                                             >
-                                                Create thread
+                                                Створити питання
                                             </Button>
                                         </Box>
                                     </div>
@@ -335,7 +338,7 @@ function Layout({width, ...props}) {
                                 <Box p={1}>
                                     <List>
                                         <ListItem>
-                                            <ListItemText primary={"Top 10 threads"}/>
+                                            <ListItemText primary={"Топ 10 питань"}/>
                                         </ListItem>
                                         <Divider/>
                                         {topArticles.map((item, index) => {

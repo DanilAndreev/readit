@@ -1,3 +1,5 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react'
 import useStyles from "./style";
 import {useHistory, useLocation, useParams} from 'react-router-dom'
@@ -148,9 +150,9 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
                 <List>
                     <ListItem>
                         <Breadcrumbs aria-label="breadcrumb">
-                            {!search && <Typography color="textPrimary">Threads</Typography>}
-                            {search && <Link onClick={event => changeRoute('/threads')} color="textPrimary">Threads</Link>}
-                            {search && <Typography color="textPrimary">Results for: {search}</Typography>}
+                            {!search && <Typography color="textPrimary">Питання</Typography>}
+                            {search && <Link onClick={event => changeRoute('/threads')} color="textPrimary">Питання</Link>}
+                            {search && <Typography color="textPrimary">Результати для: {search}</Typography>}
                         </Breadcrumbs>
                     </ListItem>
                     <ListItem>
@@ -161,13 +163,13 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
                             onChange={handleToggleSort}
                         >
                             <ToggleButton value="created_at">
-                                Newest
+                                Найновіші
                             </ToggleButton>
                             <ToggleButton value="reply_count">
-                                Most commented
+                                По відповідям
                             </ToggleButton>
                             <ToggleButton value="views_count">
-                                Most viewed
+                                Популярні
                             </ToggleButton>
                         </ToggleButtonGroup>
                     </ListItem>

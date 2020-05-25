@@ -1,20 +1,25 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react';
+import {coreRequest} from "../../Utilities/Rest";
+import {useAuth} from "../../Utilities/Auth";
+import useStyles from "./style";
+
+//MUI components
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
-import {coreRequest} from "../../Utilities/Rest";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
-import {useAuth} from "../../Utilities/Auth";
-import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
+
+//MUI Icons
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 
 export default function Auth({
@@ -52,10 +57,10 @@ export default function Auth({
                 try {
                     switch (error.status) {
                         case 403:
-                            setError('aAlready authenticated');
+                            setError('Вже аутентифіковано');
                             break;
                         case 422:
-                            setError('Incorrect email or password');
+                            setError('Неправильна пошта чи пароль');
                             break;
                         default:
                             setError('Unexpected error, see console for more information');
@@ -127,14 +132,14 @@ export default function Auth({
                     />
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary={'Remember me'}/>
+                    <ListItemText primary={'Запам\'ятати мене'}/>
                     <ListItemSecondaryAction>
                         <Checkbox checked={authData.remember} onChange={handleRememberMe}/>
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                     <Button fullWidth onClick={handleLogin}>
-                        Sign in
+                        Увійти
                     </Button>
                 </ListItem>
             </List>

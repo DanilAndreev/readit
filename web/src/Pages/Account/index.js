@@ -1,3 +1,5 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react'
 import {useAuth} from "../../Utilities/Auth";
 import {useParams} from 'react-router-dom';
@@ -66,7 +68,10 @@ export default function Account() {
                 {(user && user.id === +id || isAdmin()) &&
                 <React.Fragment>
                     <Divider/>
-                    <DangerZone viewed_user={origUserdata} updateInfo={init}/>
+                    <DangerZone
+                        viewed_user={origUserdata}
+                        updateInfo={init}
+                    />
                     <Divider/>
                 </React.Fragment>
                 }

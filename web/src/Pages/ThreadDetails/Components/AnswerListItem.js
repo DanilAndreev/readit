@@ -1,9 +1,11 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from "react";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
 import useStyles from "./style";
-import {useConfirmDialog} from "../../../Utilities/ConfirmDialog";
+import clsx from "clsx";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -26,7 +28,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
 
 
-export default function AnswerListItem({answer, onEdited = () => {}, ...props}) {
+export default function AnswerListItem({
+                                           answer, onEdited = () => {
+    }, ...props
+                                       }) {
     const {user, isAdmin} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState(answer.text);
@@ -34,6 +39,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
     const classes = useStyles();
     const {id} = useParams();
     const mounted = React.useRef();
+    const [errors, setErrors] = React.useState(null);
 
     React.useEffect(() => {
         mounted.current = true;
@@ -52,12 +58,25 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
         setNewData(event.target.value);
     }
 
+    function checkFields() {
+        if (newData === '') {
+            setErrors('Заповніть обов\'язкове поле');
+            return false;
+        }
+        return true;
+    }
+
     function handleEditSubmit() {
+        if (!checkFields()) {
+            return null;
+        }
+
         coreRequest().put(`replies/${answer.id}`)
             .send({text: newData})
             .then(response => {
                 setEdit(false);
                 onEdited(newData);
+                setErrors(null);
             })
             .catch(error => {
                 switch (error.status) {
@@ -65,6 +84,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                         changeRoute('?login=true');
                         break;
                     default:
+                        setErrors('Error');
                         console.error(error);
                 }
             });
@@ -96,11 +116,17 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             <Typography variant={'h6'}>
                 {answer.user.name}
             </Typography>
-            {!edit && answer.text && <ParsedMessage message={answer.text} style={{whiteSpace: 'pre-wrap'}}/>}
+            {!edit && answer.text &&
+            <Typography style={{whiteSpace: 'pre-wrap'}}>
+                <ParsedMessage message={answer.text}/>
+            </Typography>
+            }
             {edit &&
             <TextField
+                helperText={errors}
+                error={!!errors}
                 fullWidth
-                label={'Answer'}
+                label={'Відповідь'}
                 variant={'outlined'}
                 size={"small"}
                 multiline
@@ -118,14 +144,15 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                     <Avatar
+                        onClick={event => changeRoute(`/user/${answer.user.id}`)}
                         src={`${process.env.REACT_APP_CORE_AVATARS}/${answer.user.id}.jpg`}
                     >
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
                     primary={primary}
-                    secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}
-                    className={classes.listItemTextFix}
+                    secondary={`опубліковано ${new Date(answer.created_at).toLocaleString()}`}
+                    className={clsx(classes.listItemTextFix, classes.overflowHidden)}
                 />
                 {(user && user.id === answer.user.id || isAdmin()) &&
                 <ListItemSecondaryAction>

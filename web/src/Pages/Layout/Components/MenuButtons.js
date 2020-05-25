@@ -1,3 +1,5 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from "react";
 import useStyles from "../style";
 import {useAuth} from "../../../Utilities/Auth";
@@ -36,7 +38,7 @@ export default function MenuButtons() {
             >
                 <FormatListBulletedIcon fontSize={'small'}/>
                 <ListItemText
-                    primary={"All threads"}
+                    primary={"Всі питання"}
                     className={classes.leftPanelButtonsText}
                 />
             </ListItem>
@@ -49,7 +51,7 @@ export default function MenuButtons() {
                 >
                     <RecordVoiceOverIcon fontSize={'small'}/>
                     <ListItemText
-                        primary={"My threads"}
+                        primary={"Мої питання"}
                         className={classes.leftPanelButtonsText}
                     />
                 </ListItem>
@@ -60,7 +62,7 @@ export default function MenuButtons() {
                 >
                     <RateReviewIcon fontSize={'small'}/>
                     <ListItemText
-                        primary={"Commented by me"}
+                        primary={"Прокоментовані мною"}
                         className={classes.leftPanelButtonsText}
                     />
                 </ListItem>
@@ -75,7 +77,7 @@ export default function MenuButtons() {
             >
                 <AccountCircleIcon fontSize={'small'}/>
                 <ListItemText
-                    primary={"My account"}
+                    primary={"Мій профіль"}
                     className={classes.leftPanelButtonsText}
                 />
             </ListItem>
@@ -87,7 +89,7 @@ export default function MenuButtons() {
             >
                 <PeopleIcon fontSize={'small'}/>
                 <ListItemText
-                    primary={"Users"}
+                    primary={"Користувачі"}
                     className={classes.leftPanelButtonsText}
                 />
             </ListItem>
@@ -98,7 +100,7 @@ export default function MenuButtons() {
             >
                 <HelpIcon fontSize={'small'}/>
                 <ListItemText
-                    primary={"About"}
+                    primary={"Інформація"}
                     className={classes.leftPanelButtonsText}
                 />
             </ListItem>

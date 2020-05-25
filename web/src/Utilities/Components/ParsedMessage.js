@@ -1,7 +1,12 @@
-import Link from "@material-ui/core/Link";
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from "react";
 import {useConfirmDialog} from "./../ConfirmDialog";
+
+//MUI components
+import Link from "@material-ui/core/Link";
 import Tooltip from "@material-ui/core/Tooltip";
+
 
 export function messageParser(message, confirm) {
     const result = [];

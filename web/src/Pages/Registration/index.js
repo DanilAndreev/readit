@@ -1,17 +1,22 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react';
-import Input from "@material-ui/core/Input";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Button from "@material-ui/core/Button";
-
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 import {useHistory} from 'react-router-dom';
+
+//MUI components
+import Input from "@material-ui/core/Input";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Button from "@material-ui/core/Button";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import ListItemText from "@material-ui/core/ListItemText";
+
+//MUI icons
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 
 export default function Registration({authData, setAuthData, onComplete, ...props}) {
@@ -141,7 +146,7 @@ export default function Registration({authData, setAuthData, onComplete, ...prop
             </ListItem>
             <ListItem>
                 <Button fullWidth onClick={handleRegister}>
-                    Sign up
+                    Зареєструватися
                 </Button>
             </ListItem>
         </List>

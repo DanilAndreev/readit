@@ -1,5 +1,11 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react'
 import {coreRequest} from '../../Utilities/Rest'
+import {useHistory} from 'react-router-dom';
+import {useAuth} from "../../Utilities/Auth";
+
+//MUI components
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
@@ -8,9 +14,10 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Question from './../ThreadDetails/Components/Question'
-import {useHistory} from 'react-router-dom';
 import MenuItem from "@material-ui/core/MenuItem";
+
+//Custom components
+import Question from './../ThreadDetails/Components/Question'
 
 
 function TabPanel({children, value, index, ...other}) {
@@ -31,10 +38,12 @@ function TabPanel({children, value, index, ...other}) {
 
 export default function ThreadEditor({...props}) {
     const [tab, setTab] = React.useState(0);
-    const [thread, setThread] = React.useState({title: null, body: null});
+    const [thread, setThread] = React.useState({title: '', body: ''});
     const [categories, setCategories] = React.useState([]);
     const [category, setCategory] = React.useState(null);
+    const [errors, setErrors] = React.useState({title: null, body: null, category: null});
     const history = useHistory();
+    const {user} = useAuth();
 
     function changeRoute(route) {
         history.push(route);
@@ -50,11 +59,40 @@ export default function ThreadEditor({...props}) {
             });
     }, []);
 
+    function checkFields() {
+        let error = false;
+        if (!thread.title) {
+            setErrors(last => ({...last, title: 'Заповніть обов\'язкове поле'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, title: null}))
+        }
+        if (!thread.body) {
+            setErrors(last => ({...last, body: 'Заповніть обов\'язкове поле'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, body: null}))
+        }
+        if (!category) {
+            setErrors(last => ({...last, category: 'Виберіть категорію'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, category: null}))
+        }
+
+        return !error;
+    }
+
     function handleSubmit() {
+        if (!checkFields()) {
+            return null;
+        }
+
         try {
             coreRequest().post('questions')
                 .send({...thread, category_id: category, body: thread.body.replace(/(\n\n\n)+/g, '\n'), title: thread.title.replace(/\n/g, '')})
                 .then(response => {
+                    setErrors({title: null, body: null, category: null});
                     changeRoute(`/thread/${response.body.data.id}`);
                 })
                 .catch(error => {
@@ -89,19 +127,21 @@ export default function ThreadEditor({...props}) {
                 aria-label="simple tabs example"
                 variant={'fullWidth'}
             >
-                <Tab label="Edit"/>
-                <Tab label="Preview"/>
+                <Tab label="Редагування"/>
+                <Tab label="Перегляд"/>
             </Tabs>
             <TabPanel value={tab} index={0}>
                 <List>
                     <ListItem>
                         <Typography variant={'h6'}>
-                            Create new thread
+                            Створити питання
                         </Typography>
                     </ListItem>
                     <ListItem>
                         <TextField
-                            label={'Sumarry'}
+                            error={!!errors.title}
+                            helperText={errors.title}
+                            label={'Питання'}
                             value={thread.title || ''}
                             required
                             fullWidth
@@ -112,7 +152,9 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
-                            label={'Description'}
+                            error={!!errors.body}
+                            helperText={errors.body}
+                            label={'Детально'}
                             value={thread.body || ''}
                             required
                             fullWidth
@@ -125,9 +167,11 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
+                            error={!!errors.category}
+                            helperText={errors.category}
                             select
                             name={'category_id'}
-                            label={'Category'}
+                            label={'Категорія'}
                             value={category || ''}
                             onChange={handleCategorySelect}
                             fullWidth
@@ -146,7 +190,7 @@ export default function ThreadEditor({...props}) {
                             variant={'outlined'}
                             onClick={handleSubmit}
                         >
-                            Submit
+                            Підтвердити
                         </Button>
                     </ListItem>
                 </List>
@@ -154,10 +198,12 @@ export default function ThreadEditor({...props}) {
             <TabPanel value={tab} index={1}>
                 <Question
                     author={{username: 'Andreev Danil'}}
+                    preview
                     thread={{
-                        title: thread.title || 'Fill the summary input line',
-                        body: thread.body || 'Fill the description input line',
+                        title: thread.title || 'Заповніть поле питання щоб продовжити',
+                        body: thread.body || 'Заповніть поле детально щоб продовжити',
                     }}
+                    author={user}
                 />
             </TabPanel>
         </Grid>

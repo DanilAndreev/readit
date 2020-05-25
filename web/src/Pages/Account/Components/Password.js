@@ -1,14 +1,19 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
+import Input from "@material-ui/core/Input";
+import React from "react";
+
+//MUI components
 import ListItem from "@material-ui/core/ListItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
-import {Box} from "@material-ui/core";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import React from "react";
+import Box from "@material-ui/core/Box";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+
+//MUI icons
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 
@@ -49,7 +54,7 @@ export default function Password() {
                                 required
                                 type={showPassword.oldpassword ? 'text' : 'password'}
                                 fullWidth
-                                placeholder={'Old password'}
+                                placeholder={'Старий пароль'}
                                 autoComplete={'password'}
                                 endAdornment={
                                     <ShowPasswordAdornment
@@ -67,7 +72,7 @@ export default function Password() {
                                 required
                                 type={showPassword.newpassword ? 'text' : 'password'}
                                 fullWidth
-                                placeholder={'New password'}
+                                placeholder={'Новий пароль'}
                                 autoComplete={'new-password'}
                                 endAdornment={
                                     <ShowPasswordAdornment
@@ -81,7 +86,7 @@ export default function Password() {
                                 required
                                 type={showPassword.confirmnewpassword ? 'text' : 'password'}
                                 fullWidth
-                                placeholder={'Confirm new password'}
+                                placeholder={'Підтвердити новий пароль'}
                                 autoComplete={'confirm-new-password'}
                                 endAdornment={
                                     <ShowPasswordAdornment
@@ -98,7 +103,7 @@ export default function Password() {
                             fullWidth
                             variant={'outlined'}
                         >
-                            Change password
+                            Змінити пароль
                         </Button>
                     </Grid>
                 </Grid>

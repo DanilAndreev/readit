@@ -1,14 +1,19 @@
-import Grid from "@material-ui/core/Grid";
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from "react";
+import {useHistory} from 'react-router-dom';
+import {BaseTheme} from "../../../Themes/DefaultTheme";
+import {ThemeProvider} from '@material-ui/core/styles';
+import useStyles from "./style";
+
+//MUI components
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Link from "@material-ui/core/Link";
-import {useHistory} from 'react-router-dom';
-import Typography from "@material-ui/core/Typography";
-import {BaseTheme} from "../../../Themes/DefaultTheme";
-import {ThemeProvider} from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import useStyles from "./style";
+import Typography from "@material-ui/core/Typography";
+
 
 export default function Footer() {
     const history = useHistory();
@@ -40,7 +45,7 @@ export default function Footer() {
                                 </ListItem>
                                 <ListItem>
                                     <Link href={'#'} onClick={event => changeRoute(`/user/25`)}>
-                                        Нєстєров Микита
+                                        Нестеров Микита
                                     </Link>
                                 </ListItem>
                             </List>
@@ -118,7 +123,7 @@ export default function Footer() {
                     <Box p={2}>
                         <Grid item xs={12}>
                             <Typography variant={'subtitle2'} align={'center'}>
-                                Copyright (С) Andrieiev Solomaha Nesterov 2019 All rights reserved
+                                Copyright (С) Andrieiev Solomaha Nesterov 2020 All rights reserved
                             </Typography>
                         </Grid>
                     </Box>

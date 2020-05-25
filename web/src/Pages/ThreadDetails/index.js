@@ -1,3 +1,5 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from 'react';
 import {withWidth, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
@@ -5,7 +7,6 @@ import {useParams} from "react-router-dom";
 import useStyles from "./style";
 import {useAuth} from "../../Utilities/Auth";
 import {useHistory} from 'react-router-dom';
-import * as _ from 'lodash'
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -19,7 +20,6 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 
-
 //Custom components
 import Question from './Components/Question'
 import AnswerListItem from "./Components/AnswerListItem";
@@ -31,6 +31,7 @@ function ThreadDetails({width, ...props}) {
     const [thread, setThread] = React.useState({});
     const [answers, setAnswers] = React.useState([]);
     const [myAnswer, setMyAnswer] = React.useState('');
+    const [errors, setErrors] = React.useState(null);
     const {id} = useParams();
     const {user} = useAuth();
     const classes = useStyles();
@@ -92,12 +93,25 @@ function ThreadDetails({width, ...props}) {
         setMyAnswer(event.target.value);
     }
 
+    function checkFilds() {
+        if (myAnswer === '') {
+            setErrors('Заповніть обов\'язкове поле');
+            return false;
+        }
+        return true;
+    }
+
     function handleAnswer() {
+        if (!checkFilds()) {
+            return null;
+        }
+
         coreRequest().post(`questions/${id}/replies`)
             .send({text: myAnswer})
             .then(response => {
                 handleUpdateAnswers();
                 setMyAnswer('');
+                setErrors(null);
             })
             .catch(error => {
                 switch (error.status) {
@@ -105,6 +119,7 @@ function ThreadDetails({width, ...props}) {
                         changeRoute('?login=true');
                         break;
                     default:
+                        setErrors('Error');
                         console.error(error);
                 }
             });
@@ -117,7 +132,7 @@ function ThreadDetails({width, ...props}) {
                     <ListItem>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link color="inherit" onClick={() => changeRoute('/threads')}>
-                                Threads
+                                Питання
                             </Link>
                             <Typography color="textPrimary">{thread.title}</Typography>
                         </Breadcrumbs>
@@ -128,7 +143,8 @@ function ThreadDetails({width, ...props}) {
                         <List className={classes.width100}>
                             {answers.map((item, index) => {
                                 return (
-                                    <AnswerListItem key={`answer_${index}_${thread.id}_${author.id}`} answer={item} onEdited={handleUpdateAnswers}/>
+                                    <AnswerListItem key={`answer_${index}_${thread.id}_${author.id}`} answer={item}
+                                                    onEdited={handleUpdateAnswers}/>
                                 );
                             })}
                         </List>
@@ -138,19 +154,21 @@ function ThreadDetails({width, ...props}) {
                         <Grid container>
                             <Grid item xs={12}>
                                 <TextField
+                                    error={!!errors}
+                                    helperText={errors}
                                     value={myAnswer}
                                     multiline
                                     rows={8}
                                     variant={'outlined'}
-                                    label={'Answer'}
+                                    label={'Відповідь'}
                                     fullWidth
                                     onChange={handleInputAnswer}
                                 />
                             </Grid>
-                            {isWidthUp('sm', width) && <Grid item md={10}/>}
-                            <Grid item xs={12} md={2}>
+                            {isWidthUp('sm', width) && <Grid item md={9}/>}
+                            <Grid item xs={12} md={3}>
                                 <Button fullWidth onClick={handleAnswer}>
-                                    Send
+                                    Відправити
                                 </Button>
                             </Grid>
                         </Grid>
