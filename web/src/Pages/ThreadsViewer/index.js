@@ -123,7 +123,7 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
         return () => {
             clearInterval(updater.current);
         }
-    }, [mode]);
+    }, [mode, sortBy]);
 
     React.useEffect(() => {
         getArticles(1);

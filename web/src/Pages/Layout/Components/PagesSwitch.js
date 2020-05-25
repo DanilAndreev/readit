@@ -8,6 +8,7 @@ import Account from "../../Account";
 import Users from "../../Users";
 import ThreadsViewer from "../../ThreadsViewer";
 import ThreadDetails from "../../ThreadDetails";
+import About from "../../About";
 
 
 export default function PagesSwitch({articles, setArticles, ...props}) {
@@ -35,7 +36,9 @@ export default function PagesSwitch({articles, setArticles, ...props}) {
             <Route path={'/users'}>
                 <Users/>
             </Route>
-
+            <Route path={'/about'}>
+                <About/>
+            </Route>
         </Switch>
 
     );

@@ -61,6 +61,9 @@ const useStyles = makeStyles(theme => ({
     appBarDesktopMargin: {
         marginTop: '64px',
     },
+    logo: {
+        height: '35px',
+    },
 }));
 
 export default useStyles;
