@@ -117,7 +117,7 @@ export default function Question({
                 </ListItemAvatar>
                 <ListItemText
                     primary={author.name}
-                    secondary={`опубліковано ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}
+                    secondary={`опубліковано ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'тільки що'}`}
                     className={clsx((user && user.id === author.id || isAdmin()) && classes.listItemTextFix)}
                 />
                 {(user && user.id === author.id || isAdmin()) && !preview &&

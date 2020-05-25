@@ -11,6 +11,7 @@ import Tab from "@material-ui/core/Tab";
 import Question from './../ThreadDetails/Components/Question'
 import {useHistory} from 'react-router-dom';
 import MenuItem from "@material-ui/core/MenuItem";
+import {useAuth} from "../../Utilities/Auth";
 
 
 function TabPanel({children, value, index, ...other}) {
@@ -35,6 +36,7 @@ export default function ThreadEditor({...props}) {
     const [categories, setCategories] = React.useState([]);
     const [category, setCategory] = React.useState(null);
     const history = useHistory();
+    const {user} = useAuth();
 
     function changeRoute(route) {
         history.push(route);
@@ -159,6 +161,7 @@ export default function ThreadEditor({...props}) {
                         title: thread.title || 'Заповніть поле питання щоб продовжити',
                         body: thread.body || 'Заповніть поле детально щоб продовжити',
                     }}
+                    author={user}
                 />
             </TabPanel>
         </Grid>

@@ -4,6 +4,7 @@ import Box from "@material-ui/core/Box";
 import React from "react";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
+import {useAuth} from "../../../Utilities/Auth";
 
 
 function useClientRect() {
@@ -26,11 +27,12 @@ function useClientRect() {
     return [rect, ref];
 }
 
-export default function UserAvatar({user = {}}) {
+export default function UserAvatar({inputUser = {}}) {
     const [rect, ref] = useClientRect();
     const [avatar, setAvatar] = React.useState({image: null, date: new Date().toString()});
     const history = useHistory();
     const {id} = useParams();
+    const {user, isAdmin} = useAuth();
 
     React.useEffect(() => {
         handleGetAvatar();
@@ -41,11 +43,11 @@ export default function UserAvatar({user = {}}) {
     }
 
     function handleGetAvatar() {
-        setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${user.id}.jpg`, date: new Date().toString()});
+        setAvatar({image: `${process.env.REACT_APP_CORE_AVATARS}/${inputUser.id}.jpg`, date: new Date().toString()});
     }
 
     function handleChangeAvatar(picture) {
-        coreRequest().post(`users/${user.id}/avatar`)
+        coreRequest().post(`users/${inputUser.id}/avatar`)
             .attach('avatar', picture[0])
             .then(response => {
                 handleGetAvatar();
@@ -71,6 +73,7 @@ export default function UserAvatar({user = {}}) {
                 onError={event => setAvatar({image: null, date: new Date().toString()})}
                 src={avatar.image}
                 date={avatar.date}
+                disabled={!((user && user.id === inputUser.id) || isAdmin())}
             >
                 Загрузити аватар
             </ImagePicker>

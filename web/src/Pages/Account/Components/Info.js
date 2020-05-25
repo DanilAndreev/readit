@@ -84,7 +84,7 @@ export default function Info({origUserdata, init, ...props}) {
             <Grid container>
                 <Grid item xs={12} md={6}>
                     <Box p={1}>
-                        <UserAvatar user={origUserdata}/>
+                        <UserAvatar inputUser={origUserdata}/>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
