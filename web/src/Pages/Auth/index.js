@@ -52,10 +52,10 @@ export default function Auth({
                 try {
                     switch (error.status) {
                         case 403:
-                            setError('aAlready authenticated');
+                            setError('Вже аутентифіковано');
                             break;
                         case 422:
-                            setError('Incorrect email or password');
+                            setError('Неправильна пошта чи пароль');
                             break;
                         default:
                             setError('Unexpected error, see console for more information');
@@ -127,14 +127,14 @@ export default function Auth({
                     />
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary={'Remember me'}/>
+                    <ListItemText primary={'Запам\'ятати мене'}/>
                     <ListItemSecondaryAction>
                         <Checkbox checked={authData.remember} onChange={handleRememberMe}/>
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
                     <Button fullWidth onClick={handleLogin}>
-                        Sign in
+                        Увійти
                     </Button>
                 </ListItem>
             </List>

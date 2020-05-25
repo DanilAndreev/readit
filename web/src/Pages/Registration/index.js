@@ -141,7 +141,7 @@ export default function Registration({authData, setAuthData, onComplete, ...prop
             </ListItem>
             <ListItem>
                 <Button fullWidth onClick={handleRegister}>
-                    Sign up
+                    Зареєструватися
                 </Button>
             </ListItem>
         </List>

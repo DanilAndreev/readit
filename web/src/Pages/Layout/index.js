@@ -166,11 +166,11 @@ function Layout({width, ...props}) {
     return (
         <>
             <Dialog aria-labelledby="auth-dialog" open={!!login} onClose={handleAuthClose}>
-                <DialogTitle id="auth-dialog-title">Authentication</DialogTitle>
+                <DialogTitle id="auth-dialog-title">Аутентифікація</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
             </Dialog>
             <Dialog aria-labelledby="auth-dialog" open={!!register} onClose={handleRegistrationClose}>
-                <DialogTitle id="auth-dialog-title">Registration</DialogTitle>
+                <DialogTitle id="auth-dialog-title">Реєстрація</DialogTitle>
                 <RegistrationDialog onComplete={handleAuthenticated}/>
             </Dialog>
             {isWidthDown('md', width) &&
