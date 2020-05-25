@@ -58,13 +58,17 @@ export default function Question({
 
     function checkFields() {
         let isError = false;
-        if ( newData.body === '') {
+        if (!newData.body) {
             setErrors(last => ({...last, body: 'Заповніть обов\'язкове поле'}));
             isError = true;
+        } else {
+            setErrors(last => ({...last, body: null}));
         }
-        if(newData.title === ''){
+        if(!newData.title){
             setErrors(last => ({...last, title: 'Заповніть обов\'язкове поле'}));
             isError = true;
+        } else {
+            setErrors(last => ({...last, title: null}));
         }
         return !isError;
     }

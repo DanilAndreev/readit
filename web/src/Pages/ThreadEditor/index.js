@@ -65,13 +65,13 @@ export default function ThreadEditor({...props}) {
             setErrors(last => ({...last, body: 'Заповніть обов\'язкове поле'}));
             error = true;
         } else {
-            setErrors(last => ({...last, title: null}))
+            setErrors(last => ({...last, body: null}))
         }
         if (!category) {
             setErrors(last => ({...last, category: 'Виберіть категорію'}));
             error = true;
         } else {
-            setErrors(last => ({...last, title: null}))
+            setErrors(last => ({...last, category: null}))
         }
 
         return !error;
