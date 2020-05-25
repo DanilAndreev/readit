@@ -1,4 +1,5 @@
-/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import Input from "@material-ui/core/Input";
 import React from "react";
 

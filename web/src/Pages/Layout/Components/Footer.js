@@ -1,4 +1,5 @@
-/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev
+   Copyright (C) 2020 */
 import React from "react";
 import {useHistory} from 'react-router-dom';
 import {BaseTheme} from "../../../Themes/DefaultTheme";
