@@ -118,7 +118,7 @@ export default function Footer() {
                     <Box p={2}>
                         <Grid item xs={12}>
                             <Typography variant={'subtitle2'} align={'center'}>
-                                Copyright (С) Andrieiev Solomaha Nesterov 2019 All rights reserved
+                                Copyright (С) Andrieiev Solomaha Nesterov 2020 All rights reserved
                             </Typography>
                         </Grid>
                     </Box>

@@ -32,9 +32,10 @@ function TabPanel({children, value, index, ...other}) {
 
 export default function ThreadEditor({...props}) {
     const [tab, setTab] = React.useState(0);
-    const [thread, setThread] = React.useState({title: null, body: null});
+    const [thread, setThread] = React.useState({title: '', body: ''});
     const [categories, setCategories] = React.useState([]);
     const [category, setCategory] = React.useState(null);
+    const [errors, setErrors] = React.useState({title: null, body: null, category: null});
     const history = useHistory();
     const {user} = useAuth();
 
@@ -52,11 +53,40 @@ export default function ThreadEditor({...props}) {
             });
     }, []);
 
+    function checkFields() {
+        let error = false;
+        if (!thread.title) {
+            setErrors(last => ({...last, title: 'Заповніть обов\'язкове поле'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, title: null}))
+        }
+        if (!thread.body) {
+            setErrors(last => ({...last, body: 'Заповніть обов\'язкове поле'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, title: null}))
+        }
+        if (!category) {
+            setErrors(last => ({...last, category: 'Виберіть категорію'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, title: null}))
+        }
+
+        return !error;
+    }
+
     function handleSubmit() {
+        if (!checkFields()) {
+            return null;
+        }
+
         try {
             coreRequest().post('questions')
                 .send({...thread, category_id: category, body: thread.body.replace(/(\n\n\n)+/g, '\n'), title: thread.title.replace(/\n/g, '')})
                 .then(response => {
+                    setErrors({title: null, body: null, category: null});
                     changeRoute(`/thread/${response.body.data.id}`);
                 })
                 .catch(error => {
@@ -103,6 +133,8 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
+                            error={!!errors.title}
+                            helperText={errors.title}
                             label={'Питання'}
                             value={thread.title || ''}
                             required
@@ -114,6 +146,8 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
+                            error={!!errors.body}
+                            helperText={errors.body}
                             label={'Детально'}
                             value={thread.body || ''}
                             required
@@ -127,6 +161,8 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
+                            error={!!errors.category}
+                            helperText={errors.category}
                             select
                             name={'category_id'}
                             label={'Категорія'}
