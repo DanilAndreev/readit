@@ -1,20 +1,24 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from 'react';
+import {coreRequest} from "../../Utilities/Rest";
+import {useAuth} from "../../Utilities/Auth";
+import useStyles from "./style";
+
+//MUI components
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
-import {coreRequest} from "../../Utilities/Rest";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
-import {useAuth} from "../../Utilities/Auth";
-import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
+
+//MUI Icons
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 
 export default function Auth({

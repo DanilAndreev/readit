@@ -1,3 +1,4 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
 import {useParams, useHistory} from 'react-router-dom'
 import {coreRequest} from "../../../Utilities/Rest";

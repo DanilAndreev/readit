@@ -1,14 +1,18 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
+import Input from "@material-ui/core/Input";
+import React from "react";
+
+//MUI components
 import ListItem from "@material-ui/core/ListItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
-import {Box} from "@material-ui/core";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import React from "react";
+import Box from "@material-ui/core/Box";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+
+//MUI icons
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 

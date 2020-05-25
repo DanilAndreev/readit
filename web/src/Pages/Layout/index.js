@@ -1,15 +1,15 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from 'react'
 import useStyles from "./style";
 import {LightTheme, BaseTheme} from './../../Themes/DefaultTheme'
 import {ThemeProvider} from '@material-ui/core/styles';
-import {Route, Switch, useHistory, useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 import qs from 'qs'
 import logo from './images/readit_logo_light.png';
 import clsx from "clsx";
-
 
 //Pages
 import AuthDialog from "../Auth";

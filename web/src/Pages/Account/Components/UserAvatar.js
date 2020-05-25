@@ -1,10 +1,14 @@
-import Avatar from "@material-ui/core/Avatar";
-import ImagePicker from "./ImagePicker";
-import Box from "@material-ui/core/Box";
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
 import {useAuth} from "../../../Utilities/Auth";
+
+//MUI components
+import Avatar from "@material-ui/core/Avatar";
+
+//Custom components
+import ImagePicker from "./ImagePicker";
 
 
 function useClientRect() {

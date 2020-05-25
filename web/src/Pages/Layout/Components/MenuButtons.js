@@ -1,3 +1,4 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
 import useStyles from "../style";
 import {useAuth} from "../../../Utilities/Auth";

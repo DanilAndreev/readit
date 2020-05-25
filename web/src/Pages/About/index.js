@@ -1,13 +1,18 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
+import useStyles from "./style";
+import {useHistory} from 'react-router-dom';
+
+//MUI components
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import useStyles from "./style";
-import logo from './images/readit_logo_black.png'
 import Typography from "@material-ui/core/Typography";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
-import {useHistory} from 'react-router-dom';
+
+//Images
+import logo from './images/readit_logo_black.png'
 
 
 export default function About() {

@@ -1,3 +1,4 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from 'react';
 import {withWidth, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
@@ -5,7 +6,6 @@ import {useParams} from "react-router-dom";
 import useStyles from "./style";
 import {useAuth} from "../../Utilities/Auth";
 import {useHistory} from 'react-router-dom';
-import * as _ from 'lodash'
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -18,7 +18,6 @@ import Button from "@material-ui/core/Button";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-
 
 //Custom components
 import Question from './Components/Question'

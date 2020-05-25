@@ -1,3 +1,4 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
 import {useHistory, useLocation} from "react-router-dom";
 import {useAuth} from "../../../Utilities/Auth";
@@ -15,7 +16,6 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 
 //MUI icons
 import EditIcon from "@material-ui/icons/Edit";
@@ -23,9 +23,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 
-
 //Custom components
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
+
 
 export default function Question({
                                      author,

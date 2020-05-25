@@ -1,5 +1,5 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
-import useStyles from "../style";
 import {useHistory} from "react-router-dom";
 
 //MUI components
@@ -9,9 +9,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
-
-//MUI icons
-import ImageIcon from "@material-ui/icons/Image";
 
 
 export default function ThreadsListItem({thread, ...props}) {

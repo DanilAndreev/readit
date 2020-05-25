@@ -1,3 +1,4 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import superagent from 'superagent';
 
 

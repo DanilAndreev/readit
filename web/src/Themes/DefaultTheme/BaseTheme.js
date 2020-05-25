@@ -1,3 +1,4 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import { createMuiTheme } from '@material-ui/core/styles';
 import {blueGrey, grey} from '@material-ui/core/colors';
 

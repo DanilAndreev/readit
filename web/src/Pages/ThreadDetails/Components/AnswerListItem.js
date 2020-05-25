@@ -1,8 +1,10 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
 import useStyles from "./style";
+import clsx from "clsx";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -23,8 +25,6 @@ import CloseIcon from "@material-ui/icons/Close";
 
 //Custom components
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
-import clsx from "clsx";
-import Link from "@material-ui/core/Link";
 
 
 export default function AnswerListItem({

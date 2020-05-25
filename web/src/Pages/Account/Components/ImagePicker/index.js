@@ -1,8 +1,11 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
 import useStyles from "./style";
 import clsx from "clsx";
-import ImageIcon from '@material-ui/icons/Image';
 import withWidth, {isWidthUp} from "@material-ui/core/withWidth";
+
+//MUI icons
+import ImageIcon from '@material-ui/icons/Image';
 
 
 function ImagePicker({

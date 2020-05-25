@@ -1,14 +1,18 @@
-import ListItem from "@material-ui/core/ListItem";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Button from "@material-ui/core/Button";
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
-import useStyles from "./style";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
 import {useConfirmDialog} from "../../../Utilities/ConfirmDialog";
+import useStyles from "./style";
+
+//MUI components
+import ListItem from "@material-ui/core/ListItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
+
 
 export default function DangerZone({viewed_user, updateInfo, ...props}) {
     const classes = useStyles();
@@ -105,7 +109,7 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
         <ListItem className={classes.dangerZone}>
             <FormControl fullWidth>
                 <FormHelperText className={classes.dangerZone}>
-                    Опасна зона
+                    Небезпечна зона
                 </FormHelperText>
                 <List>
                     <ListItem className={classes.noPaddingSides}>

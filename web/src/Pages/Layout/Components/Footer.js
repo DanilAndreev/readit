@@ -1,14 +1,18 @@
-import Grid from "@material-ui/core/Grid";
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from "react";
+import {useHistory} from 'react-router-dom';
+import {BaseTheme} from "../../../Themes/DefaultTheme";
+import {ThemeProvider} from '@material-ui/core/styles';
+import useStyles from "./style";
+
+//MUI components
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Link from "@material-ui/core/Link";
-import {useHistory} from 'react-router-dom';
-import Typography from "@material-ui/core/Typography";
-import {BaseTheme} from "../../../Themes/DefaultTheme";
-import {ThemeProvider} from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import useStyles from "./style";
+import Typography from "@material-ui/core/Typography";
+
 
 export default function Footer() {
     const history = useHistory();

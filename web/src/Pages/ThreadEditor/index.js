@@ -1,5 +1,10 @@
+/* Author: Andrieiev Danil | danssg08@gmail.com | https://github.com/DanilAndreev */
 import React from 'react'
 import {coreRequest} from '../../Utilities/Rest'
+import {useHistory} from 'react-router-dom';
+import {useAuth} from "../../Utilities/Auth";
+
+//MUI components
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
@@ -8,10 +13,10 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Question from './../ThreadDetails/Components/Question'
-import {useHistory} from 'react-router-dom';
 import MenuItem from "@material-ui/core/MenuItem";
-import {useAuth} from "../../Utilities/Auth";
+
+//Custom components
+import Question from './../ThreadDetails/Components/Question'
 
 
 function TabPanel({children, value, index, ...other}) {
