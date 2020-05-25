@@ -29,6 +29,7 @@ export default function Info({origUserdata, init, ...props}) {
     const {id} = useParams();
     const [userdata, setUserdata] = React.useState({...origUserdata, id: undefined});
     const {user, setUser, isAdmin} = useAuth();
+    const [errors, setErrors] = React.useState({name: null, email: null});
     const classes = useStyles();
     const history = useHistory();
     let loading = false;
@@ -41,7 +42,28 @@ export default function Info({origUserdata, init, ...props}) {
         history.push(route);
     }
 
+    function checkFields() {
+        let error = false;
+        if (!userdata.name) {
+            setErrors(last => ({...last, name: 'Заповніть обов\'язкове поле'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, name: null}))
+        }
+        if (!userdata.email) {
+            setErrors(last => ({...last, email: 'Заповніть обов\'язкове поле'}));
+            error = true;
+        } else {
+            setErrors(last => ({...last, email: null}))
+        }
+        return !error;
+    }
+
     function handleEditSubmit() {
+        if (!checkFields()) {
+            return null;
+        }
+
         coreRequest().put(`users/${id}`)
             .send(userdata)
             .then(response => {
@@ -117,6 +139,8 @@ export default function Info({origUserdata, init, ...props}) {
                         </ListItem>
                         <ListItem>
                             <TextField
+                                error={!!errors.name}
+                                helperText={errors.name}
                                 disabled={!editMode}
                                 fullWidth
                                 name={'name'}
@@ -127,6 +151,8 @@ export default function Info({origUserdata, init, ...props}) {
                         </ListItem>
                         <ListItem>
                             <TextField
+                                error={!!errors.email}
+                                helperText={errors.email}
                                 disabled={!editMode}
                                 name={'email'}
                                 fullWidth

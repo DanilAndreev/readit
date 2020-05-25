@@ -66,7 +66,10 @@ export default function Account() {
                 {(user && user.id === +id || isAdmin()) &&
                 <React.Fragment>
                     <Divider/>
-                    <DangerZone viewed_user={origUserdata} updateInfo={init}/>
+                    <DangerZone
+                        viewed_user={origUserdata}
+                        updateInfo={init}
+                    />
                     <Divider/>
                 </React.Fragment>
                 }
