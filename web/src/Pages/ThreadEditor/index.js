@@ -197,7 +197,6 @@ export default function ThreadEditor({...props}) {
             </TabPanel>
             <TabPanel value={tab} index={1}>
                 <Question
-                    author={{username: 'Andreev Danil'}}
                     preview
                     thread={{
                         title: thread.title || 'Заповніть поле питання щоб продовжити',

@@ -241,6 +241,7 @@ function Layout({width, ...props}) {
                         <Button onClick={event => changeRoute('/about')}>
                             <img
                                 src={logo}
+                                alt={'Logo'}
                                 className={clsx(classes.logo)}
                             />
                         </Button>
