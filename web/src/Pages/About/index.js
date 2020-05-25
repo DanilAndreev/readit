@@ -32,6 +32,7 @@ export default function About() {
                         <Grid item xs={8} md={6}>
                             <img
                                 src={logo}
+                                alt={'Logo'}
                                 className={classes.logo}
                             />
                         </Grid>
