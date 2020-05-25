@@ -237,10 +237,12 @@ function Layout({width, ...props}) {
                     </IconButton>
                     }
                     <div className={classes.title}>
-                        <img
-                            src={logo}
-                            className={clsx(classes.logo)}
-                        />
+                        <Button onClick={event => changeRoute('/about')}>
+                            <img
+                                src={logo}
+                                className={clsx(classes.logo)}
+                            />
+                        </Button>
                     </div>
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
