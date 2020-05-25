@@ -147,8 +147,8 @@ function ThreadDetails({width, ...props}) {
                                     onChange={handleInputAnswer}
                                 />
                             </Grid>
-                            {isWidthUp('sm', width) && <Grid item md={10}/>}
-                            <Grid item xs={12} md={2}>
+                            {isWidthUp('sm', width) && <Grid item md={9}/>}
+                            <Grid item xs={12} md={3}>
                                 <Button fullWidth onClick={handleAnswer}>
                                     Відправити
                                 </Button>

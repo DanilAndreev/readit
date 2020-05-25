@@ -23,9 +23,14 @@ import CloseIcon from "@material-ui/icons/Close";
 
 //Custom components
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
+import clsx from "clsx";
+import Link from "@material-ui/core/Link";
 
 
-export default function AnswerListItem({answer, onEdited = () => {}, ...props}) {
+export default function AnswerListItem({
+                                           answer, onEdited = () => {
+    }, ...props
+                                       }) {
     const {user, isAdmin} = useAuth();
     const [edit, setEdit] = React.useState(false);
     const [newData, setNewData] = React.useState(answer.text);
@@ -95,7 +100,11 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             <Typography variant={'h6'}>
                 {answer.user.name}
             </Typography>
-            {!edit && answer.text && <ParsedMessage message={answer.text} style={{whiteSpace: 'pre-wrap'}}/>}
+            {!edit && answer.text &&
+            <Typography style={{whiteSpace: 'pre-wrap'}}>
+                <ParsedMessage message={answer.text}/>
+            </Typography>
+            }
             {edit &&
             <TextField
                 fullWidth
@@ -117,6 +126,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                     <Avatar
+                        onClick={event => changeRoute(`/user/${answer.user.id}`)}
                         src={`${process.env.REACT_APP_CORE_AVATARS}/${answer.user.id}.jpg`}
                     >
                     </Avatar>
@@ -124,7 +134,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                 <ListItemText
                     primary={primary}
                     secondary={`опубліковано ${new Date(answer.created_at).toLocaleString()}`}
-                    className={classes.listItemTextFix}
+                    className={clsx(classes.listItemTextFix, classes.overflowHidden)}
                 />
                 {(user && user.id === answer.user.id || isAdmin()) &&
                 <ListItemSecondaryAction>

@@ -40,7 +40,7 @@ export default function Footer() {
                                 </ListItem>
                                 <ListItem>
                                     <Link href={'#'} onClick={event => changeRoute(`/user/25`)}>
-                                        Нєстєров Микита
+                                        Нестеров Микита
                                     </Link>
                                 </ListItem>
                             </List>

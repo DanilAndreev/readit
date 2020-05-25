@@ -3,6 +3,8 @@ import {useHistory, useLocation} from "react-router-dom";
 import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useConfirmDialog} from '../../../Utilities/ConfirmDialog'
+import useStyles from "./style";
+import clsx from "clsx";
 
 //MUI components
 import ListItem from "@material-ui/core/ListItem";
@@ -39,6 +41,7 @@ export default function Question({
     const [newData, setNewData] = React.useState({title: thread.title, body: thread.body});
     const loading = false;
     const confirm = useConfirmDialog();
+    const classes = useStyles();
 
     React.useEffect(() => {
         setNewData({title: thread.title, body: thread.body});
@@ -105,15 +108,18 @@ export default function Question({
 
     return (
         <>
-            <ListItem id={'author'}>
+            <ListItem id={'author'} button onClick={event => changeRoute(`/user/${author.id}`)}>
                 <ListItemAvatar>
                     <Avatar
                         src={`${process.env.REACT_APP_CORE_AVATARS}/${author.id}.jpg`}
                     >
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={author.name}
-                              secondary={`опубліковано ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
+                <ListItemText
+                    primary={author.name}
+                    secondary={`опубліковано ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}
+                    className={clsx((user && user.id === author.id || isAdmin()) && classes.listItemTextFix)}
+                />
                 {(user && user.id === author.id || isAdmin()) && !preview &&
                 <ListItemSecondaryAction>
                     {!edit &&
@@ -160,7 +166,11 @@ export default function Question({
             <ListItem>
                 {!edit &&
                 <Typography variant={'body1'}>
-                    {thread.body && <ParsedMessage message={thread.body} style={{whiteSpace: 'pre-wrap'}}/>}
+                    {thread.body &&
+                    <Typography style={{whiteSpace: 'pre-wrap'}}>
+                        <ParsedMessage message={thread.body} style={{whiteSpace: 'pre-wrap'}}/>
+                    </Typography>
+                    }
                 </Typography>
                 }
                 {edit &&
