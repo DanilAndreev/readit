@@ -26,8 +26,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import ParsedMessage from "../../../Utilities/Components/ParsedMessage";
 
 export default function Question({
-                                     author, thread, onEdited = () => {
-    }, ...props
+                                     author,
+                                     thread,
+                                     onEdited = () => {
+                                     },
+                                     preview = false,
+                                     ...props
                                  }) {
     const history = useHistory();
     const {user, isAdmin} = useAuth();
@@ -69,8 +73,8 @@ export default function Question({
 
     function handleTryToDelete() {
         confirm(handleDelete, {
-            title: `Are you sure you want delete thread: ${thread.title}`,
-            text: 'This operation cannot be undone'
+            title: `Ви впевнені, що хочете видалити питання: ${thread.title}`,
+            text: 'Ця операція не може бути відмінена'
         });
     }
 
@@ -109,8 +113,8 @@ export default function Question({
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={author.name}
-                              secondary={`posted ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
-                {(user && user.id === author.id || isAdmin()) &&
+                              secondary={`опубліковано ${thread.created_at && new Date(thread.created_at).toLocaleString() || 'just now'}`}/>
+                {(user && user.id === author.id || isAdmin()) && !preview &&
                 <ListItemSecondaryAction>
                     {!edit &&
                     <React.Fragment>
@@ -144,7 +148,7 @@ export default function Question({
                 {edit &&
                 <TextField
                     fullWidth
-                    label={'Summary'}
+                    label={'Питання'}
                     required
                     value={newData.title}
                     name={'title'}
@@ -162,7 +166,7 @@ export default function Question({
                 {edit &&
                 <TextField
                     fullWidth
-                    label={'Description'}
+                    label={'Детально'}
                     required
                     value={newData.body}
                     name={'body'}

@@ -48,8 +48,8 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
 
     function handleTryToDeleteAccount() {
         confirm(handleDeleteAccount, {
-            title: ` Are you sure you want delete account: ${viewed_user.name}`,
-            text: `This operation cannot be undone`,
+            title: ` Ви впевнені, що хочете видалити акаунт: ${viewed_user.name}`,
+            text: `Ця операція не може бути відмінена`,
         })
     }
 
@@ -72,8 +72,8 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
 
     function handleTryMakeAdmin() {
         confirm(handleMakeAdmin, {
-            title: `Make ${viewed_user.name} | ${viewed_user.email} admin?`,
-            text: `This is a dangerous operation, admin can delete and edit threads, answers, and profiles. Also admin can make another users admin or remove admin`,
+            title: `Зробити ${viewed_user.name} | ${viewed_user.email} адміністратором?`,
+            text: `Це опасна операція, адміністратор може видаляти питання, відповіді, і користувачів. Також адміністратор може пивисити іншого користувача до адміністратора чи видалити його`,
         });
     }
 
@@ -105,7 +105,7 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
         <ListItem className={classes.dangerZone}>
             <FormControl fullWidth>
                 <FormHelperText className={classes.dangerZone}>
-                    Danger zone
+                    Опасна зона
                 </FormHelperText>
                 <List>
                     <ListItem className={classes.noPaddingSides}>
@@ -115,7 +115,7 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
                             className={classes.dangerZone}
                             onClick={handleTryToDeleteAccount}
                         >
-                            Delete account
+                            Видалити акаунт
                         </Button>
                     </ListItem>
                     {isAdmin() && viewed_user.id !== user.id &&
@@ -128,7 +128,7 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
                                 className={classes.dangerZone}
                                 onClick={handleTryMakeAdmin}
                             >
-                                Make admin
+                                Зробити адміністратором
                             </Button>
                         </ListItem>
                         }
@@ -140,7 +140,7 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
                                 className={classes.dangerZone}
                                 onClick={handleTryMakeNotAdmin}
                             >
-                                Remove admin
+                                Забрати адмінімтратора
                             </Button>
                         </ListItem>
                         }

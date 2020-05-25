@@ -218,7 +218,7 @@ function Layout({width, ...props}) {
                 <MenuButtons/>
                 <List>
                     <ListItem>
-                        <ListItemText primary={"Top 10 threads"}/>
+                        <ListItemText primary={"Топ 10 питань"}/>
                     </ListItem>
                     <Divider/>
                     {topArticles.map((item, index) => {
@@ -273,7 +273,7 @@ function Layout({width, ...props}) {
                                                 value={search}
                                                 fullWidth
                                                 variant="filled"
-                                                label={'Find question'}
+                                                label={'Знайти питання'}
                                                 size={'small'}
                                                 name={'search'}
                                                 onChange={handleSearchInput}
@@ -305,7 +305,7 @@ function Layout({width, ...props}) {
                                                 className={classes.createThreadButton}
                                                 onClick={handleCreateThread}
                                             >
-                                                Create thread
+                                                Створити питання
                                             </Button>
                                         </Box>
                                     </div>
@@ -335,7 +335,7 @@ function Layout({width, ...props}) {
                                 <Box p={1}>
                                     <List>
                                         <ListItem>
-                                            <ListItemText primary={"Top 10 threads"}/>
+                                            <ListItemText primary={"Топ 10 питань"}/>
                                         </ListItem>
                                         <Divider/>
                                         {topArticles.map((item, index) => {

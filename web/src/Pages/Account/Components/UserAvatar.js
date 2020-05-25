@@ -72,7 +72,7 @@ export default function UserAvatar({user = {}}) {
                 src={avatar.image}
                 date={avatar.date}
             >
-                Upload avatar
+                Загрузити аватар
             </ImagePicker>
         </Avatar>
 

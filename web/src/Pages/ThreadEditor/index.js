@@ -89,19 +89,19 @@ export default function ThreadEditor({...props}) {
                 aria-label="simple tabs example"
                 variant={'fullWidth'}
             >
-                <Tab label="Edit"/>
-                <Tab label="Preview"/>
+                <Tab label="Редагування"/>
+                <Tab label="Перегляд"/>
             </Tabs>
             <TabPanel value={tab} index={0}>
                 <List>
                     <ListItem>
                         <Typography variant={'h6'}>
-                            Create new thread
+                            Створити питання
                         </Typography>
                     </ListItem>
                     <ListItem>
                         <TextField
-                            label={'Sumarry'}
+                            label={'Питання'}
                             value={thread.title || ''}
                             required
                             fullWidth
@@ -112,7 +112,7 @@ export default function ThreadEditor({...props}) {
                     </ListItem>
                     <ListItem>
                         <TextField
-                            label={'Description'}
+                            label={'Детально'}
                             value={thread.body || ''}
                             required
                             fullWidth
@@ -127,7 +127,7 @@ export default function ThreadEditor({...props}) {
                         <TextField
                             select
                             name={'category_id'}
-                            label={'Category'}
+                            label={'Категорія'}
                             value={category || ''}
                             onChange={handleCategorySelect}
                             fullWidth
@@ -146,7 +146,7 @@ export default function ThreadEditor({...props}) {
                             variant={'outlined'}
                             onClick={handleSubmit}
                         >
-                            Submit
+                            Підтвердити
                         </Button>
                     </ListItem>
                 </List>
@@ -154,9 +154,10 @@ export default function ThreadEditor({...props}) {
             <TabPanel value={tab} index={1}>
                 <Question
                     author={{username: 'Andreev Danil'}}
+                    preview
                     thread={{
-                        title: thread.title || 'Fill the summary input line',
-                        body: thread.body || 'Fill the description input line',
+                        title: thread.title || 'Заповніть поле питання щоб продовжити',
+                        body: thread.body || 'Заповніть поле детально щоб продовжити',
                     }}
                 />
             </TabPanel>

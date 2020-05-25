@@ -45,7 +45,7 @@ function UserCard({user, ...props}) {
                     </CardActionArea>
                     <CardActions>
                         <Button size="small" color="primary" onClick={event => changeRoute(`/user/${user.id}`)}>
-                            View profile
+                            Профіль
                         </Button>
                     </CardActions>
                 </Card>
@@ -79,7 +79,7 @@ export default function Users() {
                     <Grid item xs={12}>
                         <Box p={1}>
                             <Breadcrumbs aria-label="breadcrumb">
-                                <Typography color="textPrimary">Users</Typography>
+                                <Typography color="textPrimary">Користувачі</Typography>
                             </Breadcrumbs>
                         </Box>
                     </Grid>

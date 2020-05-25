@@ -91,8 +91,8 @@ export default function Info({origUserdata, init, ...props}) {
                     <List>
                         <ListItem>
                             <ListItemText
-                                primary={`${origUserdata.is_admin ? 'Admin |' : ''} User info`}
-                                secondary={`Last updated ${new Date(userdata.updated_at).toLocaleString() || 'recently'}`}
+                                primary={`${origUserdata.is_admin ? 'Admin |' : ''} Інформація`}
+                                secondary={`Оновлено ${new Date(userdata.updated_at).toLocaleString() || 'recently'}`}
                                 className={clsx(editMode && classes.listItemTextFix)}
                             />
                             {(user && user.id === +id || isAdmin()) &&
@@ -120,7 +120,7 @@ export default function Info({origUserdata, init, ...props}) {
                                 disabled={!editMode}
                                 fullWidth
                                 name={'name'}
-                                label={'Name'}
+                                label={'Ім\'я'}
                                 value={userdata.name}
                                 onChange={handleDataInput}
                             />
@@ -135,16 +135,6 @@ export default function Info({origUserdata, init, ...props}) {
                                 onChange={handleDataInput}
                             />
                         </ListItem>
-                        <ListItem>
-                            <TextField
-                                disabled={!editMode}
-                                name={'interests'}
-                                fullWidth
-                                label={'Interests'}
-                                value={userdata.interests}
-                                onChange={handleDataInput}
-                            />
-                        </ListItem>
                     </List>
                 </Grid>
                 <Grid xs={12}>
@@ -152,7 +142,7 @@ export default function Info({origUserdata, init, ...props}) {
                         variant={'outlined'}
                         multiline
                         rows={editMode ? 10 : 5}
-                        label={'About me'}
+                        label={'Про мене'}
                         fullWidth
                         name={'about_me'}
                         onChange={handleDataInput}

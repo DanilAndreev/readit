@@ -49,7 +49,7 @@ export default function Password() {
                                 required
                                 type={showPassword.oldpassword ? 'text' : 'password'}
                                 fullWidth
-                                placeholder={'Old password'}
+                                placeholder={'Старий пароль'}
                                 autoComplete={'password'}
                                 endAdornment={
                                     <ShowPasswordAdornment
@@ -67,7 +67,7 @@ export default function Password() {
                                 required
                                 type={showPassword.newpassword ? 'text' : 'password'}
                                 fullWidth
-                                placeholder={'New password'}
+                                placeholder={'Новий пароль'}
                                 autoComplete={'new-password'}
                                 endAdornment={
                                     <ShowPasswordAdornment
@@ -81,7 +81,7 @@ export default function Password() {
                                 required
                                 type={showPassword.confirmnewpassword ? 'text' : 'password'}
                                 fullWidth
-                                placeholder={'Confirm new password'}
+                                placeholder={'Підтвердити новий пароль'}
                                 autoComplete={'confirm-new-password'}
                                 endAdornment={
                                     <ShowPasswordAdornment
@@ -98,7 +98,7 @@ export default function Password() {
                             fullWidth
                             variant={'outlined'}
                         >
-                            Change password
+                            Змінити пароль
                         </Button>
                     </Grid>
                 </Grid>

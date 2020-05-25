@@ -24,7 +24,7 @@ export default function ThreadsListItem({thread, ...props}) {
     );
     const secondary = (
         <>
-            {`${thread.reply_count} answers`}
+            {`${thread.reply_count} відповідей`}
         </>
     );
 

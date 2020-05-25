@@ -3,7 +3,6 @@ import {useAuth} from "../../../Utilities/Auth";
 import {coreRequest} from "../../../Utilities/Rest";
 import {useHistory, useParams} from 'react-router-dom';
 import useStyles from "./style";
-import {useConfirmDialog} from "../../../Utilities/ConfirmDialog";
 
 //MUI components
 import Typography from "@material-ui/core/Typography";
@@ -100,7 +99,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
             {edit &&
             <TextField
                 fullWidth
-                label={'Answer'}
+                label={'Відповідь'}
                 variant={'outlined'}
                 size={"small"}
                 multiline
@@ -124,7 +123,7 @@ export default function AnswerListItem({answer, onEdited = () => {}, ...props}) 
                 </ListItemAvatar>
                 <ListItemText
                     primary={primary}
-                    secondary={`posted ${new Date(answer.created_at).toLocaleString()}`}
+                    secondary={`опубліковано ${new Date(answer.created_at).toLocaleString()}`}
                     className={classes.listItemTextFix}
                 />
                 {(user && user.id === answer.user.id || isAdmin()) &&

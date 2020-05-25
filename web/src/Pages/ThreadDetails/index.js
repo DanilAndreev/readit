@@ -117,7 +117,7 @@ function ThreadDetails({width, ...props}) {
                     <ListItem>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link color="inherit" onClick={() => changeRoute('/threads')}>
-                                Threads
+                                Питання
                             </Link>
                             <Typography color="textPrimary">{thread.title}</Typography>
                         </Breadcrumbs>
@@ -142,7 +142,7 @@ function ThreadDetails({width, ...props}) {
                                     multiline
                                     rows={8}
                                     variant={'outlined'}
-                                    label={'Answer'}
+                                    label={'Відповідь'}
                                     fullWidth
                                     onChange={handleInputAnswer}
                                 />
@@ -150,7 +150,7 @@ function ThreadDetails({width, ...props}) {
                             {isWidthUp('sm', width) && <Grid item md={10}/>}
                             <Grid item xs={12} md={2}>
                                 <Button fullWidth onClick={handleAnswer}>
-                                    Send
+                                    Відправити
                                 </Button>
                             </Grid>
                         </Grid>
