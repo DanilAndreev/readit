@@ -7,6 +7,8 @@ import {withWidth, isWidthDown, isWidthUp} from "@material-ui/core";
 import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 import qs from 'qs'
+import logo from './images/readit_logo_light.png';
+import clsx from "clsx";
 
 
 //Pages
@@ -14,7 +16,6 @@ import AuthDialog from "../Auth";
 import RegistrationDialog from "../Registration";
 
 //MUI components
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
@@ -30,6 +31,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import IconButton from "@material-ui/core/IconButton";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 //MUI icons
 import SearchIcon from '@material-ui/icons/Search';
@@ -43,8 +45,6 @@ import Footer from "./Components/Footer";
 import MenuButtons from "./Components/MenuButtons";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import clsx from "clsx";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 
 function Layout({width, ...props}) {
@@ -236,9 +236,12 @@ function Layout({width, ...props}) {
                         <MenuIcon color={'inherit'} className={classes.menuIcon}/>
                     </IconButton>
                     }
-                    <Typography variant="h6" className={classes.title}>
-                        Forum
-                    </Typography>
+                    <div className={classes.title}>
+                        <img
+                            src={logo}
+                            className={clsx(classes.logo)}
+                        />
+                    </div>
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?register=true`)}>Sign up</Button>}
                     {!user && <Button color="inherit" onClick={() => changeRoute(`?login=true`)}>Login</Button>}
                     {user &&
