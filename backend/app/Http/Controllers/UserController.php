@@ -68,6 +68,7 @@ class UserController extends Controller
             'email',
             'name',
             'password',
+            'old_password',
             'about_me',
             'is_admin',
             'is_deleted',
