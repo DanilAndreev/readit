@@ -80,7 +80,7 @@ class UserController extends Controller
             unset($fields['is_deleted']);
         }
 
-        if (isset($fields['password'])) {
+        if (isset($fields['old_password'])) {
             if (Hash::make($fields['old_password']) !== $user->password) {
                 return response()->json([
                     'errors' => [
@@ -88,6 +88,9 @@ class UserController extends Controller
                     ],
                 ], 422);
             }
+        }
+
+        if (isset($fields['password'])) {
             $fields['password'] = Hash::make($fields['password']);
         }
 
