@@ -96,6 +96,8 @@ class UserController extends Controller
 
         $user->update($fields);
 
+        Auth::login($user);
+
         return new ViewUser($user);
     }
 
