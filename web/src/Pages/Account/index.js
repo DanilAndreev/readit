@@ -62,7 +62,7 @@ export default function Account() {
                 {user && user.id === +id &&
                 <React.Fragment>
                     <Divider/>
-                    <Password />
+                    <Password inputUser={origUserdata}/>
                 </React.Fragment>
                 }
                 {(user && user.id === +id || isAdmin()) &&
