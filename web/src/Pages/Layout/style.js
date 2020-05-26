@@ -66,6 +66,14 @@ const useStyles = makeStyles(theme => ({
     logo: {
         height: '35px',
     },
+    whiteColor: {
+        color: '#fff !important',
+    },
+    InputRoot: {
+        backgroundColor: 'rgba(255, 255,255, 0.09) !important',
+        borderTopRightRadius: '0 !important',
+        borderBottomLeftRadius: theme.shape.borderRadius,
+    }
 }));
 
 export default useStyles;

@@ -284,12 +284,24 @@ function Layout({width, ...props}) {
                                                 name={'search'}
                                                 onChange={handleSearchInput}
                                                 onKeyPress={event => {
-                                                    if(event.key === 'Enter'){
+                                                    if (event.key === 'Enter') {
                                                         handleFindQuestion();
                                                         setSearch('');
                                                     }
                                                 }}
                                                 autoComplete={'search'}
+                                                InputLabelProps={{
+                                                    classes: {
+                                                        root: classes.whiteColor,
+                                                    }
+                                                }}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    classes: {
+                                                        root: classes.InputRoot,
+                                                        input: classes.whiteColor,
+                                                    }
+                                                }}
                                             />
                                             <Button
                                                 variant={'contained'}
