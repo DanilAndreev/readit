@@ -1,7 +1,7 @@
 {
   "name": "starscream_web",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "author": {
     "name": "Andreev Danil",
     "email": "danssg08@gmail.com"
@@ -17,6 +17,8 @@
       "email": "goodplayer322@gmail.com"
     }
   ],
+  "repository": "https://github.com/DanilAndreev/starscream_project.git",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "homepage": "./",
   "proxy": "https://web.solomaha.com",
   "dependencies": {

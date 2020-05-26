@@ -2,6 +2,7 @@
    Copyright (C) 2020 */
 import Input from "@material-ui/core/Input";
 import React from "react";
+import {useHistory} from 'react-router-dom';
 
 //MUI components
 import ListItem from "@material-ui/core/ListItem";
@@ -15,6 +16,7 @@ import Button from "@material-ui/core/Button";
 
 //MUI icons
 import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {coreRequest} from "../../../Utilities/Rest";
 
 
 function ShowPasswordAdornment({handleClick, shown, name}) {
@@ -30,15 +32,67 @@ function ShowPasswordAdornment({handleClick, shown, name}) {
     );
 }
 
-export default function Password() {
+export default function Password({inputUser}) {
     const [showPassword, setShowPassword] = React.useState({
         oldpassword: false,
         newpassword: false,
         confirmnewpassword: false,
     });
+    const [passwords, setPasswords] = React.useState({
+        password: null,
+        newpassword: null,
+        confirmpassword: null
+    });
+    const [error, setError] = React.useState(null);
+    const history = useHistory();
+
+    function changeRoute(route) {
+        history.push(route);
+    }
 
     function handleShowPassword(event, name) {
         setShowPassword({...showPassword, [name]: !showPassword[name]})
+    }
+
+    function handleDataInput(event) {
+        setPasswords({...passwords, [event.target.name] : event.target.value});
+    }
+
+    function checkFields() {
+        let error = false;
+        if (passwords.newpassword !== passwords.confirmpassword) {
+            setError('Паролі не співпадають');
+            error = true;
+        }
+        if (!passwords.newpassword || !passwords.confirmpassword || !passwords.password) {
+            setError('Введіть пароль');
+            error = true;
+        }
+        return error;
+    }
+
+    function handleChangePassword () {
+        if (checkFields()) {
+            return null;
+        }
+
+        coreRequest().put(`users/${inputUser.id}`)
+            .send({old_password: passwords.password, password: passwords.newpassword})
+            .then(response => {
+                console.log(`Changed password for ${inputUser.name} | ${inputUser.email}`);
+            })
+            .catch(error => {
+                switch (error.status) {
+                    case 401:
+                        changeRoute('?login=true');
+                        break;
+                    case 422:
+                        setError('Некорректний пароль');
+                        setPasswords({...passwords, password: null});
+                    default:
+                        console.error(error);
+                }
+            });
     }
 
     return (
@@ -52,6 +106,8 @@ export default function Password() {
                         <Box p={1}>
                             <Input
                                 required
+                                name={'password'}
+                                onChange={handleDataInput}
                                 type={showPassword.oldpassword ? 'text' : 'password'}
                                 fullWidth
                                 placeholder={'Старий пароль'}
@@ -74,6 +130,8 @@ export default function Password() {
                                 fullWidth
                                 placeholder={'Новий пароль'}
                                 autoComplete={'new-password'}
+                                name={'newpassword'}
+                                onChange={handleDataInput}
                                 endAdornment={
                                     <ShowPasswordAdornment
                                         handleClick={handleShowPassword}
@@ -83,6 +141,8 @@ export default function Password() {
                                 }
                             />
                             <Input
+                                name={'confirmpassword'}
+                                onChange={handleDataInput}
                                 required
                                 type={showPassword.confirmnewpassword ? 'text' : 'password'}
                                 fullWidth
@@ -98,10 +158,12 @@ export default function Password() {
                             />
                         </Box>
                     </Grid>
+                    <FormHelperText error>{error}</FormHelperText>
                     <Grid item xs={12}>
                         <Button
                             fullWidth
                             variant={'outlined'}
+                            onClick={handleChangePassword}
                         >
                             Змінити пароль
                         </Button>
