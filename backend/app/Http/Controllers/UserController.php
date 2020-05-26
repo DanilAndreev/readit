@@ -82,16 +82,12 @@ class UserController extends Controller
         }
 
         if (isset($fields['password'])) {
-            if (isset($fields['old_password'])) {
-                if (Hash::make($fields['old_password']) !== $user->password) {
-                    return response()->json([
-                        'errors' => [
-                            'old_password' => 'Old password does not match',
-                        ],
-                    ], 422);
-                }
-            } else if (!$request->user()->is_admin) {
-                throw new UnauthorizedException();
+            if (Hash::make($fields['old_password']) !== $user->password && !$request->user()->is_admin) {
+                return response()->json([
+                    'errors' => [
+                        'old_password' => 'Old password does not match',
+                    ],
+                ], 422);
             }
 
             $fields['password'] = Hash::make($fields['password']);
