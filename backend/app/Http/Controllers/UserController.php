@@ -81,6 +81,13 @@ class UserController extends Controller
         }
 
         if (isset($fields['password'])) {
+            if (Hash::make($fields['old_password']) !== $user->password) {
+                return response()->json([
+                    'errors' => [
+                        'old_password' => 'Old password does not match',
+                    ],
+                ], 422);
+            }
             $fields['password'] = Hash::make($fields['password']);
         }
 
