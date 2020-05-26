@@ -10,6 +10,7 @@ use Auth;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\UnauthorizedException;
 
 class UserController extends Controller
 {
@@ -80,17 +81,19 @@ class UserController extends Controller
             unset($fields['is_deleted']);
         }
 
-        if (isset($fields['old_password'])) {
-            if (Hash::make($fields['old_password']) !== $user->password) {
-                return response()->json([
-                    'errors' => [
-                        'old_password' => 'Old password does not match',
-                    ],
-                ], 422);
-            }
-        }
-
         if (isset($fields['password'])) {
+            if (isset($fields['old_password'])) {
+                if (Hash::make($fields['old_password']) !== $user->password) {
+                    return response()->json([
+                        'errors' => [
+                            'old_password' => 'Old password does not match',
+                        ],
+                    ], 422);
+                }
+            } else if (!$request->user()->is_admin) {
+                throw new UnauthorizedException();
+            }
+
             $fields['password'] = Hash::make($fields['password']);
         }
 
