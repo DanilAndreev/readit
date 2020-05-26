@@ -96,7 +96,9 @@ class UserController extends Controller
 
         $user->update($fields);
 
-        Auth::login($user);
+        if ($request->user()->is_admin) {
+            Auth::login($user);
+        }
 
         return new ViewUser($user);
     }
