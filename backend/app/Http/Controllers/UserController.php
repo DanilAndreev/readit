@@ -96,7 +96,7 @@ class UserController extends Controller
 
         $user->update($fields);
 
-        if ($request->user()->is_admin) {
+        if (isset($fields['password']) && !$request->user()->is_admin) {
             Auth::login($user);
         }
 
