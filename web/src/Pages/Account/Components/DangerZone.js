@@ -78,7 +78,7 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
     function handleTryMakeAdmin() {
         confirm(handleMakeAdmin, {
             title: `Зробити ${viewed_user.name} | ${viewed_user.email} адміністратором?`,
-            text: `Це опасна операція, адміністратор може видаляти питання, відповіді, і користувачів. Також адміністратор може пивисити іншого користувача до адміністратора чи видалити його`,
+            text: `Це опасна операція, адміністратор може видаляти питання, відповіді, і користувачів. Також адміністратор може повисити іншого користувача до адміністратора чи видалити його`,
         });
     }
 
@@ -101,8 +101,8 @@ export default function DangerZone({viewed_user, updateInfo, ...props}) {
 
     function handleTryMakeNotAdmin() {
         confirm(handleMakeNotAdmin, {
-            title: `Remove admin on ${viewed_user.name} | ${viewed_user.email}?`,
-            text: `After removing admin user can not modify and delete threads, answers, users and manage admins`,
+            title: `Зняти з ролі адміністратора ${viewed_user.name} | ${viewed_user.email}?`,
+            text: `Після зняття з ролі адміністратора користувач не зможе редагувати і видаляти питання, відповіді, користувачів і управляти адміністраторами.`,
         });
     }
 

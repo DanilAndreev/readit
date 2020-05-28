@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "https://art.apeps.pp.ua/static/css/main.bf6db3ae.chunk.css",
-    "main.js": "https://art.apeps.pp.ua/static/js/main.a2730750.chunk.js",
-    "main.js.map": "https://art.apeps.pp.ua/static/js/main.a2730750.chunk.js.map",
+    "main.js": "https://art.apeps.pp.ua/static/js/main.8925ccc5.chunk.js",
+    "main.js.map": "https://art.apeps.pp.ua/static/js/main.8925ccc5.chunk.js.map",
     "runtime-main.js": "https://art.apeps.pp.ua/static/js/runtime-main.107c3096.js",
     "runtime-main.js.map": "https://art.apeps.pp.ua/static/js/runtime-main.107c3096.js.map",
     "static/js/2.e0099192.chunk.js": "https://art.apeps.pp.ua/static/js/2.e0099192.chunk.js",
     "static/js/2.e0099192.chunk.js.map": "https://art.apeps.pp.ua/static/js/2.e0099192.chunk.js.map",
     "index.html": "https://art.apeps.pp.ua/index.html",
-    "precache-manifest.e4b58fdcc26268a9f096608f331f1b01.js": "https://art.apeps.pp.ua/precache-manifest.e4b58fdcc26268a9f096608f331f1b01.js",
+    "precache-manifest.7851633e68eea65a2f45de27e686b1d5.js": "https://art.apeps.pp.ua/precache-manifest.7851633e68eea65a2f45de27e686b1d5.js",
     "service-worker.js": "https://art.apeps.pp.ua/service-worker.js",
     "static/css/main.bf6db3ae.chunk.css.map": "https://art.apeps.pp.ua/static/css/main.bf6db3ae.chunk.css.map",
     "static/js/2.e0099192.chunk.js.LICENSE.txt": "https://art.apeps.pp.ua/static/js/2.e0099192.chunk.js.LICENSE.txt",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.107c3096.js",
     "static/js/2.e0099192.chunk.js",
     "static/css/main.bf6db3ae.chunk.css",
-    "static/js/main.a2730750.chunk.js"
+    "static/js/main.8925ccc5.chunk.js"
   ]
 }

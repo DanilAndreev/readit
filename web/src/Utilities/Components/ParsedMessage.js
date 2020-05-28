@@ -31,8 +31,8 @@ export function messageParser(message, confirm) {
                                 window.location.href = link
                             },
                             {
-                                text: `Link ${linkText} is custom user link and does not belong to our application. You follow this link to your own risk and peril.`,
-                                title: `Confirm redirect by user hyperlink`,
+                                text: `Посилання ${linkText} це користувацьке посилання і не належить до нашого додатку. Ви переходите по цьому посиланню на свій страх і ризик.`,
+                                title: `Підтвердіть перехід по користувацькому посиланню`,
                                 type: 'continue',
                             })
                     }
