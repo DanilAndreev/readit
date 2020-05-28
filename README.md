@@ -1,3 +1,4 @@
+![Readit logo](/web/sources/readit_logo_black.png)
 # Readit  
 #### Work name: Starscream project  
 ## About  
@@ -5,8 +6,8 @@ Readit - is the application, that allows users to ask questions and answer. It c
 ## Application
 Readit client - is a restful single page application. It allows you download client once per session and view questions without extra internet resourses spending.  
 Application supports routing, so you can send your friends url of, fro example, thread, and your friend will be able to open it without searching in a heap of themes.  
-Front end based on ReactJS technology. Interface provided by Material UI library, so application complies with material design rules.  
-More about Material design here: https://material.io/design
+Front end based on **ReactJS** technology. Interface provided by **Material UI** library, so application complies with material design rules.  
+More about **Material design** here: https://material.io/design
 #### Used sources:
 * ReactJS
 * MaterialUI
@@ -20,9 +21,9 @@ More about Material design here: https://material.io/design
 * qs
 ## API
 As long as our project based on restful principles API provides us with controllers, which manipulates data. Data contains in database, access provided by entities.  
-For back-end used php with Laravel framework.  
-We have used PostgreSQL, powerful DBMS(Data base management system) for data containing.  
-OpenServer and Docker used to deploy project.  
+For back-end used php with **Laravel** framework.  
+We have used **PostgreSQL**, powerful DBMS(Data base management system) for data containing.  
+**OpenServer** and **Docker** used to deploy project.  
 #### Used sources: 
 * Laravel
 * PostgreSQL
