@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "./static/css/main.bf6db3ae.chunk.css",
-    "main.js": "./static/js/main.d0be29ea.chunk.js",
-    "main.js.map": "./static/js/main.d0be29ea.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.6530c50d.js",
-    "runtime-main.js.map": "./static/js/runtime-main.6530c50d.js.map",
-    "static/js/2.7a8b8a5c.chunk.js": "./static/js/2.7a8b8a5c.chunk.js",
-    "static/js/2.7a8b8a5c.chunk.js.map": "./static/js/2.7a8b8a5c.chunk.js.map",
-    "index.html": "./index.html",
-    "precache-manifest.e380c184984cbe0c4153614a81403193.js": "./precache-manifest.e380c184984cbe0c4153614a81403193.js",
-    "service-worker.js": "./service-worker.js",
-    "static/css/main.bf6db3ae.chunk.css.map": "./static/css/main.bf6db3ae.chunk.css.map",
-    "static/js/2.7a8b8a5c.chunk.js.LICENSE.txt": "./static/js/2.7a8b8a5c.chunk.js.LICENSE.txt",
-    "static/media/readit_logo_black.png": "./static/media/readit_logo_black.a15732c9.png",
-    "static/media/readit_logo_light.png": "./static/media/readit_logo_light.58a82056.png"
+    "main.css": "https://art.apeps.pp.ua/static/css/main.bf6db3ae.chunk.css",
+    "main.js": "https://art.apeps.pp.ua/static/js/main.7f3d14c3.chunk.js",
+    "main.js.map": "https://art.apeps.pp.ua/static/js/main.7f3d14c3.chunk.js.map",
+    "runtime-main.js": "https://art.apeps.pp.ua/static/js/runtime-main.107c3096.js",
+    "runtime-main.js.map": "https://art.apeps.pp.ua/static/js/runtime-main.107c3096.js.map",
+    "static/js/2.7a8b8a5c.chunk.js": "https://art.apeps.pp.ua/static/js/2.7a8b8a5c.chunk.js",
+    "static/js/2.7a8b8a5c.chunk.js.map": "https://art.apeps.pp.ua/static/js/2.7a8b8a5c.chunk.js.map",
+    "index.html": "https://art.apeps.pp.ua/index.html",
+    "precache-manifest.3aba99f1544c610a0ea1c2cacfab50c6.js": "https://art.apeps.pp.ua/precache-manifest.3aba99f1544c610a0ea1c2cacfab50c6.js",
+    "service-worker.js": "https://art.apeps.pp.ua/service-worker.js",
+    "static/css/main.bf6db3ae.chunk.css.map": "https://art.apeps.pp.ua/static/css/main.bf6db3ae.chunk.css.map",
+    "static/js/2.7a8b8a5c.chunk.js.LICENSE.txt": "https://art.apeps.pp.ua/static/js/2.7a8b8a5c.chunk.js.LICENSE.txt",
+    "static/media/readit_logo_black.png": "https://art.apeps.pp.ua/static/media/readit_logo_black.a15732c9.png",
+    "static/media/readit_logo_light.png": "https://art.apeps.pp.ua/static/media/readit_logo_light.58a82056.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.6530c50d.js",
+    "static/js/runtime-main.107c3096.js",
     "static/js/2.7a8b8a5c.chunk.js",
     "static/css/main.bf6db3ae.chunk.css",
-    "static/js/main.d0be29ea.chunk.js"
+    "static/js/main.7f3d14c3.chunk.js"
   ]
 }
