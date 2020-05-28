@@ -40,12 +40,12 @@ Also we respect **Habr Q&A** and inspired by design of this forum. Thanks for yo
 This project was created as course work for **NTUU Igor Sikorsky Kyiv Polytechnic Institute**, department **DAEPS**.  
 All intellectual property belongs to the authors of the projects.  
 ## Authors
-* Andreev Danil
+* **Andreev Danil**
   * GitHub: https://github.com/DanilAndreev
   * email: danssg08@gmail.com
-* Solomaha Aleksandr
+* **Solomaha Aleksandr**
   * GitHub: https://github.com/CyanoFresh
   * email: cyanofresh@gmail.com
-* Nesterov Nikita
+* **esterov Nikita**
   * GitHub: https://github.com/Who1sthatdude
   * email: goodplayer322@gmail.com
