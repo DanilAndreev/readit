@@ -3,6 +3,7 @@
 import React from "react";
 import {coreRequest} from "../../Utilities/Rest";
 import {useHistory} from 'react-router-dom';
+import {Helmet} from "react-helmet";
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -28,6 +29,9 @@ function UserCard({user, ...props}) {
 
     return (
         <Grid item xs={12} md={6}>
+            <Helmet>
+                <title>Readit | Users</title>
+            </Helmet>
             <Box p={1}>
                 <Card>
                     <CardActionArea onClick={event => changeRoute(`/user/${user.id}`)}>

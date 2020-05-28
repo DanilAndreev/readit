@@ -6,6 +6,7 @@ import {useHistory, useLocation, useParams} from 'react-router-dom'
 import {coreRequest} from "../../Utilities/Rest";
 import qs from 'qs';
 import {useAuth} from "../../Utilities/Auth";
+import {Helmet} from "react-helmet";
 
 //MUI components
 import Box from "@material-ui/core/Box";
@@ -146,6 +147,9 @@ export default function ThreadsViewer({articles, setArticles, ...props}) {
 
     return (
         <Grid item xs={12}>
+            <Helmet>
+                <title>Readit | Threads</title>
+            </Helmet>
             <Box p={1}>
                 <List>
                     <ListItem>

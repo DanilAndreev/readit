@@ -4,6 +4,7 @@ import React from 'react'
 import {useAuth} from "../../Utilities/Auth";
 import {useParams} from 'react-router-dom';
 import {coreRequest} from "../../Utilities/Rest";
+import {Helmet} from "react-helmet";
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -57,6 +58,9 @@ export default function Account() {
 
     return (
         <Grid item xs={12}>
+            <Helmet>
+                <title>Readit | {origUserdata.name}</title>
+            </Helmet>
             <List>
                 <Info origUserdata={origUserdata} init={init}/>
                 {user && user.id === +id &&

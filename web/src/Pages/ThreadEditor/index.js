@@ -18,6 +18,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 //Custom components
 import Question from './../ThreadDetails/Components/Question'
+import {Helmet} from "react-helmet";
 
 
 function TabPanel({children, value, index, ...other}) {
@@ -121,6 +122,9 @@ export default function ThreadEditor({...props}) {
 
     return (
         <Grid item xs={12}>
+            <Helmet>
+                <title>Readit | New thread</title>
+            </Helmet>
             <Tabs
                 value={tab}
                 onChange={handleChangeTab}

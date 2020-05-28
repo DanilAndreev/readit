@@ -7,6 +7,7 @@ import {useParams} from "react-router-dom";
 import useStyles from "./style";
 import {useAuth} from "../../Utilities/Auth";
 import {useHistory} from 'react-router-dom';
+import {Helmet} from "react-helmet";
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -127,6 +128,9 @@ function ThreadDetails({width, ...props}) {
 
     return (
         <Grid item xs={12}>
+            <Helmet>
+                <title>Readit | {thread.title}</title>
+            </Helmet>
             <Box p={1}>
                 <List>
                     <ListItem>

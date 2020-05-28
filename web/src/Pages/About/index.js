@@ -3,6 +3,7 @@
 import React from "react";
 import useStyles from "./style";
 import {useHistory} from 'react-router-dom';
+import {Helmet} from "react-helmet";
 
 //MUI components
 import Grid from "@material-ui/core/Grid";
@@ -26,6 +27,9 @@ export default function About() {
     const classes = useStyles();
     return (
         <Grid item xs={12}>
+            <Helmet>
+                <title>Readit | About</title>
+            </Helmet>
             <List>
                 <ListItem>
                     <Grid container justify={'center'}>

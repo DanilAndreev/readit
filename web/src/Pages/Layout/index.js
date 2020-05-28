@@ -10,6 +10,7 @@ import {coreRequest} from "../../Utilities/Rest";
 import {useAuth} from "../../Utilities/Auth";
 import qs from 'qs'
 import clsx from "clsx";
+import {Helmet} from "react-helmet";
 
 //Pages
 import AuthDialog from "../Auth";
@@ -168,6 +169,9 @@ function Layout({width, ...props}) {
 
     return (
         <>
+            <Helmet>
+                <title>Readit</title>
+            </Helmet>
             <Dialog aria-labelledby="auth-dialog" open={!!login} onClose={handleAuthClose}>
                 <DialogTitle id="auth-dialog-title">Аутентифікація</DialogTitle>
                 <AuthDialog authData={authData} setAuthData={setAuthData} onComplete={handleAuthenticated}/>
