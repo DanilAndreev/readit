@@ -29,5 +29,23 @@ We have used **PostgreSQL**, powerful DBMS(Data base management system) for data
 * PostgreSQL
 * OpenServer
 * Docker
-
-
+## Gratitudes
+#### Reddit
+Our team inspired by **Reddit** team and their service. As long as this work is a course project for KPI Universirsity, we used some changed Reddit logo. We do not claim ownership of this logo.  
+**Reddit:** https://www.reddit.com/ 
+#### Habr Q&A  
+Also we respect **Habr Q&A** and inspired by design of this forum. Thanks for your work  
+**Habr Q&A:** https://qna.habr.com/questions  
+## Project purpose
+This project was created as course work for **NTUU Igor Sikorsky Kyiv Polytechnic Institute**, department **DAEPS**.  
+All intellectual property belongs to the authors of the projects.  
+## Authors
+* Andreev Danil
+  * GitHub: https://github.com/DanilAndreev
+  * email: danssg08@gmail.com
+* Solomaha Aleksandr
+  * GitHub: https://github.com/CyanoFresh
+  * email: cyanofresh@gmail.com
+* Nesterov Nikita
+  * GitHub: https://github.com/Who1sthatdude
+  * email: goodplayer322@gmail.com
