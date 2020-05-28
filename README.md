@@ -23,11 +23,11 @@ More about **Material design** here: https://material.io/design
 ## API
 As long as our project based on *restful* principles API provides us with controllers, which manipulates data. Data contains in database, access provided by entities.  
 For back-end used php with **Laravel** framework.  
-We have used **PostgreSQL**, powerful DBMS(Data base management system) for data containing.  
+We have used **MuscleDB**, powerful DBMS(Data base management system) for data containing.  
 **OpenServer** and **Docker** used to deploy project.  
 #### Used sources: 
 * Laravel
-* PostgreSQL
+* MuscleDB
 * OpenServer
 * Docker
 ## Gratitudes
