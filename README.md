@@ -47,6 +47,6 @@ All intellectual property belongs to the authors of the projects.
 * **Solomaha Aleksandr**
   * GitHub: https://github.com/CyanoFresh
   * email: cyanofresh@gmail.com
-* **esterov Nikita**
+* **Nesterov Nikita**
   * GitHub: https://github.com/Who1sthatdude
   * email: goodplayer322@gmail.com
