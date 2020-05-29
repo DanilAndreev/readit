@@ -20,6 +20,7 @@ More about **Material design** here: https://material.io/design
 * lodash
 * superagent
 * qs
+* react-helmet
 ## API
 As long as our project based on *restful* principles API provides us with controllers, which manipulates data. Data contains in database, access provided by entities.  
 For back-end used php with **Laravel** framework.  
