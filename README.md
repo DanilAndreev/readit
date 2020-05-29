@@ -42,9 +42,9 @@ Also we respect **Habr Q&A** and inspired by design of this forum. Thanks for yo
 This project was created as course work for **NTUU Igor Sikorsky Kyiv Polytechnic Institute**, department **DAEPS**.  
 All intellectual property belongs to the authors of the projects.
 #### Reports
-* [Andreev report](https://github.com/DanilAndreev/starscream_project/blob/master/documents/Andreev_TI81.pdf)
-* [Solomaha report](https://github.com/DanilAndreev/starscream_project/blob/master/documents/Solomaha_TI81.pdf)
-* [Nesterov report](https://github.com/DanilAndreev/starscream_project/blob/master/documents/Nesterov_TI81.pdf)
+* [Andreev report](/documents/Andreev_TI81.pdf)
+* [Solomaha report](/documents/Solomaha_TI81.pdf)
+* [Nesterov report](/documents/Nesterov_TI81.pdf)
 ## Authors
 * **Andreev Danil**
   * GitHub: https://github.com/DanilAndreev
